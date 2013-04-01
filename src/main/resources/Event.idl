@@ -1,0 +1,21 @@
+// Introduced in DOM Level 2:
+interface Event {
+
+  // PhaseType
+  const unsigned short      CAPTURING_PHASE                = 1;
+  const unsigned short      AT_TARGET                      = 2;
+  const unsigned short      BUBBLING_PHASE                 = 3;
+
+  readonly attribute DOMString        type;
+  readonly attribute EventTarget      target;
+  readonly attribute EventTarget      currentTarget;
+  readonly attribute unsigned short   eventPhase;
+  readonly attribute boolean          bubbles;
+  readonly attribute boolean          cancelable;
+  readonly attribute DOMTimeStamp     timeStamp;
+  void               stopPropagation();
+  void               preventDefault();
+  void               initEvent(in DOMString eventTypeArg, 
+                               in boolean canBubbleArg, 
+                               in boolean cancelableArg);
+};

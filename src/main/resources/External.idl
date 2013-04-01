@@ -1,0 +1,4 @@
+interface External {
+  void AddSearchProvider(DOMString engineURL);
+  unsigned long IsSearchProviderInstalled(DOMString engineURL);
+};

@@ -1,0 +1,4 @@
+// Introduced in DOM Level 2:
+interface EventListener {
+  void               handleEvent(in Event evt);
+};

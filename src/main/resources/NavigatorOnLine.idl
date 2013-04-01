@@ -1,0 +1,4 @@
+[NoInterfaceObject]
+interface NavigatorOnLine {
+  readonly attribute boolean onLine;
+};
