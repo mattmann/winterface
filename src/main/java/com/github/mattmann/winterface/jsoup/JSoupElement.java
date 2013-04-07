@@ -1,6 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.github.mattmann.winterface.Attr;
 import com.github.mattmann.winterface.DOMException;
@@ -8,6 +9,7 @@ import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.Node;
 import com.github.mattmann.winterface.NodeList;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 
@@ -25,6 +27,28 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 
 	public JSoupDocument getOwnerDocument() {
 		return ownerDocument;
+	}
+
+	public HTMLElement querySelector(CharSequence query) {
+		NodeList nodes = querySelectorAll(query);
+		if (nodes.getLength() == 0) {
+			return null;
+		}
+		return (HTMLElement)nodes.item(0);
+	}
+
+	public NodeList querySelectorAll(CharSequence query) {
+		final Elements elements = node.select(query.toString());
+		return new NodeList() {
+
+			public Node item(int index) {
+				return wrap(elements.get(index));
+			}
+
+			public int getLength() {
+				return elements.size();
+			}
+		};
 	}
 
 	public CharSequence getId() {

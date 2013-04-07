@@ -160,8 +160,14 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if ("img".equals(tagName)) {
 			return new JSoupImageElement(element, getOwnerDocument());
 		}
+		if ("input".equals(tagName)) {
+			return new JSoupInputElement(element, getOwnerDocument());
+		}
 		if ("form".equals(tagName)) {
 			return new JSoupFormElement(element, getOwnerDocument());
+		}
+		if ("select".equals(tagName)) {
+			return new JSoupSelectElement(element, getOwnerDocument());
 		}
 		return new JSoupElement(element, getOwnerDocument());
 	}

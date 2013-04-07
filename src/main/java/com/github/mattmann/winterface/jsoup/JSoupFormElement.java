@@ -1,17 +1,93 @@
 package com.github.mattmann.winterface.jsoup;
 
-
-import org.jsoup.nodes.Element;
-
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLCollection;
+import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
+import com.github.mattmann.winterface.HTMLInputElement;
+import com.github.mattmann.winterface.HTMLSelectElement;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.jsoup.Connection.Method;
+import org.jsoup.helper.HttpConnection;
+import org.jsoup.nodes.Element;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.jsoup.Connection.KeyVal;
+import static org.jsoup.Connection.Request;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 
 	public JSoupFormElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);
+		setOnsubmit(new EventListener() {
+			public void handleEvent(Event event) {
+				JSoupWindow window = getWindow();
+				JSoupLocation location = getLocation();
+				try {
+					URL href = new URL(location.getHref().toString());
+					URL action = isBlank(getAction().toString()) ? href : new URL(href, getAction().toString());
+					Method method = isBlank(getMethod().toString()) ? Method.GET : Method.valueOf(getMethod().toString().toUpperCase());
+					Request request = location.connection.request();
+					request.url(action);
+					request.method(method);
+					for (KeyVal keyVal: listData()) {
+						request.data(keyVal);
+					}
+					window.document = new JSoupDocument(location.connection.get(), new JSoupEventDispatcher());
+				}
+				catch (IOException x) {
+					throw new RuntimeException(x);
+				}
+			}
+		});
+	}
+	
+	protected List<KeyVal> listData() {
+		HTMLCollection elements = getElements();
+		if (elements.getLength() == 0) {
+			return Collections.emptyList();
+		}
+		List<KeyVal> list = new ArrayList<KeyVal>(elements.getLength());
+		for (int i = 0; i < elements.getLength(); i++) {
+			KeyVal keyVal = resolveKeyVal((HTMLElement)elements.item(i));
+			if (keyVal != null) {
+				list.add(keyVal);
+			}
+		}
+		return list;
+	}
+	
+	protected KeyVal resolveKeyVal(HTMLElement element) {
+		if (element instanceof HTMLInputElement) {
+			return resolveKeyVal((HTMLInputElement)element);
+		}
+		if (element instanceof HTMLSelectElement) {
+			return resolveKeyVal((HTMLSelectElement)element);
+		}
+		throw new UnsupportedOperationException(element.getOuterHTML().toString());
+	}
+	
+	protected KeyVal resolveKeyVal(HTMLInputElement element) {
+		return HttpConnection.KeyVal.create(element.getName().toString(), element.getValue().toString());
+	}
+
+	protected KeyVal resolveKeyVal(HTMLSelectElement element) {
+		System.out.println(element.getOuterHTML());
+		return HttpConnection.KeyVal.create(element.getName().toString(), element.getValue().toString());
+	}
+
+	protected JSoupLocation getLocation() {
+		return (JSoupLocation)getWindow().getLocation();
+	}
+
+	protected JSoupWindow getWindow() {
+		return (JSoupWindow)getOwnerDocument().getDefaultView();
 	}
 
 	public HTMLCollection getElements() {

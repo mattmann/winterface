@@ -4,8 +4,8 @@ public interface HTMLSelectElement extends HTMLElement {
 
 	CharSequence getType();
 
-	long getSelectedIndex();
-	void setSelectedIndex(long selectedIndex);
+	int getSelectedIndex();
+	void setSelectedIndex(int selectedIndex);
 	
 	CharSequence getValue();
 	void setValue(CharSequence value);

@@ -19,16 +19,27 @@ import com.github.mattmann.winterface.WindowEventHandlers;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupWindow extends AbstractWindow {
-	
-	protected final Document document;
 
-	public JSoupWindow(GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers, Document document) {
+	protected final JSoupLocation location;
+
+	protected JSoupDocument document;
+
+	public JSoupWindow(GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers, JSoupLocation location, JSoupDocument document) {
 		super(globalEventHandlers, windowEventHandlers);
+		notNull(this.location = location);
 		notNull(this.document = document);
 	}
 
 	public Document getDocument() {
 		return document;
+	}
+
+	public Window open(CharSequence url, CharSequence target, CharSequence features, boolean replace) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Location getLocation() {
+		return location;
 	}
 
 	public ApplicationCache getApplicationCache() {
@@ -85,11 +96,6 @@ public class JSoupWindow extends AbstractWindow {
 
 	public History getHistory() {
 		throw new UnsupportedOperationException();
-	}
-
-	public Location getLocation() {
-		throw new UnsupportedOperationException();
-
 	}
 
 	public long getLength() {
@@ -169,10 +175,6 @@ public class JSoupWindow extends AbstractWindow {
 	}
 
 	public Window getWindow() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Window open(CharSequence url, CharSequence target, CharSequence features, boolean replace) {
 		throw new UnsupportedOperationException();
 	}
 

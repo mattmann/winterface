@@ -22,4 +22,7 @@ public interface HTMLElement extends Element, EventTarget, GlobalEventHandlers, 
 
 	CharSequence getOuterHTML();
 	void setOuterHTML(CharSequence outerHTML);
+
+	HTMLElement querySelector(CharSequence selectors);
+	NodeList querySelectorAll(CharSequence selectors);
 }
