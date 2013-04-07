@@ -41,7 +41,6 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		}
 		for (int i = 0; i < options.getLength(); i++) {
 			HTMLOptionElement option = (HTMLOptionElement)options.item(i);
-			System.err.println(option.getOuterHTML());
 			if (option.isSelected()) {
 				return option;
 			}
@@ -75,7 +74,6 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 
 	public HTMLCollection getOptions() {
 		final Elements elements = node.select("option");
-		System.err.println(elements.size());
 		return new HTMLCollection() {
 
 			public int getLength() {

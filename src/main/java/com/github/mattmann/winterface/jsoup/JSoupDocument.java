@@ -110,7 +110,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public Element getDocumentElement() {
-		throw new UnsupportedOperationException();
+		return new JSoupHtmlElement(node.child(0), this);
 	}
 
 	public EntityReference createEntityReference(CharSequence name) throws DOMException {

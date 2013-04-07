@@ -5,16 +5,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
-
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.EventTarget;
 import com.github.mattmann.winterface.event.AbstractEventDispatcher;
-//import org.jsoup.nodes.Node;
-//import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang.builder.HashCodeBuilder.reflectionHashCode;
+import static java.lang.String.format;
 
 public class JSoupEventDispatcher extends AbstractEventDispatcher {
 	
@@ -55,7 +53,9 @@ public class JSoupEventDispatcher extends AbstractEventDispatcher {
 		else {
 			listeners = Collections.unmodifiableCollection(listeners);
 		}
-		System.out.printf("%,d event listeners registered for target %s.\n", listeners.size(), target);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(format("%,d event listeners registered for target %s.", listeners.size(), target));
+		}
 		return listeners;
 	}
 

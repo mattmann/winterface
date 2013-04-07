@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Collection;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
@@ -13,14 +14,16 @@ import com.github.mattmann.winterface.EventTarget;
 import com.github.mattmann.winterface.HTMLDocument;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.Window;
-
 import static com.github.mattmann.winterface.Event.AT_TARGET;
 import static com.github.mattmann.winterface.Event.BUBBLING_PHASE;
 import static com.github.mattmann.winterface.Event.CAPTURING_PHASE;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
+import static java.lang.String.format;
 
 public abstract class AbstractEventDispatcher implements EventDispatcher {
+	
+	protected static final Log LOG = LogFactory.getLog(AbstractEventDispatcher.class);
 
 	public abstract void addEventListener(EventTarget target, CharSequence type, EventListener listener, boolean useCapture);
 
@@ -54,7 +57,9 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 			list.addFirst(target);
 		}
 		while ((target = next(target)) != null);
-		System.out.printf("Propagation path for \"%s\" event with target %s has %,d elements.\n", event.getType(), event.getTarget(), list.size());
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(format("Propagation path for \"%s\" event with target %s has %,d elements.", event.getType(), event.getTarget(), list.size()));
+		}
 		return list;
 	}
 	
@@ -73,7 +78,9 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 	}
 
 	protected boolean dispatchEvent(Event event, Collection<EventListener> listeners) {
-		System.out.printf("Current target is %s.\n", event.getCurrentTarget());
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(format("Current target is %s.", event.getCurrentTarget()));
+		}
 		for (EventListener listener: listeners) {
 			listener.handleEvent(event);
 			if (event.isDefaultPrevented()) {

@@ -2,8 +2,9 @@ package com.github.mattmann.winterface.jsoup;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jsoup.select.NodeVisitor;
-
 import com.github.mattmann.winterface.DOMException;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.NamedNodeMap;
@@ -13,6 +14,8 @@ import com.github.mattmann.winterface.NodeList;
 import static org.apache.commons.lang.Validate.notNull;
 
 public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node {
+	
+	protected static final Log LOG = LogFactory.getLog(JSoupNode.class);
 
 	protected final T node;
 	
@@ -151,24 +154,28 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 
 	protected HTMLElement wrap(final org.jsoup.nodes.Element element) {
 		final String tagName = element.tagName();
+		final JSoupDocument ownerDocument = getOwnerDocument();
 		if ("a".equals(tagName)) {
-			return new JSoupAnchorElement(element, getOwnerDocument());
+			return new JSoupAnchorElement(element, ownerDocument);
 		}
 		if ("applet".equals(tagName)) {
-			return new JSoupAppletElement(element, getOwnerDocument());
+			return new JSoupAppletElement(element, ownerDocument);
 		}
 		if ("img".equals(tagName)) {
-			return new JSoupImageElement(element, getOwnerDocument());
+			return new JSoupImageElement(element, ownerDocument);
 		}
 		if ("input".equals(tagName)) {
-			return new JSoupInputElement(element, getOwnerDocument());
+			return new JSoupInputElement(element, ownerDocument);
 		}
 		if ("form".equals(tagName)) {
-			return new JSoupFormElement(element, getOwnerDocument());
+			return new JSoupFormElement(element, ownerDocument);
+		}
+		if ("option".equals(tagName)) {
+			return new JSoupOptionElement(element, ownerDocument);
 		}
 		if ("select".equals(tagName)) {
-			return new JSoupSelectElement(element, getOwnerDocument());
+			return new JSoupSelectElement(element, ownerDocument);
 		}
-		return new JSoupElement(element, getOwnerDocument());
+		return new JSoupElement(element, ownerDocument);
 	}
 }

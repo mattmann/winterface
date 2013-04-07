@@ -7,45 +7,26 @@ import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLInputElement;
 import com.github.mattmann.winterface.HTMLSelectElement;
-
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.jsoup.Connection.Method;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.jsoup.Connection.KeyVal;
 import static org.jsoup.Connection.Request;
+import static org.jsoup.Connection.Response;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 
 	public JSoupFormElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);
-		setOnsubmit(new EventListener() {
-			public void handleEvent(Event event) {
-				JSoupWindow window = getWindow();
-				JSoupLocation location = getLocation();
-				try {
-					URL href = new URL(location.getHref().toString());
-					URL action = isBlank(getAction().toString()) ? href : new URL(href, getAction().toString());
-					Method method = isBlank(getMethod().toString()) ? Method.GET : Method.valueOf(getMethod().toString().toUpperCase());
-					Request request = location.connection.request();
-					request.url(action);
-					request.method(method);
-					for (KeyVal keyVal: listData()) {
-						request.data(keyVal);
-					}
-					window.document = new JSoupDocument(location.connection.get(), new JSoupEventDispatcher());
-				}
-				catch (IOException x) {
-					throw new RuntimeException(x);
-				}
-			}
-		});
 	}
 	
 	protected List<KeyVal> listData() {
@@ -59,6 +40,14 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 			if (keyVal != null) {
 				list.add(keyVal);
 			}
+		}
+		if (LOG.isDebugEnabled()) {
+			Writer buffer = new StringWriter();
+			PrintWriter writer = new PrintWriter(buffer, true);
+			for (KeyVal keyVal: list) {
+				writer.printf("%s: %s\n", keyVal.key(), keyVal.value());
+			}
+			LOG.debug(buffer.toString());
 		}
 		return list;
 	}
@@ -78,7 +67,6 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 	}
 
 	protected KeyVal resolveKeyVal(HTMLSelectElement element) {
-		System.out.println(element.getOuterHTML());
 		return HttpConnection.KeyVal.create(element.getName().toString(), element.getValue().toString());
 	}
 
@@ -154,6 +142,24 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		Event event = ownerDocument.createEvent("Event");
 		event.initEvent("submit", true, true);
 		dispatchEvent(event);
+		JSoupWindow window = getWindow();
+		JSoupLocation location = getLocation();
+		try {
+			URL href = new URL(location.getHref().toString());
+			URL action = isBlank(getAction().toString()) ? href : new URL(href, getAction().toString());
+			Method method = isBlank(getMethod().toString()) ? Method.GET : Method.valueOf(getMethod().toString().toUpperCase());
+			Request request = location.connection.request();
+			request.url(action);
+			request.method(method);
+			for (KeyVal keyVal: listData()) {
+				request.data(keyVal);
+			}
+			Response response = location.connection.execute();
+			window.document = new JSoupDocument(response.parse(), new JSoupEventDispatcher());
+		}
+		catch (IOException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public void reset() {
