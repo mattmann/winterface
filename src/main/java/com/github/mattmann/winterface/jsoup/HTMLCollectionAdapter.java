@@ -1,7 +1,6 @@
 package com.github.mattmann.winterface.jsoup;
 
 import java.util.List;
-
 import com.github.mattmann.winterface.Attr;
 import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.Node;

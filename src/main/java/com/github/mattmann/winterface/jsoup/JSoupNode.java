@@ -176,6 +176,18 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if ("select".equals(tagName)) {
 			return new JSoupSelectElement(element, ownerDocument);
 		}
+		if ("table".equals(tagName)) {
+			return new JSoupTableElement(element, ownerDocument);
+		}
+		if ("tbody".equals(tagName)) {
+			return new JSoupTableSectionElement(element, ownerDocument);
+		}
+		if ("td".equals(tagName)) {
+			return new JSoupTableCellElement(element, ownerDocument);
+		}
+		if ("tr".equals(tagName)) {
+			return new JSoupTableRowElement(element, ownerDocument);
+		}
 		return new JSoupElement(element, ownerDocument);
 	}
 }

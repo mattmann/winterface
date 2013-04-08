@@ -21,12 +21,12 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class HTMLFormElementTest {
 
-	protected abstract HTMLFormElement createHTMLFormElement();
+	protected abstract HTMLFormElement createHTMLFormElement() throws Exception;
 	
 	private HTMLFormElement form;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		form = createHTMLFormElement();
 	}
 	

@@ -28,6 +28,7 @@ public class JSoupWindow extends AbstractWindow {
 		super(globalEventHandlers, windowEventHandlers);
 		notNull(this.location = location);
 		notNull(this.document = document);
+		document.defaultView = this;
 	}
 
 	public Document getDocument() {

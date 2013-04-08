@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jsoup.Connection.Method;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
@@ -24,6 +27,8 @@ import static org.jsoup.Connection.Request;
 import static org.jsoup.Connection.Response;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
+
+	protected static final Log LOG = LogFactory.getLog(JSoupFormElement.class);
 
 	public JSoupFormElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);
@@ -53,6 +58,9 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 	}
 	
 	protected KeyVal resolveKeyVal(HTMLElement element) {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(element.getOuterHTML());
+		}
 		if (element instanceof HTMLInputElement) {
 			return resolveKeyVal((HTMLInputElement)element);
 		}
@@ -156,6 +164,7 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 			}
 			Response response = location.connection.execute();
 			window.document = new JSoupDocument(response.parse(), new JSoupEventDispatcher());
+			window.document.defaultView = window;
 		}
 		catch (IOException x) {
 			throw new RuntimeException(x);
