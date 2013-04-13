@@ -13,4 +13,7 @@ public interface HTMLMetaElement extends HTMLElement {
 
 	CharSequence getScheme();
 	void setScheme(CharSequence scheme);
+	
+	CharSequence getCharset();
+	void setCharset(CharSequence charset);
 }
