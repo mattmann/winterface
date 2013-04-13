@@ -141,8 +141,7 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		throw new UnsupportedOperationException();
 	}
 
-	public Attr getAttributeNodeNS(CharSequence namespaceURI,
-			CharSequence localName) {
+	public Attr getAttributeNodeNS(CharSequence namespaceURI, CharSequence localName) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -159,11 +158,21 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 	}
 
 	public boolean hasAttribute(CharSequence name) {
-		throw new UnsupportedOperationException();
+		notNull(name);
+		return node.attributes().hasKey(name.toString());
 	}
 
 	public boolean hasAttributeNS(CharSequence namespaceURI, CharSequence localName) {
 		throw new UnsupportedOperationException();
+	}
+	
+	protected void setBooleanAttribute(CharSequence name, boolean value) {
+		if (value) {
+			setAttribute(name, name);
+		}
+		else {
+			removeAttribute(name);
+		}
 	}
 
 	public CharSequence getAttribute(CharSequence name) {
