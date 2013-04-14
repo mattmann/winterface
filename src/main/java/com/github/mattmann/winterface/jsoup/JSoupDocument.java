@@ -42,7 +42,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return defaultView;
 	}
 
-	protected void setDefaultView(Window defaultView) {
+	public void setDefaultView(Window defaultView) {
 		this.defaultView = defaultView;
 	}
 
