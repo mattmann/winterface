@@ -170,6 +170,9 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if ("form".equals(tagName)) {
 			return new JSoupFormElement(element, ownerDocument);
 		}
+		if ("meta".equals(tagName)) {
+			return new JSoupMetaElement(element, ownerDocument);
+		}
 		if ("option".equals(tagName)) {
 			return new JSoupOptionElement(element, ownerDocument);
 		}

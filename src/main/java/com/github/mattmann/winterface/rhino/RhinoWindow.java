@@ -1,9 +1,5 @@
 package com.github.mattmann.winterface.rhino;
 
-import static org.apache.commons.lang.Validate.notNull;
-
-import java.io.IOException;
-
 import com.github.mattmann.winterface.ApplicationCache;
 import com.github.mattmann.winterface.BarProp;
 import com.github.mattmann.winterface.Document;
@@ -19,13 +15,15 @@ import com.github.mattmann.winterface.Navigator;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.WindowEventHandlers;
-import com.github.mattmann.winterface.jsoup.JSoupDocument;
 import com.github.mattmann.winterface.jsoup.JSoupLocation;
+import java.io.IOException;
+import java.util.Timer;
 
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoWindow extends ScriptableObject implements Window {
 
@@ -33,13 +31,16 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	private static final Logger logger = LoggerFactory.getLogger(RhinoWindow.class);
 
 	protected final JSoupLocation location;
-	protected JSoupDocument document;
+	protected final Timer timer;
+
+	protected RhinoDocument document;
 
 	private final Console console;
 	private final GlobalEventHandlers globalEventHandlers;
 	private final WindowEventHandlers windowEventHandlers;
 
-	public RhinoWindow(Console console, GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers, JSoupLocation location, JSoupDocument document) {
+	public RhinoWindow(Timer timer, Console console, GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers, JSoupLocation location, RhinoDocument document) {
+		notNull(this.timer = timer);
 		notNull(this.console = console);
 		notNull(this.globalEventHandlers = globalEventHandlers);
 		notNull(this.windowEventHandlers = windowEventHandlers);
@@ -57,6 +58,12 @@ public class RhinoWindow extends ScriptableObject implements Window {
 		logger.debug("get({}, {})", name, start);
 		if ("alert".equals(name)) {
 			return new MethodFunction(this, "alert");
+		}
+		if ("document".equals(name)) {
+			return document;
+		}
+		if ("setTimeout".equals(name)) {
+			return new SetTimeoutFunction(this);
 		}
 		return super.get(name, start);
 	}
