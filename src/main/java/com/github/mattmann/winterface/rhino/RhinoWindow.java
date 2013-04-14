@@ -62,6 +62,9 @@ public class RhinoWindow extends ScriptableObject implements Window {
 		if ("document".equals(name)) {
 			return document;
 		}
+		if ("location".equals(name)) {
+			return location;
+		}
 		if ("setTimeout".equals(name)) {
 			return new SetTimeoutFunction(this);
 		}
@@ -734,7 +737,7 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public Location getLocation() {
-		throw new UnsupportedOperationException();
+		return location;
 	}
 
 	public long getLength() {

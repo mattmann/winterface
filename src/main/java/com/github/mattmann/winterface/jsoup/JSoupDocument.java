@@ -18,6 +18,7 @@ import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLDocument;
 import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.HTMLTitleElement;
 import com.github.mattmann.winterface.Node;
 import com.github.mattmann.winterface.NodeList;
 import com.github.mattmann.winterface.ProcessingInstruction;
@@ -142,7 +143,11 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public CharSequence getTitle() {
-		throw new UnsupportedOperationException();
+		HTMLElement element = querySelector("> html > head > title");
+		if (element instanceof HTMLTitleElement) {
+			return ((HTMLTitleElement)element).getText();
+		}
+		return null;
 	}
 
 	public void setTitle(CharSequence title) {

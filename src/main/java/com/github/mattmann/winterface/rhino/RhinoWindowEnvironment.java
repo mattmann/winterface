@@ -3,8 +3,12 @@ package com.github.mattmann.winterface.rhino;
 import com.github.mattmann.winterface.GlobalEventHandlers;
 import com.github.mattmann.winterface.WindowEnvironment;
 import com.github.mattmann.winterface.WindowEventHandlers;
+import com.github.mattmann.winterface.event.EventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupEventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupLocation;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Timer;
 
@@ -30,11 +34,22 @@ public class RhinoWindowEnvironment implements WindowEnvironment {
 	public RhinoWindow open(CharSequence url, CharSequence target, CharSequence features, boolean replace) throws IOException {
 		notNull(url);
 		isTrue(target == null && features == null && replace == false);
-		Connection connection = Jsoup.connect(url.toString());
-		JSoupLocation location = new JSoupLocation(connection);
-		RhinoDocument document = new RhinoDocument(connection.get(), new JSoupEventDispatcher());
-		RhinoWindow window  = new RhinoWindow(timer, console, globalEventHandlers, windowEventHandlers, location, document);
-		document.setDefaultView(window);
+		final Connection connection = Jsoup.connect(url.toString());
+		final JSoupLocation location = new JSoupLocation(connection);
+		final EventDispatcher eventDispatcher = new JSoupEventDispatcher();
+		final RhinoWindow window  = new RhinoWindow(timer, console, globalEventHandlers, windowEventHandlers, location, new RhinoDocument(connection.get(), eventDispatcher));
+		location.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent event) {
+				if ("href".equals(event.getPropertyName())) {
+					try {
+						window.document = new RhinoDocument(connection.get(), eventDispatcher);
+					}
+					catch (IOException x) {
+						throw new RuntimeException(x);
+					}
+				}
+			}
+		});
 		return window;
 	}
 }

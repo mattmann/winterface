@@ -129,6 +129,10 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 		Event event = ownerDocument.createEvent("Event");
 		event.initEvent("click", true, true);
 		dispatchEvent(event);
+		CharSequence href = getHref(); 
+		if (href.length() > 0) {
+			getLocation().setHref(href);
+		}
 	}
 
 	public void blur() {
@@ -137,5 +141,9 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 
 	public void focus() {
 		throw new UnsupportedOperationException();
+	}
+
+	protected JSoupLocation getLocation() {
+		return (JSoupLocation)getOwnerDocument().getDefaultView().getLocation();
 	}
 }

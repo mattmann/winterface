@@ -1,11 +1,19 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.Location;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 import org.jsoup.Connection;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupLocation implements Location {
-	
+
+	protected final Set<PropertyChangeListener> listeners = new HashSet<PropertyChangeListener>();
 	protected final Connection connection;
 
 	public JSoupLocation(Connection connection) {
@@ -73,7 +81,15 @@ public class JSoupLocation implements Location {
 	}
 
 	public void setHref(CharSequence href) {
-		throw new UnsupportedOperationException();
+		try {
+			final Object oldValue = getHref();
+			final Object newValue = href;
+			connection.request().url(new URL(href.toString()));
+			firePropertyChangeEvent("href", oldValue, newValue);
+		}
+		catch (IOException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public void assign(CharSequence url) {
@@ -86,5 +102,25 @@ public class JSoupLocation implements Location {
 
 	public void reload() {
 		throw new UnsupportedOperationException();
+	}
+
+	protected void firePropertyChangeEvent(String propertyName, Object oldValue, Object newValue) {
+		if (!listeners.isEmpty()) {
+			firePropertyChangeEvent(new PropertyChangeEvent(this, propertyName, oldValue, newValue));
+		}
+	}
+
+	protected void firePropertyChangeEvent(PropertyChangeEvent event) {
+		for (PropertyChangeListener listener: listeners) {
+			listener.propertyChange(event);
+		}
+	}
+	
+	public boolean addPropertyChangeListener(PropertyChangeListener listener) {
+		return listeners.add(listener);
+	}
+
+	public boolean removePropertyChangeListener(PropertyChangeListener listener) {
+		return listeners.remove(listener);
 	}
 }
