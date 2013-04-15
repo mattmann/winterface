@@ -2,7 +2,10 @@ package com.github.mattmann.winterface.rhino;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -93,9 +96,17 @@ public class MethodFunction extends AbstractFunction {
 	public Object call(Context context, Scriptable scope, Scriptable thisObject, Object[] args) {
 		final Class<?>[] parameterTypes = method.getParameterTypes();
 		logger.debug("call({}, {}, {}, {})", context, scope, thisObject, Arrays.toString(args));
-		isTrue(thisObject == object);
+//		isTrue(thisObject == object);
 		notNull(args);
-		isTrue(args.length == parameterTypes.length);
+		isTrue(args.length <= parameterTypes.length);
+		if (args.length < parameterTypes.length) {
+			List<Object> list = new ArrayList<Object>(parameterTypes.length);
+			list.addAll(Arrays.asList(args));
+			while (list.size() < parameterTypes.length) {
+				list.add(null);
+			}
+			args = list.toArray(new Object[list.size()]);
+		}
 		try {
 			return method.invoke(object, args);
 		}

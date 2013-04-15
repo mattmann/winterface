@@ -1,14 +1,8 @@
 package com.github.mattmann.winterface.rhino;
 
-import java.io.IOException;
-
 import org.apache.commons.lang.Validate;
 import org.apache.http.client.HttpClient;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.IdFunctionObject;
 import org.mozilla.javascript.IdScriptableObject;
-import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,10 +78,10 @@ public class ActiveXObject extends IdScriptableObject {
 		}
 	}
 
-	public Object get(String name, Scriptable start) {
+/*	public Object get(String name, Scriptable start) {
 		LOGGER.debug("get({}, {})", name, start);
-		if (start instanceof XMLHttpRequest) {
-			final XMLHttpRequest request = (XMLHttpRequest)start;
+		if (start instanceof ScriptableXMLHttpRequest) {
+			final ScriptableXMLHttpRequest request = (ScriptableXMLHttpRequest)start;
 			if ("responseText".equals(name)) {
 				return request.responseText;
 			}
@@ -103,8 +97,8 @@ public class ActiveXObject extends IdScriptableObject {
 
 	public void put(String name, Scriptable start, Object value) {
 		LOGGER.debug("put({}, {}, {})", name, start, value);
-		if (start instanceof XMLHttpRequest) {
-			final XMLHttpRequest request = (XMLHttpRequest)start;
+		if (start instanceof ScriptableXMLHttpRequest) {
+			final ScriptableXMLHttpRequest request = (ScriptableXMLHttpRequest)start;
 			if ("onreadystatechange".equals(name)) {
 				request.onreadystatechange = (Function)value;
 				return;
@@ -116,10 +110,10 @@ public class ActiveXObject extends IdScriptableObject {
 	public Object execIdCall(IdFunctionObject f, Context context, Scriptable scope, Scriptable thisObj, Object[] args) {
 		LOGGER.debug("execIdCall({}, {}, {}, {}, {})", f, context, scope, thisObj, args);
 		if (args.length == 1 && "Microsoft.XMLHTTP".equals(args[0])) {
-			return new XMLHttpRequest(context, scope, client);
+			return new ScriptableXMLHttpRequest(context, scope, client);
 		}
 		if (f.methodId() == 3) {
-			final XMLHttpRequest request = (XMLHttpRequest)thisObj;
+			final ScriptableXMLHttpRequest request = (ScriptableXMLHttpRequest)thisObj;
 			final String method = (String)args[0];
 			final String url = (String)args[1];
 			final boolean asynchronous = args.length > 2 ? (Boolean)args[2] : true;
@@ -129,7 +123,7 @@ public class ActiveXObject extends IdScriptableObject {
 			return null;
 		}
 		if (f.methodId() == 4) {
-			final XMLHttpRequest request = (XMLHttpRequest)thisObj;
+			final ScriptableXMLHttpRequest request = (ScriptableXMLHttpRequest)thisObj;
 			final String data = args.length > 0 ? (String)args[0] : null;
 			try {
 				request.send(data);
@@ -141,4 +135,5 @@ public class ActiveXObject extends IdScriptableObject {
 		}
 		throw new UnsupportedOperationException(String.valueOf(f.methodId()));
 	}
+*/
 }
