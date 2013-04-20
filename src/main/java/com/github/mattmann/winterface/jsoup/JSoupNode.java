@@ -50,22 +50,21 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getInnerText() {
+	public static CharSequence getInnerText(Node node) {
+		if (node instanceof CharacterData) {
+			return ((CharacterData)node).getData();
+		}
 		StringBuilder builder = new StringBuilder();
-		NodeList childNodes = getChildNodes();
+		NodeList childNodes = node.getChildNodes();
 		for (int i = 0; i < childNodes.getLength(); i++) {
-			JSoupNode<?> node = (JSoupNode<?>)childNodes.item(i);
-			if (node instanceof JSoupElement) {
-				builder.append(((JSoupElement)node).getInnerText());
-			}
-			else if (node instanceof CharacterData) {
-				builder.append(((CharacterData)node).getData());
-			}
-			else {
-				throw new IllegalArgumentException(node.getClass().getName());
-			}
+			JSoupNode<?> child = (JSoupNode<?>)childNodes.item(i);
+			builder.append(child.getInnerText());
 		}
 		return builder.toString();
+	}
+
+	public CharSequence getInnerText() {
+		return JSoupNode.getInnerText(this);
 	}
 
 	public NodeList getChildNodes() {

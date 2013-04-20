@@ -1,5 +1,9 @@
 package com.github.mattmann.winterface.jsoup;
 
+import java.beans.PropertyChangeEvent;
+import org.jsoup.Connection.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.github.mattmann.winterface.AbstractWindow;
 import com.github.mattmann.winterface.ApplicationCache;
 import com.github.mattmann.winterface.BarProp;
@@ -15,10 +19,14 @@ import com.github.mattmann.winterface.Location;
 import com.github.mattmann.winterface.Navigator;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.WindowEventHandlers;
-
+import com.github.mattmann.winterface.event.EventDispatcher;
+import com.github.mattmann.winterface.rhino.RhinoDocument;
+import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupWindow extends AbstractWindow {
+
+	private static final Logger LOG = LoggerFactory.getLogger(JSoupWindow.class);
 
 	protected final JSoupLocation location;
 
@@ -29,6 +37,32 @@ public class JSoupWindow extends AbstractWindow {
 		notNull(this.location = location);
 		notNull(this.document = document);
 		document.defaultView = this;
+		final JSoupWindow window = this;
+		final EventDispatcher eventDispatcher = document.getEventDispatcher();
+		location.addLocationListener(new JSoupLocationListener() {
+
+			public void propertyChange(PropertyChangeEvent event) {
+				LOG.debug("location.{} changed from \"{}\" to \"{}\".", event.getPropertyName(), event.getOldValue(), event.getNewValue());
+			}
+
+			public void responseReceived(JSoupLocation location, Response response) {
+				if (LOG.isDebugEnabled()) {
+					final int code = response.statusCode();
+					final String message = response.statusMessage();
+					final String encoding = response.charset();
+					final int characterCount = response.body().length();
+					LOG.debug(format("Response received. Status code is %d. Status message is %s. Character encoding is %s. Body is %,d characters.", code, message, encoding, characterCount));
+				}
+			}
+
+			public void documentParsed(JSoupLocation location, org.jsoup.nodes.Document document) {
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Document parsed. Title is \"{}\".", document.title());
+				}
+				window.document = new RhinoDocument(document, eventDispatcher);
+				window.document.setDefaultView(window);
+			}
+		});
 	}
 
 	public Document getDocument() {
