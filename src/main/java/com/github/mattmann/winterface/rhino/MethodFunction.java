@@ -67,14 +67,17 @@ public class MethodFunction extends AbstractFunction {
 	protected Object coerce(Object arg, Class<?> type) {
 		notNull(arg);
 		notNull(type);
-		logger.debug("coerce({}, {}, {})", arg.getClass().getName(), arg, type.getName());
+		logger.debug("coerce({}({}), {})", arg.getClass().getName(), arg, type.getName());
 		if (type.isAssignableFrom(arg.getClass())) {
 			return arg;
 		}
 		if (String.class.equals(type) && arg instanceof CharSequence) {
 			return arg.toString();
 		}
-		throw new UnsupportedOperationException();
+		if (Integer.TYPE.equals(type) && arg instanceof Number) {
+			return ((Number)arg).intValue();
+		}
+		throw new UnsupportedOperationException(String.format("coerce(%s(%s), %s)", arg.getClass().getName(), arg, type.getName()));
 	}
 
 	protected boolean coerce(Object[] args, Class<?>[] types) {

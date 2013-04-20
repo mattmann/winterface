@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.notNull;
 
+@SuppressWarnings("unused")
 public class RhinoWindow extends ScriptableObject implements Window {
 
 	private static final long serialVersionUID = 6419776873162088518L;

@@ -2,12 +2,15 @@ package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.Node;
-import java.util.AbstractList;
+import com.github.mattmann.winterface.rhino.MethodFunction;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.mozilla.javascript.Scriptable;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupCollection extends AbstractList<Node> implements HTMLCollection {
+public class JSoupCollection implements HTMLCollection, Scriptable {
+
+	private static final long serialVersionUID = -4864443924597319035L;
 
 	private final JSoupNode<?> node;
 	private final Elements elements;
@@ -40,11 +43,73 @@ public class JSoupCollection extends AbstractList<Node> implements HTMLCollectio
 		return null;
 	}
 
-	public Node get(int index) {
+	public String getClassName() {
+		return getClass().getName();
+	}
+
+	public Object get(String name, Scriptable start) {
+		if ("item".equals(name)) {
+			return new MethodFunction(this, "item");
+		}
+		if ("length".equals(name)) {
+			return getLength();
+		}
+		throw new UnsupportedOperationException(String.format("get(%s, %s)", name, start));
+	}
+
+	public Object get(int index, Scriptable start) {
 		return item(index);
 	}
 
-	public int size() {
-		return elements.size();
+	public boolean has(String name, Scriptable start) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean has(int index, Scriptable start) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void put(String name, Scriptable start, Object value) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void put(int index, Scriptable start, Object value) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void delete(String name) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void delete(int index) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Scriptable getPrototype() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setPrototype(Scriptable prototype) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Scriptable getParentScope() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setParentScope(Scriptable parent) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Object[] getIds() {
+		throw new UnsupportedOperationException();
+	}
+
+	public Object getDefaultValue(Class<?> hint) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean hasInstance(Scriptable instance) {
+		throw new UnsupportedOperationException();
 	}
 }
