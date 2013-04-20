@@ -10,6 +10,7 @@ import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.NamedNodeMap;
 import com.github.mattmann.winterface.Node;
 import com.github.mattmann.winterface.NodeList;
+import com.github.mattmann.winterface.CharacterData;
 
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -49,8 +50,36 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		throw new UnsupportedOperationException();
 	}
 
+	public CharSequence getInnerText() {
+		StringBuilder builder = new StringBuilder();
+		NodeList childNodes = getChildNodes();
+		for (int i = 0; i < childNodes.getLength(); i++) {
+			JSoupNode<?> node = (JSoupNode<?>)childNodes.item(i);
+			if (node instanceof JSoupElement) {
+				builder.append(((JSoupElement)node).getInnerText());
+			}
+			else if (node instanceof CharacterData) {
+				builder.append(((CharacterData)node).getData());
+			}
+			else {
+				throw new IllegalArgumentException(node.getClass().getName());
+			}
+		}
+		return builder.toString();
+	}
+
 	public NodeList getChildNodes() {
-		throw new UnsupportedOperationException();
+		final List<org.jsoup.nodes.Node> childNodes = node.childNodes();
+		return new NodeList() {
+
+			public Node item(int index) {
+				return wrap(childNodes.get(index));
+			}
+
+			public int getLength() {
+				return childNodes.size();
+			}
+		};
 	}
 
 	public Node getFirstChild() {
@@ -148,6 +177,9 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		}
 		if (node instanceof org.jsoup.nodes.Element) {
 			return wrap((org.jsoup.nodes.Element)node);
+		}
+		if (node instanceof org.jsoup.nodes.TextNode) {
+			return new JSoupText((org.jsoup.nodes.TextNode)node, getOwnerDocument());
 		}
 		throw new IllegalArgumentException(node.getClass().getName());
 	}

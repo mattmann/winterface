@@ -5,6 +5,7 @@ import org.jsoup.nodes.Element;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.HTMLAnchorElement;
+import com.github.mattmann.winterface.Location;
 
 public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElement {
 
@@ -143,7 +144,7 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 		throw new UnsupportedOperationException();
 	}
 
-	protected JSoupLocation getLocation() {
-		return (JSoupLocation)getOwnerDocument().getDefaultView().getLocation();
+	protected Location getLocation() {
+		return getOwnerDocument().getDefaultView().getLocation();
 	}
 }

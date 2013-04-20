@@ -1,20 +1,29 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.Location;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang.ObjectUtils;
 import org.jsoup.Connection;
+import org.jsoup.Connection.Method;
+import org.jsoup.nodes.Document;
+
+import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.Validate.notNull;
+import static org.jsoup.Connection.KeyVal;
+import static org.jsoup.Connection.Request;
+import static org.jsoup.Connection.Response;
 
 public class JSoupLocation implements Location {
 
-	protected final Set<PropertyChangeListener> listeners = new HashSet<PropertyChangeListener>();
-	protected final Connection connection;
+	private final Set<JSoupLocationListener> listeners = new HashSet<JSoupLocationListener>();
+	private final Connection connection;
 
 	public JSoupLocation(Connection connection) {
 		notNull(this.connection = connection);
@@ -80,16 +89,38 @@ public class JSoupLocation implements Location {
 		return connection.request().url().toExternalForm();
 	}
 
+	private void setURL(URL url) throws IOException {
+		CharSequence oldValue = getHref();
+		connection.request().url(url);
+		CharSequence newValue = getHref();
+		firePropertyChangeEvent("href", oldValue, newValue);
+		Response response = connection.execute();
+		fireResponseReceived(response);
+		oldValue = newValue;
+		newValue = getHref();
+		firePropertyChangeEvent("href", oldValue, newValue);
+		Document document = response.parse();
+		fireDocumentParsed(document);
+	}
+
 	public void setHref(CharSequence href) {
 		try {
-			final Object oldValue = getHref();
-			final Object newValue = href;
-			connection.request().url(new URL(href.toString()));
-			firePropertyChangeEvent("href", oldValue, newValue);
+			setURL(new URL(href.toString()));
 		}
 		catch (IOException x) {
 			throw new RuntimeException(x);
 		}
+	}
+
+	protected void submit(final CharSequence action, final CharSequence method, final List<KeyVal> keyVals) throws IOException {
+		URL context = connection.request().url();
+		URL url = isBlank(action.toString()) ? context : new URL(context, action.toString());
+		Request request = connection.request();
+		request.method(isBlank(method.toString()) ? Method.GET : Method.valueOf(method.toString().toUpperCase()));
+		for (KeyVal keyVal: keyVals) {
+			request.data(keyVal);
+		}
+		setURL(url);
 	}
 
 	public void assign(CharSequence url) {
@@ -105,8 +136,26 @@ public class JSoupLocation implements Location {
 	}
 
 	protected void firePropertyChangeEvent(String propertyName, Object oldValue, Object newValue) {
-		if (!listeners.isEmpty()) {
+		if (ObjectUtils.equals(oldValue, newValue) || listeners.isEmpty()) {
+		}
+		else {
 			firePropertyChangeEvent(new PropertyChangeEvent(this, propertyName, oldValue, newValue));
+		}
+	}
+
+	protected void fireResponseReceived(Response response) {
+		if (!listeners.isEmpty()) {
+			for (JSoupLocationListener listener: listeners) {
+				listener.responseReceived(this, response);
+			}
+		}
+	}
+
+	protected void fireDocumentParsed(Document document) {
+		if (!listeners.isEmpty()) {
+			for (JSoupLocationListener listener: listeners) {
+				listener.documentParsed(this, document);
+			}
 		}
 	}
 
@@ -116,11 +165,11 @@ public class JSoupLocation implements Location {
 		}
 	}
 	
-	public boolean addPropertyChangeListener(PropertyChangeListener listener) {
+	public boolean addLocationListener(JSoupLocationListener listener) {
 		return listeners.add(listener);
 	}
 
-	public boolean removePropertyChangeListener(PropertyChangeListener listener) {
+	public boolean removeLocationListener(JSoupLocationListener listener) {
 		return listeners.remove(listener);
 	}
 }

@@ -42,6 +42,10 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
+	public HTMLCollection gettBodies() {
+		return getTBodies();
+	}
+
 	public HTMLCollection getTBodies() {
 		return collect("> tbody");
 	}

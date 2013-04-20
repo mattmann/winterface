@@ -6,12 +6,8 @@ import com.github.mattmann.winterface.WindowEventHandlers;
 import com.github.mattmann.winterface.event.EventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupEventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupLocation;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Timer;
-
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import static org.apache.commons.lang.Validate.isTrue;
@@ -37,19 +33,8 @@ public class RhinoWindowEnvironment implements WindowEnvironment {
 		final Connection connection = Jsoup.connect(url.toString());
 		final JSoupLocation location = new JSoupLocation(connection);
 		final EventDispatcher eventDispatcher = new JSoupEventDispatcher();
-		final RhinoWindow window  = new RhinoWindow(timer, console, globalEventHandlers, windowEventHandlers, location, new RhinoDocument(connection.get(), eventDispatcher));
-		location.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent event) {
-				if ("href".equals(event.getPropertyName())) {
-					try {
-						window.document = new RhinoDocument(connection.get(), eventDispatcher);
-					}
-					catch (IOException x) {
-						throw new RuntimeException(x);
-					}
-				}
-			}
-		});
+		final RhinoDocument document = new RhinoDocument(connection.get(), eventDispatcher);
+		final RhinoWindow window  = new RhinoWindow(timer, console, globalEventHandlers, windowEventHandlers, location, document);
 		return window;
 	}
 }

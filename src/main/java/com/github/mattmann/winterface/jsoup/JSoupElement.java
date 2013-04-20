@@ -31,32 +31,7 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 	}
 
 	protected HTMLCollection collect(final String query) {
-		final Elements elements = node.select(query);
-		return new HTMLCollection() {
-
-			public int getLength() {
-				return elements.size();
-			}
-
-			public Node item(int index) {
-				return wrap(elements.get(index));
-			}
-
-			public Node namedItem(CharSequence name) {
-				notNull(name);
-				for (Element element: elements) {
-					if (element.attr("id").equals(name)) {
-						return wrap(element);
-					}
-				}
-				for (Element element: elements) {
-					if (element.attr("name").equals(name)) {
-						return wrap(element);
-					}
-				}
-				return null;
-			}
-		};
+		return new JSoupCollection(this, node.select(query));
 	}
 
 	public HTMLElement querySelector(CharSequence query) {

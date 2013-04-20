@@ -15,20 +15,24 @@ import com.github.mattmann.winterface.Navigator;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.WindowEventHandlers;
+import com.github.mattmann.winterface.event.EventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupLocation;
+import com.github.mattmann.winterface.jsoup.JSoupLocationListener;
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.util.Timer;
-
+import org.jsoup.Connection.Response;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoWindow extends ScriptableObject implements Window {
 
 	private static final long serialVersionUID = 6419776873162088518L;
-	private static final Logger logger = LoggerFactory.getLogger(RhinoWindow.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RhinoWindow.class);
 
 	protected final JSoupLocation location;
 	protected final Timer timer;
@@ -47,15 +51,41 @@ public class RhinoWindow extends ScriptableObject implements Window {
 		notNull(this.location = location);
 		notNull(this.document = document);
 		document.setDefaultView(this);
+		final RhinoWindow window = this;
+		final EventDispatcher eventDispatcher = document.getEventDispatcher();
+		location.addLocationListener(new JSoupLocationListener() {
+
+			public void propertyChange(PropertyChangeEvent event) {
+				LOG.debug("location.{} changed from \"{}\" to \"{}\".", event.getPropertyName(), event.getOldValue(), event.getNewValue());
+			}
+
+			public void responseReceived(JSoupLocation location, Response response) {
+				if (LOG.isDebugEnabled()) {
+					final int code = response.statusCode();
+					final String message = response.statusMessage();
+					final String encoding = response.charset();
+					final int characterCount = response.body().length();
+					LOG.debug(format("Response received. Status code is %d. Status message is %s. Character encoding is %s. Body is %,d characters.", code, message, encoding, characterCount));
+				}
+			}
+
+			public void documentParsed(JSoupLocation location, org.jsoup.nodes.Document document) {
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("Document parsed. Title is \"{}\".", document.title());
+				}
+				window.document = new RhinoDocument(document, eventDispatcher);
+				window.document.setDefaultView(window);
+			}
+		});
 	}
 
 	public boolean has(String name, Scriptable start) {
-		logger.debug("has({}, {})", name, start);
+		LOG.debug("has({}, {})", name, start);
 		return super.has(name, start);
 	}
 
 	public Object get(String name, Scriptable start) {
-		logger.debug("get({}, {})", name, start);
+		LOG.debug("get({}, {})", name, start);
 		if ("alert".equals(name)) {
 			return new MethodFunction(this, "alert");
 		}
@@ -72,7 +102,7 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public void put(String name, Scriptable start, Object value) {
-		logger.debug("put({}, {}, {})", name, start, value);
+		LOG.debug("put({}, {}, {})", name, start, value);
 		super.put(name, start, value);
 	}
 

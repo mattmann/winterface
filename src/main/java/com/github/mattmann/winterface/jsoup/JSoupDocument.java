@@ -30,11 +30,15 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements HTMLDocument {
 
-	protected final EventDispatcher eventDispatcher;
-
 	public JSoupDocument(Document document, EventDispatcher eventDispatcher) {
 		super(document);
 		notNull(this.eventDispatcher = eventDispatcher);
+	}
+
+	protected final EventDispatcher eventDispatcher;
+
+	public EventDispatcher getEventDispatcher() {
+		return eventDispatcher;
 	}
 
 	protected Window defaultView;

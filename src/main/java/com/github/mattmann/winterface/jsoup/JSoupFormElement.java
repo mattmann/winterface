@@ -7,6 +7,8 @@ import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLInputElement;
 import com.github.mattmann.winterface.HTMLSelectElement;
+import com.github.mattmann.winterface.Location;
+import com.github.mattmann.winterface.Window;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -15,7 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.Connection.Method;
@@ -23,8 +24,6 @@ import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.jsoup.Connection.KeyVal;
-import static org.jsoup.Connection.Request;
-import static org.jsoup.Connection.Response;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 
@@ -33,7 +32,7 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 	public JSoupFormElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);
 	}
-	
+
 	protected List<KeyVal> listData() {
 		HTMLCollection elements = getElements();
 		if (elements.getLength() == 0) {
@@ -78,12 +77,12 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		return HttpConnection.KeyVal.create(element.getName().toString(), element.getValue().toString());
 	}
 
-	protected JSoupLocation getLocation() {
-		return (JSoupLocation)getWindow().getLocation();
+	protected Location getLocation() {
+		return getWindow().getLocation();
 	}
 
-	protected JSoupWindow getWindow() {
-		return (JSoupWindow)getOwnerDocument().getDefaultView();
+	protected Window getWindow() {
+		return getOwnerDocument().getDefaultView();
 	}
 
 	public HTMLCollection getElements() {
@@ -150,21 +149,10 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		Event event = ownerDocument.createEvent("Event");
 		event.initEvent("submit", true, true);
 		dispatchEvent(event);
-		JSoupWindow window = getWindow();
-		JSoupLocation location = getLocation();
+		Window window = getWindow();
+		JSoupLocation location = (JSoupLocation)getLocation();
 		try {
-			URL href = new URL(location.getHref().toString());
-			URL action = isBlank(getAction().toString()) ? href : new URL(href, getAction().toString());
-			Method method = isBlank(getMethod().toString()) ? Method.GET : Method.valueOf(getMethod().toString().toUpperCase());
-			Request request = location.connection.request();
-			request.url(action);
-			request.method(method);
-			for (KeyVal keyVal: listData()) {
-				request.data(keyVal);
-			}
-			Response response = location.connection.execute();
-			window.document = new JSoupDocument(response.parse(), new JSoupEventDispatcher());
-			window.document.defaultView = window;
+			location.submit(getAction(), getMethod(), listData());
 		}
 		catch (IOException x) {
 			throw new RuntimeException(x);
