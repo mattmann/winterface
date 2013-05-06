@@ -1,5 +1,5 @@
 package com.github.mattmann.winterface;
 
 public interface Text extends CharacterData {
-	Text splitText(long offset) throws DOMException;
+	Text splitText(int offset) throws DOMException;
 }

@@ -1,15 +1,14 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.TextNode;
+import com.github.mattmann.winterface.Comment;
 import com.github.mattmann.winterface.DOMException;
-import com.github.mattmann.winterface.Text;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupText extends JSoupNode<TextNode> implements Text {
+public class JSoupComment extends JSoupNode<org.jsoup.nodes.Comment> implements Comment {
 
 	private final JSoupDocument ownerDocument;
 
-	public JSoupText(TextNode node, JSoupDocument ownerDocument) {
+	public JSoupComment(org.jsoup.nodes.Comment node, JSoupDocument ownerDocument) {
 		super(node);
 		notNull(this.ownerDocument = ownerDocument);
 	}
@@ -19,15 +18,16 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 	}
 
 	public CharSequence getData() {
-		return node.text();
+		return node.getData();
 	}
 
 	public CharSequence substringData(int offset, int count) throws DOMException {
-		return node.text().subSequence(offset, offset + count);
+		return node.getData().subSequence(offset, offset + count);
+
 	}
 
 	public long getLength() {
-		throw new UnsupportedOperationException();
+		return node.getData().length();
 	}
 
 	public void appendData(CharSequence arg) throws DOMException {
@@ -50,11 +50,7 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 		throw new UnsupportedOperationException();
 	}
 
-	public Text splitText(int offset) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
 	public String toString() {
-		return node.text();
+		return node.toString();
 	}
 }

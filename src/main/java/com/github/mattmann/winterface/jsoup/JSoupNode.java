@@ -180,6 +180,9 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (node instanceof org.jsoup.nodes.TextNode) {
 			return new JSoupText((org.jsoup.nodes.TextNode)node, getOwnerDocument());
 		}
+		if (node instanceof org.jsoup.nodes.Comment) {
+			return new JSoupComment((org.jsoup.nodes.Comment)node, getOwnerDocument());
+		}
 		throw new IllegalArgumentException(node.getClass().getName());
 	}
 
