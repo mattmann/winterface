@@ -10,12 +10,12 @@ public class JSoupTitleElement extends JSoupElement implements HTMLTitleElement 
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getText() {
+	public String getText() {
 		return node.text();
 	}
 
-	public void setText(CharSequence text) {
+	public void setText(String text) {
 		notNull(text);
-		node.text(text.toString());
+		node.text(text);
 	}
 }

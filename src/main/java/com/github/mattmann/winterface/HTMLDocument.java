@@ -2,17 +2,17 @@ package com.github.mattmann.winterface;
 
 public interface HTMLDocument extends Document, EventTarget {
 
-	HTMLElement querySelector(CharSequence selectors);
-	NodeList querySelectorAll(CharSequence selectors);
+	HTMLElement querySelector(String selectors);
+	NodeList querySelectorAll(String selectors);
 
-	CharSequence getTitle();
-	void setTitle(CharSequence title);
+	String getTitle();
+	void setTitle(String title);
 
-	CharSequence getReferrer();
+	String getReferrer();
 	
-	CharSequence getDomain();
+	String getDomain();
 	
-	CharSequence getURL();
+	String getURL();
 	
 	HTMLElement getBody();
 	void setBody(HTMLElement body);
@@ -27,15 +27,15 @@ public interface HTMLDocument extends Document, EventTarget {
 
 	HTMLCollection getAnchors();
 
-	CharSequence getCookie();
-	void setCookie(CharSequence cookie);
+	String getCookie();
+	void setCookie(String cookie);
 
 	void open();
 	void close();
-	void write(CharSequence text);
-	void writeln(CharSequence text);
-	Element getElementById(CharSequence elementId);
-	NodeList getElementsByName(CharSequence elementName);
+	void write(String text);
+	void writeln(String text);
+	Element getElementById(String elementId);
+	NodeList getElementsByName(String elementName);
 	
 	Window getDefaultView();
 }

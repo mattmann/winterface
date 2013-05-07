@@ -2,6 +2,6 @@ package com.github.mattmann.winterface;
 
 public interface HTMLQuoteElement extends HTMLElement {
 
-	CharSequence getCite();
-	void setCite(CharSequence cite);
+	String getCite();
+	void setCite(String cite);
 }

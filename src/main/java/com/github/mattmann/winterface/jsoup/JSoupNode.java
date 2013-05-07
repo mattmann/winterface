@@ -24,7 +24,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		notNull(this.node = node);
 	}
 
-	public CharSequence getNodeName() {
+	public String getNodeName() {
 		return node.nodeName();
 	}
 
@@ -38,11 +38,11 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	
 	public abstract JSoupDocument getOwnerDocument();
 
-	public CharSequence getNodeValue() {
+	public String getNodeValue() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setNodeValue(CharSequence nodeValue) {
+	public void setNodeValue(String nodeValue) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -50,7 +50,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		throw new UnsupportedOperationException();
 	}
 
-	public static CharSequence getInnerText(Node node) {
+	public static String getInnerText(Node node) {
 		if (node instanceof CharacterData) {
 			return ((CharacterData)node).getData();
 		}
@@ -63,7 +63,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		return builder.toString();
 	}
 
-	public CharSequence getInnerText() {
+	public String getInnerText() {
 		return JSoupNode.getInnerText(this);
 	}
 
@@ -129,23 +129,23 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isSupported(CharSequence feature, CharSequence version) {
+	public boolean isSupported(String feature, String version) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getNamespaceURI() {
+	public String getNamespaceURI() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getPrefix() {
+	public String getPrefix() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setPrefix(CharSequence prefix) {
+	public void setPrefix(String prefix) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getLocalName() {
+	public String getLocalName() {
 		throw new UnsupportedOperationException();
 	}
 

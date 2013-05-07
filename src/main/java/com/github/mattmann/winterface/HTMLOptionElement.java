@@ -7,19 +7,19 @@ public interface HTMLOptionElement extends HTMLElement {
 	boolean isDefaultSelected();
 	void setDefaultSelected(boolean defaultSelected);
 	
-	CharSequence getText();
+	String getText();
 	
 	long getIndex();
 
 	boolean isDisabled();
 	void setDisabled(boolean disabled);
 
-	CharSequence getLabel();
-	void setLabel(CharSequence label);
+	String getLabel();
+	void setLabel(String label);
 
 	boolean isSelected();
 	void setSelected(boolean selected);
 
-	CharSequence getValue();
-	void setValue(CharSequence value);
+	String getValue();
+	void setValue(String value);
 }

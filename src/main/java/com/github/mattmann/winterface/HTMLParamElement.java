@@ -2,15 +2,15 @@ package com.github.mattmann.winterface;
 
 public interface HTMLParamElement extends HTMLElement {
 	
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 	
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 	
-	CharSequence getValue();
-	void setValue(CharSequence value);
+	String getValue();
+	void setValue(String value);
 	
-	CharSequence getValueType();
-	void setValueType(CharSequence valueType);
+	String getValueType();
+	void setValueType(String valueType);
 }

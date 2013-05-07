@@ -13,7 +13,7 @@ public class RhinoDocument extends JSoupDocument {
 		super(document, eventDispatcher);
 	}
 
-	public NodeList querySelectorAll(CharSequence query) {
+	public NodeList querySelectorAll(String query) {
 		return new ScriptableNodeList(super.querySelectorAll(query));
 	}
 

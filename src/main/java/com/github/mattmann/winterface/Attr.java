@@ -2,8 +2,8 @@ package com.github.mattmann.winterface;
 
 public interface Attr extends Node {
 	boolean isSpecified();
-	CharSequence getName();
-	CharSequence getValue();
+	String getName();
+	String getValue();
 	Element getOwnerElement();
-	void setValue(CharSequence value);
+	void setValue(String value);
 }

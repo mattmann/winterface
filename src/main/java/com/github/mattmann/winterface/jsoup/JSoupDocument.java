@@ -55,7 +55,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return this;
 	}
 
-	public HTMLElement querySelector(CharSequence query) {
+	public HTMLElement querySelector(String query) {
 		NodeList nodes = querySelectorAll(query);
 		if (nodes.getLength() == 0) {
 			return null;
@@ -63,7 +63,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return (HTMLElement)nodes.item(0);
 	}
 
-	public NodeList querySelectorAll(CharSequence query) {
+	public NodeList querySelectorAll(String query) {
 		final Elements elements = node.select(query.toString());
 		return new NodeList() {
 
@@ -77,19 +77,19 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		};
 	}
 
-	public Attr createAttribute(CharSequence name) throws DOMException {
+	public Attr createAttribute(String name) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Attr createAttributeNS(CharSequence namespaceURI, CharSequence qualifiedName) throws DOMException {
+	public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public CDATASection createCDATASection(CharSequence data) throws DOMException {
+	public CDATASection createCDATASection(String data) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Comment createComment(CharSequence data) {
+	public Comment createComment(String data) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -105,12 +105,12 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		throw new UnsupportedOperationException();
 	}
 
-	public Element createElement(CharSequence tagName) throws DOMException {
+	public Element createElement(String tagName) throws DOMException {
 		notNull(tagName);
 		return wrap(node.createElement(tagName.toString()));
 	}
 
-	public Element createElementNS(CharSequence namespaceURI, CharSequence qualifiedName) throws DOMException {
+	public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -118,7 +118,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return new JSoupHtmlElement(node.child(0), this);
 	}
 
-	public EntityReference createEntityReference(CharSequence name) throws DOMException {
+	public EntityReference createEntityReference(String name) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -126,7 +126,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLCollectionAdapter getElementsByTagName(final CharSequence tagName) {
+	public HTMLCollectionAdapter getElementsByTagName(final String tagName) {
 		return collect(new ElementFilter() {
 			protected boolean accept(org.jsoup.nodes.Element element) {
 				return element.tagName().equals(tagName);
@@ -134,19 +134,19 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		});
 	}
 
-	public NodeList getElementsByTagNameNS(CharSequence namespaceURI, CharSequence localName) {
+	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 
-	public ProcessingInstruction createProcessingInstruction(CharSequence target, CharSequence data) throws DOMException {
+	public ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Text createTextNode(CharSequence data) {
+	public Text createTextNode(String data) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getTitle() {
+	public String getTitle() {
 		HTMLElement element = querySelector("> html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
@@ -154,19 +154,19 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return null;
 	}
 
-	public void setTitle(CharSequence title) {
+	public void setTitle(String title) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getReferrer() {
+	public String getReferrer() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getDomain() {
+	public String getDomain() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getURL() {
+	public String getURL() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -206,11 +206,11 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		});
 	}
 
-	public CharSequence getCookie() {
+	public String getCookie() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCookie(CharSequence cookie) {
+	public void setCookie(String cookie) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -222,31 +222,31 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		throw new UnsupportedOperationException();
 	}
 
-	public void write(CharSequence text) {
+	public void write(String text) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void writeln(CharSequence text) {
+	public void writeln(String text) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Element getElementById(CharSequence elementId) {
+	public Element getElementById(String elementId) {
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeList getElementsByName(CharSequence elementName) {
+	public NodeList getElementsByName(String elementName) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Event createEvent(CharSequence eventInterface) {
+	public Event createEvent(String eventInterface) {
 		return eventDispatcher.createEvent(eventInterface);
 	}
 
-	public void addEventListener(CharSequence type, EventListener listener, boolean useCapture) {
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeEventListener(CharSequence type, EventListener listener, boolean useCapture) {
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
 		throw new UnsupportedOperationException();
 	}
 

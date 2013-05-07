@@ -4,9 +4,9 @@ public interface HTMLLabelElement extends HTMLElement {
 
 	HTMLFormElement getForm();
 	
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 	
-	CharSequence getHtmlFor();
-	void setHtmlFor(CharSequence htmlFor);
+	String getHtmlFor();
+	void setHtmlFor(String htmlFor);
 }

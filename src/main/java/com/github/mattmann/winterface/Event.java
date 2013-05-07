@@ -18,8 +18,8 @@ public interface Event {
 	EventTarget getCurrentTarget();
 	int getEventPhase();
 	long getTimeStamp();
-	CharSequence getType();
-	void initEvent(CharSequence eventType, boolean canBubble, boolean cancelableArg);
+	String getType();
+	void initEvent(String eventType, boolean canBubble, boolean cancelableArg);
 	void preventDefault();
 	void stopImmediatePropagation();
 	void stopPropagation();

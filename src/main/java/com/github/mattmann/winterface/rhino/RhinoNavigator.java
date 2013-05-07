@@ -4,23 +4,23 @@ import com.github.mattmann.winterface.Navigator;
 
 public class RhinoNavigator implements Navigator {
 
-	public CharSequence getAppName() {
+	public String getAppName() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAppVersion() {
+	public String getAppVersion() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getPlatform() {
+	public String getPlatform() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getUserAgent() {
+	public String getUserAgent() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getLanguage() {
+	public String getLanguage() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -28,27 +28,27 @@ public class RhinoNavigator implements Navigator {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence isContentHandlerRegistered(CharSequence mimeType, CharSequence url) {
+	public String isContentHandlerRegistered(String mimeType, String url) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence isProtocolHandlerRegistered(CharSequence scheme, CharSequence url) {
+	public String isProtocolHandlerRegistered(String scheme, String url) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void registerContentHandler(CharSequence mimeType, CharSequence url, CharSequence title) {
+	public void registerContentHandler(String mimeType, String url, String title) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void registerProtocolHandler(CharSequence scheme, CharSequence url, CharSequence title) {
+	public void registerProtocolHandler(String scheme, String url, String title) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void unregisterContentHandler(CharSequence mimeType, CharSequence url) {
+	public void unregisterContentHandler(String mimeType, String url) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void unregisterProtocolHandler(CharSequence scheme, CharSequence url) {
+	public void unregisterProtocolHandler(String scheme, String url) {
 		throw new UnsupportedOperationException();
 	}
 

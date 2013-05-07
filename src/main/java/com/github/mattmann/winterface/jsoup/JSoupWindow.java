@@ -69,7 +69,7 @@ public class JSoupWindow extends AbstractWindow {
 		return document;
 	}
 
-	public Window open(CharSequence url, CharSequence target, CharSequence features, boolean replace) {
+	public Window open(String url, String target, String features, boolean replace) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -105,19 +105,19 @@ public class JSoupWindow extends AbstractWindow {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean confirm(CharSequence message) {
+	public boolean confirm(String message) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getStatus() {
+	public String getStatus() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence prompt(CharSequence message, CharSequence defaultText) {
+	public String prompt(String message, String defaultText) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -141,15 +141,15 @@ public class JSoupWindow extends AbstractWindow {
 		throw new UnsupportedOperationException();
 	}
 
-	public Object get(CharSequence name) {
+	public Object get(String name) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Object showModalDialog(CharSequence url, Object optionalArgument) {
+	public Object showModalDialog(String url, Object optionalArgument) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void alert(CharSequence message) {
+	public void alert(String message) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -169,7 +169,7 @@ public class JSoupWindow extends AbstractWindow {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -177,7 +177,7 @@ public class JSoupWindow extends AbstractWindow {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setStatus(CharSequence status) {
+	public void setStatus(String status) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -213,12 +213,12 @@ public class JSoupWindow extends AbstractWindow {
 		throw new UnsupportedOperationException();
 	}
 
-	public void addEventListener(CharSequence type, EventListener listener,
+	public void addEventListener(String type, EventListener listener,
 			boolean useCapture) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeEventListener(CharSequence type, EventListener listener,
+	public void removeEventListener(String type, EventListener listener,
 			boolean useCapture) {
 		throw new UnsupportedOperationException();
 	}

@@ -4,6 +4,6 @@ public interface HTMLIsIndexElement extends HTMLElement {
 	
 	HTMLFormElement getForm();
 	
-	CharSequence getPrompt();
-	void setPrompt(CharSequence prompt);
+	String getPrompt();
+	void setPrompt(String prompt);
 }

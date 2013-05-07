@@ -5,6 +5,6 @@ public interface HTMLUListElement extends HTMLElement {
 	boolean isCompact();
 	void setCompact(boolean compact);
 
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 }

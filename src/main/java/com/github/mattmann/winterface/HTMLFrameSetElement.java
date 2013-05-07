@@ -2,9 +2,9 @@ package com.github.mattmann.winterface;
 
 public interface HTMLFrameSetElement extends HTMLElement {
 
-	CharSequence getCols();
-	void setCols(CharSequence cols);
+	String getCols();
+	void setCols(String cols);
 	
-	CharSequence getRows();
-	void setRows(CharSequence rows);
+	String getRows();
+	void setRows(String rows);
 }

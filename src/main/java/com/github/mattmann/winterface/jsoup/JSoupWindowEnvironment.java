@@ -20,7 +20,7 @@ public class JSoupWindowEnvironment implements WindowEnvironment {
 		notNull(this.windowEventHandlers = windowEventHandlers);
 	}
 
-	public Window open(CharSequence url, CharSequence target, CharSequence features, boolean replace) throws IOException {
+	public Window open(String url, String target, String features, boolean replace) throws IOException {
 		notNull(url);
 		isTrue(target == null && features == null && replace == false);
 		Connection connection = Jsoup.connect(url.toString());

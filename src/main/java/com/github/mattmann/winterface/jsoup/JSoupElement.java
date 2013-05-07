@@ -34,7 +34,7 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		return new JSoupCollection(this, node.select(query));
 	}
 
-	public HTMLElement querySelector(CharSequence query) {
+	public HTMLElement querySelector(String query) {
 		NodeList nodes = querySelectorAll(query);
 		if (nodes.getLength() == 0) {
 			return null;
@@ -42,7 +42,7 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		return (HTMLElement)nodes.item(0);
 	}
 
-	public NodeList querySelectorAll(CharSequence query) {
+	public NodeList querySelectorAll(String query) {
 		final Elements elements = node.select(query.toString());
 		return new NodeList() {
 
@@ -56,67 +56,67 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		};
 	}
 
-	public CharSequence getId() {
+	public String getId() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setId(CharSequence id) {
+	public void setId(String id) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getTitle() {
+	public String getTitle() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setTitle(CharSequence title) {
+	public void setTitle(String title) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getLang() {
+	public String getLang() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setLang(CharSequence lang) {
+	public void setLang(String lang) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getDir() {
+	public String getDir() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setDir(CharSequence dir) {
+	public void setDir(String dir) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getClassName() {
+	public String getClassName() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setClassName(CharSequence className) {
+	public void setClassName(String className) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getInnerHTML() {
+	public String getInnerHTML() {
 		return node.html();
 	}
 
-	public void setInnerHTML(CharSequence html) {
+	public void setInnerHTML(String html) {
 		node.html(html.toString());
 	}
 
-	public CharSequence getOuterHTML() {
+	public String getOuterHTML() {
 		return node.outerHtml();
 	}
 
-	public void setOuterHTML(CharSequence outerHTML) {
+	public void setOuterHTML(String outerHTML) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Attr getAttributeNode(CharSequence name) {
+	public Attr getAttributeNode(String name) {
 		throw new UnsupportedOperationException();
 	}
 
-	public Attr getAttributeNodeNS(CharSequence namespaceURI, CharSequence localName) {
+	public Attr getAttributeNodeNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -132,16 +132,16 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean hasAttribute(CharSequence name) {
+	public boolean hasAttribute(String name) {
 		notNull(name);
 		return node.attributes().hasKey(name.toString());
 	}
 
-	public boolean hasAttributeNS(CharSequence namespaceURI, CharSequence localName) {
+	public boolean hasAttributeNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 	
-	protected void setBooleanAttribute(CharSequence name, boolean value) {
+	protected void setBooleanAttribute(String name, boolean value) {
 		if (value) {
 			setAttribute(name, name);
 		}
@@ -150,49 +150,49 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		}
 	}
 
-	public CharSequence getAttribute(CharSequence name) {
+	public String getAttribute(String name) {
 		notNull(name);
 		return node.attr(name.toString());
 	}
 
-	public CharSequence getAttributeNS(CharSequence namespaceURI, CharSequence localName) {
+	public String getAttributeNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getTagName() {
+	public String getTagName() {
 		return node.tagName();
 	}
 
-	public NodeList getElementsByTagName(CharSequence name) {
+	public NodeList getElementsByTagName(String name) {
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeList getElementsByTagNameNS(CharSequence namespaceURI, CharSequence localName) {
+	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeAttribute(CharSequence name) throws DOMException {
+	public void removeAttribute(String name) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeAttributeNS(CharSequence namespaceURI, CharSequence localName) throws DOMException {
+	public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAttribute(CharSequence name, CharSequence value) throws DOMException {
+	public void setAttribute(String name, String value) throws DOMException {
 		notNull(name);
 		node.attr(name.toString(), value == null ? null : value.toString());
 	}
 
-	public void setAttributeNS(CharSequence namespaceURI, CharSequence qualifiedName, CharSequence value) throws DOMException {
+	public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void addEventListener(CharSequence type, EventListener listener, boolean useCapture) {
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
 		ownerDocument.eventDispatcher.addEventListener(this, type, listener, useCapture);
 	}
 
-	public void removeEventListener(CharSequence type, EventListener listener, boolean useCapture) {
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
 		ownerDocument.eventDispatcher.removeEventListener(this, type, listener, useCapture);
 	}
 

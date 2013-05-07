@@ -2,15 +2,15 @@ package com.github.mattmann.winterface;
 
 public interface HTMLHRElement extends HTMLElement {
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
 	boolean isNoShade();
 	void setNoShade(boolean noShade);
 	
-	CharSequence getSize();
-	void setSize(CharSequence size);
+	String getSize();
+	void setSize(String size);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

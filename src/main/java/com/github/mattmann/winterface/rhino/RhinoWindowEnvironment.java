@@ -27,7 +27,7 @@ public class RhinoWindowEnvironment implements WindowEnvironment {
 		notNull(this.windowEventHandlers = windowEventHandlers);
 	}
 
-	public RhinoWindow open(CharSequence url, CharSequence target, CharSequence features, boolean replace) throws IOException {
+	public RhinoWindow open(String url, String target, String features, boolean replace) throws IOException {
 		notNull(url);
 		isTrue(target == null && features == null && replace == false);
 		final Connection connection = Jsoup.connect(url.toString());

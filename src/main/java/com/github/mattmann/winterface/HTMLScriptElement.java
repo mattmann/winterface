@@ -2,26 +2,26 @@ package com.github.mattmann.winterface;
 
 public interface HTMLScriptElement extends HTMLElement {
 	
-	CharSequence getText();
-	void setText(CharSequence text);
+	String getText();
+	void setText(String text);
 	
-//	CharSequence getHtmlFor();
-//	void setHtmlFor(CharSequence htmlFor);
+//	String getHtmlFor();
+//	void setHtmlFor(String htmlFor);
 	
-//	CharSequence getEvent();
-//	void setEvent(CharSequence event);
+//	String getEvent();
+//	void setEvent(String event);
 	
-	CharSequence getCharset();
-	void setCharset(CharSequence charset);
+	String getCharset();
+	void setCharset(String charset);
 	
 	boolean isDefer();
 	void setDefer(boolean defer);
 	
-	CharSequence getSrc();
-	void setSrc(CharSequence src);
+	String getSrc();
+	void setSrc(String src);
 	
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 	
 	boolean isAsync();
 	void setAsync(boolean async);

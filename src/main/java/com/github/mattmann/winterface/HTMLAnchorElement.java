@@ -2,44 +2,44 @@ package com.github.mattmann.winterface;
 
 public interface HTMLAnchorElement extends HTMLElement {
 
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 	
-	CharSequence getCharset();
-	void setCharset(CharSequence charset);
+	String getCharset();
+	void setCharset(String charset);
 
-	CharSequence getCoords();
-	void setCoords(CharSequence coords);
+	String getCoords();
+	void setCoords(String coords);
 
-	CharSequence getHref();
-	void setHref(CharSequence href);
+	String getHref();
+	void setHref(String href);
 
-	CharSequence getHreflang();
-	void setHreflang(CharSequence hreflang);
+	String getHreflang();
+	void setHreflang(String hreflang);
 	
-	CharSequence getMedia();
-	void setMedia(CharSequence media);
+	String getMedia();
+	void setMedia(String media);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
-	CharSequence getRel();
-	void setRel(CharSequence rel);
+	String getRel();
+	void setRel(String rel);
 
-	CharSequence getRev();
-	void setRev(CharSequence rev);
+	String getRev();
+	void setRev(String rev);
 
-	CharSequence getShape();
-	void setShape(CharSequence shape);
+	String getShape();
+	void setShape(String shape);
 
 	int getTabIndex();
 	void setTabIndex(int tabIndex);
 
-	CharSequence getTarget();
-	void setTarget(CharSequence target);
+	String getTarget();
+	void setTarget(String target);
 
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 
 	void click();
     void blur();

@@ -6,23 +6,23 @@ public interface HTMLFormElement extends HTMLElement {
 
 	int getLength();
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
-	CharSequence getAcceptCharset();
-	void setAcceptCharset(CharSequence acceptCharset);
+	String getAcceptCharset();
+	void setAcceptCharset(String acceptCharset);
 
-	CharSequence getAction();
-	void setAction(CharSequence action);
+	String getAction();
+	void setAction(String action);
 
-	CharSequence getEnctype();
-	void setEnctype(CharSequence enctype);
+	String getEnctype();
+	void setEnctype(String enctype);
 
-	CharSequence getMethod();
-	void setMethod(CharSequence method);
+	String getMethod();
+	void setMethod(String method);
 
-	CharSequence getTarget();
-	void setTarget(CharSequence target);
+	String getTarget();
+	void setTarget(String target);
 
 	void submit();
 	void reset();

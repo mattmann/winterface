@@ -4,32 +4,32 @@ public interface HTMLTableCellElement extends HTMLElement {
 
 	long getCellIndex();
 
-	CharSequence getAbbr();
-	void setAbbr(CharSequence abbr);
+	String getAbbr();
+	void setAbbr(String abbr);
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getAxis();
-	void setAxis(CharSequence axis);
+	String getAxis();
+	void setAxis(String axis);
 
-	CharSequence getBgColor();
-	void setBgColor(CharSequence bgColor);
+	String getBgColor();
+	void setBgColor(String bgColor);
 
-	CharSequence getCh();
-	void setCh(CharSequence ch);
+	String getCh();
+	void setCh(String ch);
 
-	CharSequence getChOff();
-	void setChOff(CharSequence chOff);
+	String getChOff();
+	void setChOff(String chOff);
 
 	long getColSpan();
 	void setColSpan(long colSpan);
 
-	CharSequence getHeaders();
-	void setHeaders(CharSequence headers);
+	String getHeaders();
+	void setHeaders(String headers);
 
-	CharSequence getHeight();
-	void setHeight(CharSequence height);
+	String getHeight();
+	void setHeight(String height);
 
 	boolean isNoWrap();
 	void setNoWrap(boolean noWrap);
@@ -37,12 +37,12 @@ public interface HTMLTableCellElement extends HTMLElement {
 	long getRowSpan();
 	void setRowSpan(long rowSpan);
 
-	CharSequence getScope();
-	void setScope(CharSequence scope);
+	String getScope();
+	void setScope(String scope);
 
-	CharSequence getVAlign();
-	void setVAlign(CharSequence vAlign);
+	String getVAlign();
+	void setVAlign(String vAlign);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

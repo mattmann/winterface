@@ -12,11 +12,11 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getDefaultValue() {
+	public String getDefaultValue() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setDefaultValue(CharSequence defaultValue) {
+	public void setDefaultValue(String defaultValue) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -39,39 +39,39 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		return null;
 	}
 
-	public CharSequence getType() {
+	public String getType() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAccept() {
+	public String getAccept() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAccept(CharSequence accept) {
+	public void setAccept(String accept) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAccessKey() {
+	public String getAccessKey() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAccessKey(CharSequence accessKey) {
+	public void setAccessKey(String accessKey) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAlt() {
+	public String getAlt() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAlt(CharSequence alt) {
+	public void setAlt(String alt) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,11 +99,11 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return getAttribute("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		setAttribute("name", name);
 	}
 
@@ -115,19 +115,19 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getSize() {
+	public String getSize() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setSize(CharSequence size) {
+	public void setSize(String size) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getSrc() {
+	public String getSrc() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setSrc(CharSequence src) {
+	public void setSrc(String src) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -139,19 +139,19 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getUseMap() {
+	public String getUseMap() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setUseMap(CharSequence useMap) {
+	public void setUseMap(String useMap) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getValue() {
+	public String getValue() {
 		return getAttribute("value");
 	}
 
-	public void setValue(CharSequence value) {
+	public void setValue(String value) {
 		setAttribute("value", value);
 	}
 

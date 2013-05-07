@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface;
 
 public interface DocumentType extends Node {
-	CharSequence getName();
+	String getName();
 	NamedNodeMap getEntities();
 	NamedNodeMap getNotations();
-	CharSequence getPublicId();
-	CharSequence getSystemId();
-	CharSequence getInternalSubset();	
+	String getPublicId();
+	String getSystemId();
+	String getInternalSubset();	
 }

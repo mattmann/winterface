@@ -29,70 +29,70 @@ public class JSoupLocation implements Location {
 		notNull(this.connection = connection);
 	}
 
-	public CharSequence getProtocol() {
+	public String getProtocol() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setProtocol(CharSequence protocol) {
+	public void setProtocol(String protocol) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHost() {
+	public String getHost() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setHost(CharSequence host) {
+	public void setHost(String host) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHostname() {
+	public String getHostname() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setHostname(CharSequence hostname) {
+	public void setHostname(String hostname) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getPort() {
+	public String getPort() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setPort(CharSequence port) {
+	public void setPort(String port) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getPathname() {
+	public String getPathname() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setPathname(CharSequence pathname) {
+	public void setPathname(String pathname) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getSearch() {
+	public String getSearch() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setSearch(CharSequence search) {
+	public void setSearch(String search) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHash() {
+	public String getHash() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setHash(CharSequence hash) {
+	public void setHash(String hash) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHref() {
+	public String getHref() {
 		return connection.request().url().toExternalForm();
 	}
 
 	private void setURL(URL url) throws IOException {
-		CharSequence oldValue = getHref();
+		String oldValue = getHref();
 		connection.request().url(url);
-		CharSequence newValue = getHref();
+		String newValue = getHref();
 		firePropertyChangeEvent("href", oldValue, newValue);
 		Response response = connection.execute();
 		fireResponseReceived(response);
@@ -103,7 +103,7 @@ public class JSoupLocation implements Location {
 		fireDocumentParsed(document);
 	}
 
-	public void setHref(CharSequence href) {
+	public void setHref(String href) {
 		try {
 			setURL(new URL(href.toString()));
 		}
@@ -112,7 +112,7 @@ public class JSoupLocation implements Location {
 		}
 	}
 
-	protected void submit(final CharSequence action, final CharSequence method, final List<KeyVal> keyVals) throws IOException {
+	protected void submit(final String action, final String method, final List<KeyVal> keyVals) throws IOException {
 		URL context = connection.request().url();
 		URL url = isBlank(action.toString()) ? context : new URL(context, action.toString());
 		Request request = connection.request();
@@ -123,11 +123,11 @@ public class JSoupLocation implements Location {
 		setURL(url);
 	}
 
-	public void assign(CharSequence url) {
+	public void assign(String url) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void replace(CharSequence url) {
+	public void replace(String url) {
 		throw new UnsupportedOperationException();
 	}
 

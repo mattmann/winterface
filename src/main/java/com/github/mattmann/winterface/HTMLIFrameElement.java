@@ -2,33 +2,33 @@ package com.github.mattmann.winterface;
 
 public interface HTMLIFrameElement extends HTMLElement {
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 	
-	CharSequence getFrameBorder();
-	void setFrameBorder(CharSequence frameBorder);
+	String getFrameBorder();
+	void setFrameBorder(String frameBorder);
 
-	CharSequence getHeight();
-	void setHeight(CharSequence height);
+	String getHeight();
+	void setHeight(String height);
 	
-	CharSequence getLongDesc();
-	void setLongDesc(CharSequence longDesc);
+	String getLongDesc();
+	void setLongDesc(String longDesc);
 
-	CharSequence getMarginHeight();
-	void setMarginHeight(CharSequence marginHeight);
+	String getMarginHeight();
+	void setMarginHeight(String marginHeight);
 	
-	CharSequence getMarginWidth();
-	void setMarginWidth(CharSequence marginWidth);
+	String getMarginWidth();
+	void setMarginWidth(String marginWidth);
 	
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 	
-	CharSequence getScrolling();
-	void setScrolling(CharSequence scrolling);
+	String getScrolling();
+	void setScrolling(String scrolling);
 	
-	CharSequence getSrc();
-	void setSrc(CharSequence src);
+	String getSrc();
+	void setSrc(String src);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

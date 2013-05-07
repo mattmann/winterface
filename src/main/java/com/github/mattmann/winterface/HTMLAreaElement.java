@@ -2,27 +2,27 @@ package com.github.mattmann.winterface;
 
 public interface HTMLAreaElement extends HTMLElement {
 
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 
-	CharSequence getAlt();
-	void setAlt(CharSequence alt);
+	String getAlt();
+	void setAlt(String alt);
 
-	CharSequence getCoords();
-	void setCoords(CharSequence coords);
+	String getCoords();
+	void setCoords(String coords);
 
-	CharSequence getHref();
-	void setHref(CharSequence href);
+	String getHref();
+	void setHref(String href);
 
 	boolean isNoHref();
 	void setNoHref(boolean noHref);
 
-	CharSequence getShape();
-	void setShape(CharSequence shape);
+	String getShape();
+	void setShape(String shape);
 
 	long getTabIndex();
 	void setTabIndex(long tabIndex);
 
-	CharSequence getTarget();
-	void setTarget(CharSequence target);
+	String getTarget();
+	void setTarget(String target);
 }

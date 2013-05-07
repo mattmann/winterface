@@ -2,9 +2,9 @@ package com.github.mattmann.winterface;
 
 public interface HTMLModElement extends HTMLElement {
 	
-	CharSequence getCite();
-	void setCite(CharSequence cite);
+	String getCite();
+	void setCite(String cite);
 	
-	CharSequence getDateTime();
-	void setDateTime(CharSequence dateTime);
+	String getDateTime();
+	void setDateTime(String dateTime);
 }

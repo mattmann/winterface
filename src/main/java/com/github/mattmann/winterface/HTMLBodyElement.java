@@ -2,21 +2,21 @@ package com.github.mattmann.winterface;
 
 public interface HTMLBodyElement extends HTMLElement {
 
-	CharSequence getALink();
-	void setALink(CharSequence aLink);
+	String getALink();
+	void setALink(String aLink);
 	
-	CharSequence getBackground();
-	void setBackground(CharSequence background);
+	String getBackground();
+	void setBackground(String background);
 	
-	CharSequence getBgColor();
-	void setBgColor(CharSequence bgColor);
+	String getBgColor();
+	void setBgColor(String bgColor);
 	
-	CharSequence getLink();
-	void setLink(CharSequence link);
+	String getLink();
+	void setLink(String link);
 	
-	CharSequence getText();
-	void setText(CharSequence text);
+	String getText();
+	void setText(String text);
 	
-	CharSequence getVLink();
-	void setVLink(CharSequence vLink);
+	String getVLink();
+	void setVLink(String vLink);
 }

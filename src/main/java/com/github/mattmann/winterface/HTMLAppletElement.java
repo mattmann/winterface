@@ -2,36 +2,36 @@ package com.github.mattmann.winterface;
 
 public interface HTMLAppletElement extends HTMLElement {
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getAlt();
-	void setAlt(CharSequence alt);
+	String getAlt();
+	void setAlt(String alt);
 
-	CharSequence getArchive();
-	void setArchive(CharSequence archive);
+	String getArchive();
+	void setArchive(String archive);
 
-	CharSequence getCode();
-	void setCode(CharSequence code);
+	String getCode();
+	void setCode(String code);
 
-	CharSequence getCodeBase();
-	void setCodeBase(CharSequence codeBase);
+	String getCodeBase();
+	void setCodeBase(String codeBase);
 
-	CharSequence getHeight();
-	void setHeight(CharSequence height);
+	String getHeight();
+	void setHeight(String height);
 
-	CharSequence getHspace();
-	void setHspace(CharSequence hspace);
+	String getHspace();
+	void setHspace(String hspace);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
-	CharSequence getObject();
-	void setObject(CharSequence object);
+	String getObject();
+	void setObject(String object);
 
-	CharSequence getVspace();
-	void setVspace(CharSequence vspace);
+	String getVspace();
+	void setVspace(String vspace);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

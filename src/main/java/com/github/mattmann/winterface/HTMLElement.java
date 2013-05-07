@@ -2,27 +2,27 @@ package com.github.mattmann.winterface;
 
 public interface HTMLElement extends Element, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
 
-	CharSequence getId();
-	void setId(CharSequence id);
+	String getId();
+	void setId(String id);
 
-	CharSequence getTitle();
-	void setTitle(CharSequence title);
+	String getTitle();
+	void setTitle(String title);
 
-	CharSequence getLang();
-	void setLang(CharSequence lang);
+	String getLang();
+	void setLang(String lang);
 	
-	CharSequence getDir();
-	void setDir(CharSequence dir);
+	String getDir();
+	void setDir(String dir);
 	
-	CharSequence getClassName();
-	void setClassName(CharSequence className);
+	String getClassName();
+	void setClassName(String className);
 	
-	CharSequence getInnerHTML();
-	void setInnerHTML(CharSequence innerHTML);
+	String getInnerHTML();
+	void setInnerHTML(String innerHTML);
 
-	CharSequence getOuterHTML();
-	void setOuterHTML(CharSequence outerHTML);
+	String getOuterHTML();
+	void setOuterHTML(String outerHTML);
 
-	HTMLElement querySelector(CharSequence selectors);
-	NodeList querySelectorAll(CharSequence selectors);
+	HTMLElement querySelector(String selectors);
+	NodeList querySelectorAll(String selectors);
 }

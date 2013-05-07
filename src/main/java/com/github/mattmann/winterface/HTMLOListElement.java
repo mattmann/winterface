@@ -8,6 +8,6 @@ public interface HTMLOListElement extends HTMLElement {
 	long getStart();
 	void setStart(long start);
 
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 }

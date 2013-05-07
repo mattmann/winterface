@@ -10,11 +10,11 @@ public class JSoupHtmlElement extends JSoupElement implements HTMLHtmlElement {
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getVersion() {
+	public String getVersion() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setVersion(CharSequence version) {
+	public void setVersion(String version) {
 		throw new UnsupportedOperationException();
 	}
 

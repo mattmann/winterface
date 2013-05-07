@@ -1,21 +1,21 @@
 package com.github.mattmann.winterface;
 
 public interface Document extends DocumentEvent, Node {
-	Attr createAttribute(CharSequence name) throws DOMException;
-	Attr createAttributeNS(CharSequence namespaceURI, CharSequence qualifiedName) throws DOMException;
-	CDATASection createCDATASection(CharSequence data) throws DOMException;
-	Comment createComment(CharSequence data);
+	Attr createAttribute(String name) throws DOMException;
+	Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException;
+	CDATASection createCDATASection(String data) throws DOMException;
+	Comment createComment(String data);
 	DocumentFragment createDocumentFragment();
 	DocumentType getDoctype();
 	DOMImplementation getImplementation();
-	Element createElement(CharSequence tagName) throws DOMException;
-	Element createElementNS(CharSequence namespaceURI, CharSequence qualifiedName) throws DOMException;
+	Element createElement(String tagName) throws DOMException;
+	Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException;
 	Element getDocumentElement();
-	Element getElementById(CharSequence elementId);
-	EntityReference createEntityReference(CharSequence name) throws DOMException;
+	Element getElementById(String elementId);
+	EntityReference createEntityReference(String name) throws DOMException;
 	Node importNode(Node importedNode, boolean deep) throws DOMException;
-	NodeList getElementsByTagName(CharSequence tagname);
-	NodeList getElementsByTagNameNS(CharSequence namespaceURI, CharSequence localName);
-	ProcessingInstruction createProcessingInstruction(CharSequence target, CharSequence data) throws DOMException;
-	Text createTextNode(CharSequence data);
+	NodeList getElementsByTagName(String tagname);
+	NodeList getElementsByTagNameNS(String namespaceURI, String localName);
+	ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException;
+	Text createTextNode(String data);
 }

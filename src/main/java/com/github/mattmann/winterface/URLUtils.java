@@ -1,24 +1,24 @@
 package com.github.mattmann.winterface;
 
 public interface URLUtils {
-	CharSequence getProtocol();
-	void setProtocol(CharSequence protocol);
+	String getProtocol();
+	void setProtocol(String protocol);
 
-	CharSequence getHost();
-	void setHost(CharSequence host);
+	String getHost();
+	void setHost(String host);
 
-	CharSequence getHostname();
-	void setHostname(CharSequence hostname);
+	String getHostname();
+	void setHostname(String hostname);
 
-	CharSequence getPort();
-	void setPort(CharSequence port);
+	String getPort();
+	void setPort(String port);
 
-	CharSequence getPathname();
-	void setPathname(CharSequence pathname);
+	String getPathname();
+	void setPathname(String pathname);
 
-	CharSequence getSearch();
-	void setSearch(CharSequence search);
+	String getSearch();
+	void setSearch(String search);
 
-	CharSequence getHash();
-	void setHash(CharSequence hash);
+	String getHash();
+	void setHash(String hash);
 }

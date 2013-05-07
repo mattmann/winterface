@@ -10,43 +10,43 @@ public class JSoupMetaElement extends JSoupElement implements HTMLMetaElement {
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getContent() {
+	public String getContent() {
 		return getAttribute("content");
 	}
 
-	public void setContent(CharSequence content) {
+	public void setContent(String content) {
 		setAttribute("content", content);
 	}
 
-	public CharSequence getHttpEquiv() {
+	public String getHttpEquiv() {
 		return getAttribute("http-equiv");
 	}
 
-	public void setHttpEquiv(CharSequence httpEquiv) {
+	public void setHttpEquiv(String httpEquiv) {
 		setAttribute("http-equiv", httpEquiv);
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return getAttribute("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		this.setAttribute("name", name);
 	}
 
-	public CharSequence getScheme() {
+	public String getScheme() {
 		return getAttribute("scheme");
 	}
 
-	public void setScheme(CharSequence scheme) {
+	public void setScheme(String scheme) {
 		setAttribute("scheme", scheme);
 	}
 
-	public CharSequence getCharset() {
+	public String getCharset() {
 		return getAttribute("charset");
 	}
 
-	public void setCharset(CharSequence charset) {
+	public void setCharset(String charset) {
 		setAttribute("charset", charset);
 	}
 }

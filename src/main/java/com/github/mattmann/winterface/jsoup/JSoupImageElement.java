@@ -1,10 +1,9 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLImageElement;
 import com.github.mattmann.winterface.OnErrorEventHandler;
+import org.jsoup.nodes.Element;
 
 public class JSoupImageElement extends JSoupElement implements HTMLImageElement {
 
@@ -12,59 +11,59 @@ public class JSoupImageElement extends JSoupElement implements HTMLImageElement 
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getLowsrc() {
+	public String getLowsrc() {
 		return node.attr("lowsrc");
 	}
 
-	public void setLowsrc(CharSequence lowsrc) {
+	public void setLowsrc(String lowsrc) {
 		node.attr("lowsrc", lowsrc.toString());
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return node.attr("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		node.attr("name", name.toString());
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		return node.attr("align");
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		node.attr("align", align.toString());
 	}
 
-	public CharSequence getAlt() {
+	public String getAlt() {
 		return node.attr("alt");
 	}
 
-	public void setAlt(CharSequence alt) {
+	public void setAlt(String alt) {
 		node.attr("alt", alt.toString());
 	}
 
-	public CharSequence getBorder() {
+	public String getBorder() {
 		return node.attr("border");
 	}
 
-	public void setBorder(CharSequence border) {
+	public void setBorder(String border) {
 		node.attr("border", border.toString());
 	}
 
-	public CharSequence getHeight() {
+	public String getHeight() {
 		return node.attr("height");
 	}
 
-	public void setHeight(CharSequence height) {
+	public void setHeight(String height) {
 		node.attr("height", height.toString());
 	}
 
-	public CharSequence getHspace() {
+	public String getHspace() {
 		return node.attr("hspace");
 	}
 
-	public void setHspace(CharSequence hspace) {
+	public void setHspace(String hspace) {
 		node.attr("hspace", hspace.toString());
 	}
 
@@ -81,43 +80,43 @@ public class JSoupImageElement extends JSoupElement implements HTMLImageElement 
 		}
 	}
 
-	public CharSequence getLongDesc() {
+	public String getLongDesc() {
 		return node.attr("longDesc");
 	}
 
-	public void setLongDesc(CharSequence longDesc) {
+	public void setLongDesc(String longDesc) {
 		node.attr("longDesc", longDesc.toString());
 	}
 
-	public CharSequence getSrc() {
+	public String getSrc() {
 		return node.attr("src");
 	}
 
-	public void setSrc(CharSequence src) {
+	public void setSrc(String src) {
 		node.attr("src", src.toString());
 	}
 
-	public CharSequence getUseMap() {
+	public String getUseMap() {
 		return node.attr("useMap");
 	}
 
-	public void setUseMap(CharSequence useMap) {
+	public void setUseMap(String useMap) {
 		node.attr("useMap", useMap.toString());
 	}
 
-	public CharSequence getVspace() {
+	public String getVspace() {
 		return node.attr("space");
 	}
 
-	public void setVspace(CharSequence vspace) {
+	public void setVspace(String vspace) {
 		node.attr("vspace", vspace.toString());
 	}
 
-	public CharSequence getWidth() {
+	public String getWidth() {
 		return node.attr("width");
 	}
 
-	public void setWidth(CharSequence width) {
+	public void setWidth(String width) {
 		node.attr("width", width.toString());
 	}
 

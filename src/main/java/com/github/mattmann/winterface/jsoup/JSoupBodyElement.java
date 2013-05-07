@@ -10,51 +10,51 @@ public class JSoupBodyElement extends JSoupElement implements HTMLBodyElement {
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getALink() {
+	public String getALink() {
 		return node.attr("alink");
 	}
 
-	public void setALink(CharSequence aLink) {
+	public void setALink(String aLink) {
 		node.attr("alink", aLink.toString());
 	}
 
-	public CharSequence getBackground() {
+	public String getBackground() {
 		return node.attr("background");
 	}
 
-	public void setBackground(CharSequence background) {
+	public void setBackground(String background) {
 		node.attr("background", background.toString());
 	}
 
-	public CharSequence getBgColor() {
+	public String getBgColor() {
 		return node.attr("bgcolor");
 	}
 
-	public void setBgColor(CharSequence bgColor) {
+	public void setBgColor(String bgColor) {
 		node.attr("bgcolor", bgColor.toString());
 	}
 
-	public CharSequence getLink() {
+	public String getLink() {
 		return node.attr("link");
 	}
 
-	public void setLink(CharSequence link) {
+	public void setLink(String link) {
 		node.attr("link", link.toString());
 	}
 
-	public CharSequence getText() {
+	public String getText() {
 		return node.attr("text");
 	}
 
-	public void setText(CharSequence text) {
+	public void setText(String text) {
 		node.attr("text", text.toString());
 	}
 
-	public CharSequence getVLink() {
+	public String getVLink() {
 		return node.attr("vlink");
 	}
 
-	public void setVLink(CharSequence vLink) {
+	public void setVLink(String vLink) {
 		node.attr("vlink", vLink.toString());
 	}
 }

@@ -28,7 +28,7 @@ public class JSoupCollection implements HTMLCollection, Scriptable {
 		return node.wrap(elements.get(index));
 	}
 
-	public Node namedItem(CharSequence name) {
+	public Node namedItem(String name) {
 		notNull(name);
 		for (Element element: elements) {
 			if (element.attr("id").equals(name)) {

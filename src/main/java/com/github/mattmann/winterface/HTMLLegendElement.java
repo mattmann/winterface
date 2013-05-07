@@ -4,9 +4,9 @@ public interface HTMLLegendElement extends HTMLElement {
 
 	HTMLFormElement getForm();
 	
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 	
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 }

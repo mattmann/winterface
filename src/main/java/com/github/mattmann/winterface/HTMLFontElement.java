@@ -2,12 +2,12 @@ package com.github.mattmann.winterface;
 
 public interface HTMLFontElement extends HTMLElement {
 
-	CharSequence getColor();
-	void setColor(CharSequence color);
+	String getColor();
+	void setColor(String color);
 	
-	CharSequence getFace();
-	void setFace(CharSequence face);
+	String getFace();
+	void setFace(String face);
 	
-	CharSequence getSize();
-	void setSize(CharSequence size);
+	String getSize();
+	void setSize(String size);
 }

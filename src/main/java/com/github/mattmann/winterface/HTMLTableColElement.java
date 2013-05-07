@@ -2,21 +2,21 @@ package com.github.mattmann.winterface;
 
 public interface HTMLTableColElement extends HTMLElement {
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 	
-	CharSequence getCh();
-	void setCh(CharSequence ch);
+	String getCh();
+	void setCh(String ch);
 	
-	CharSequence getChOff();
-	void setChOff(CharSequence chOff);
+	String getChOff();
+	void setChOff(String chOff);
 	
 	long getSpan();
 	void setSpan(long span);
 	
-	CharSequence getVAlign();
-	void setVAlign(CharSequence vAlign);
+	String getVAlign();
+	void setVAlign(String vAlign);
 	
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

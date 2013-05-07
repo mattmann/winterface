@@ -18,19 +18,19 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 		return ownerDocument;
 	}
 
-	public CharSequence getData() {
+	public String getData() {
 		return node.text();
 	}
 
-	public CharSequence substringData(int offset, int count) throws DOMException {
-		return node.text().subSequence(offset, offset + count);
+	public String substringData(int offset, int count) throws DOMException {
+		return node.text().substring(offset, offset + count);
 	}
 
 	public long getLength() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void appendData(CharSequence arg) throws DOMException {
+	public void appendData(String arg) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -38,15 +38,15 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 		throw new UnsupportedOperationException();
 	}
 
-	public void insertData(int offset, CharSequence arg) throws DOMException {
+	public void insertData(int offset, String arg) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void replaceData(int offset, int count, CharSequence arg) throws DOMException {
+	public void replaceData(int offset, int count, String arg) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setData(CharSequence data) {
+	public void setData(String data) {
 		throw new UnsupportedOperationException();
 	}
 

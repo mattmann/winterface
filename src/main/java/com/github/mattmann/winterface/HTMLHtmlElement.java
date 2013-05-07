@@ -2,6 +2,6 @@ package com.github.mattmann.winterface;
 
 public interface HTMLHtmlElement extends HTMLElement {
 
-	CharSequence getVersion();
-	void setVersion(CharSequence version);
+	String getVersion();
+	void setVersion(String version);
 }

@@ -18,14 +18,14 @@ public class JSoupEventDispatcher extends AbstractEventDispatcher {
 	
 	private Map<Key, Collection<EventListener>> map = new HashMap<Key, Collection<EventListener>>();
 
-	public Event createEvent(CharSequence eventInterface) {
+	public Event createEvent(String eventInterface) {
 		if ("Event".equals(eventInterface)) {
 			return new JSoupEvent();
 		}
 		throw new IllegalArgumentException(String.valueOf(eventInterface));
 	}
 
-	public void addEventListener(EventTarget target, CharSequence type, EventListener listener, boolean useCapture) {
+	public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture) {
 //		isTrue(target instanceof JSoupNode);
 //		Key key = new Key(((JSoupNode<?>)target).node, type, useCapture);
 		Key key = new Key(target, type, useCapture);
@@ -36,7 +36,7 @@ public class JSoupEventDispatcher extends AbstractEventDispatcher {
 		listeners.add(listener);
 	}
 
-	public void removeEventListener(EventTarget target, CharSequence type, EventListener listener, boolean useCapture) {
+	public void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture) {
 		Key key = new Key(target, type, useCapture);
 		Collection<EventListener> list = map.get(key);
 		if (list != null) {
@@ -44,7 +44,7 @@ public class JSoupEventDispatcher extends AbstractEventDispatcher {
 		}
 	}
 
-	protected Collection<EventListener> getEventListeners(EventTarget target, CharSequence type, boolean useCapture) {
+	protected Collection<EventListener> getEventListeners(EventTarget target, String type, boolean useCapture) {
 		Key key = new Key(target, type, useCapture);
 		Collection<EventListener> listeners = map.get(key);
 		if (listeners == null) {
@@ -63,10 +63,10 @@ public class JSoupEventDispatcher extends AbstractEventDispatcher {
 	private static class Key {
 
 		private final EventTarget target;
-		private final CharSequence type;
+		private final String type;
 		private final boolean useCapture;
 
-		private Key(EventTarget target, CharSequence type, boolean useCapture) {
+		private Key(EventTarget target, String type, boolean useCapture) {
 			notNull(this.target = target);
 			notNull(this.type = type);
 			this.useCapture = useCapture;

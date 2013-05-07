@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface;
 
 public interface NavigatorContentUtils {
-	CharSequence isContentHandlerRegistered(CharSequence mimeType, CharSequence url);
-	CharSequence isProtocolHandlerRegistered(CharSequence scheme, CharSequence url);
-	void registerContentHandler(CharSequence mimeType, CharSequence url, CharSequence title);
-	void registerProtocolHandler(CharSequence scheme, CharSequence url, CharSequence title);
-	void unregisterContentHandler(CharSequence mimeType, CharSequence url);
-	void unregisterProtocolHandler(CharSequence scheme, CharSequence url);
+	String isContentHandlerRegistered(String mimeType, String url);
+	String isProtocolHandlerRegistered(String scheme, String url);
+	void registerContentHandler(String mimeType, String url, String title);
+	void registerProtocolHandler(String scheme, String url, String title);
+	void unregisterContentHandler(String mimeType, String url);
+	void unregisterProtocolHandler(String scheme, String url);
 }

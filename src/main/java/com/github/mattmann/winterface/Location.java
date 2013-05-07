@@ -1,9 +1,9 @@
 package com.github.mattmann.winterface;
 
 public interface Location extends URLUtils {
-	CharSequence getHref();
-	void setHref(CharSequence href);
-	void assign(CharSequence url);
-	void replace(CharSequence url);
+	String getHref();
+	void setHref(String href);
+	void assign(String url);
+	void replace(String url);
 	void reload();
 }

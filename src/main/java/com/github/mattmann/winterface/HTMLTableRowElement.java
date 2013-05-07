@@ -6,20 +6,20 @@ public interface HTMLTableRowElement extends HTMLElement {
 	long getSectionRowIndex();
 	HTMLCollection getCells();
 	
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getBgColor();
-	void setBgColor(CharSequence bgColor);
+	String getBgColor();
+	void setBgColor(String bgColor);
 
-	CharSequence getCh();
-	void setCh(CharSequence ch);
+	String getCh();
+	void setCh(String ch);
 
-	CharSequence getChOff();
-	void setChOff(CharSequence chOff);
+	String getChOff();
+	void setChOff(String chOff);
 
-	CharSequence getVAlign();
-	void setVAlign(CharSequence vAlign);
+	String getVAlign();
+	void setVAlign(String vAlign);
 
 	HTMLElement insertCell(long index) throws DOMException;
 

@@ -9,7 +9,7 @@ public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> i
 		super(documentType);
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -21,15 +21,15 @@ public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> i
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getPublicId() {
+	public String getPublicId() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getSystemId() {
+	public String getSystemId() {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getInternalSubset() {
+	public String getInternalSubset() {
 		throw new UnsupportedOperationException();
 	}
 

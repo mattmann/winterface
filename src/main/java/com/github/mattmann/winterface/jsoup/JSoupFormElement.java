@@ -13,16 +13,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jsoup.Connection.Method;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
-import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.jsoup.Connection.KeyVal;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
@@ -97,51 +94,51 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		return getElements().getLength();
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return getAttribute("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		setAttribute("name", name);
 	}
 
-	public CharSequence getAcceptCharset() {
+	public String getAcceptCharset() {
 		return getAttribute("accept-charset");
 	}
 
-	public void setAcceptCharset(CharSequence acceptCharset) {
+	public void setAcceptCharset(String acceptCharset) {
 		setAttribute("accept-charset", acceptCharset);
 	}
 
-	public CharSequence getAction() {
+	public String getAction() {
 		return getAttribute("action");
 	}
 
-	public void setAction(CharSequence action) {
+	public void setAction(String action) {
 		setAttribute("action", action);
 	}
 
-	public CharSequence getEnctype() {
+	public String getEnctype() {
 		return getAttribute("enctype");
 	}
 
-	public void setEnctype(CharSequence enctype) {
+	public void setEnctype(String enctype) {
 		setAttribute("enctype", enctype);
 	}
 
-	public CharSequence getMethod() {
+	public String getMethod() {
 		return getAttribute("method");
 	}
 
-	public void setMethod(CharSequence method) {
+	public void setMethod(String method) {
 		setAttribute("method", method);
 	}
 
-	public CharSequence getTarget() {
+	public String getTarget() {
 		return getAttribute("target");
 	}
 
-	public void setTarget(CharSequence target) {
+	public void setTarget(String target) {
 		setAttribute("target", target);
 	}
 
@@ -149,7 +146,6 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		Event event = ownerDocument.createEvent("Event");
 		event.initEvent("submit", true, true);
 		dispatchEvent(event);
-		Window window = getWindow();
 		JSoupLocation location = (JSoupLocation)getLocation();
 		try {
 			location.submit(getAction(), getMethod(), listData());

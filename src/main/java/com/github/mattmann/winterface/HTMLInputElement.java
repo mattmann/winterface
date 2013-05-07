@@ -2,27 +2,27 @@ package com.github.mattmann.winterface;
 
 public interface HTMLInputElement extends HTMLElement {
 
-	CharSequence getDefaultValue();
-	void setDefaultValue(CharSequence defaultValue);
+	String getDefaultValue();
+	void setDefaultValue(String defaultValue);
 
 	boolean isDefaultChecked();
 	void setDefaultChecked(boolean defaultChecked);
 	
 	HTMLFormElement getForm();
 
-	CharSequence getType();
+	String getType();
 
-	CharSequence getAccept();
-	void setAccept(CharSequence accept);
+	String getAccept();
+	void setAccept(String accept);
 
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getAlt();
-	void setAlt(CharSequence alt);
+	String getAlt();
+	void setAlt(String alt);
 
 	boolean isChecked();
 	void setChecked(boolean checked);
@@ -33,26 +33,26 @@ public interface HTMLInputElement extends HTMLElement {
 	long getMaxLength();
 	void setMaxLength(long maxLength);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
 	boolean isReadOnly();
 	void setReadOnly(boolean readOnly);
 
-	CharSequence getSize();
-	void setSize(CharSequence size);
+	String getSize();
+	void setSize(String size);
 
-	CharSequence getSrc();
-	void setSrc(CharSequence src);
+	String getSrc();
+	void setSrc(String src);
 
 	long getTabIndex();
 	void setTabIndex(long tabIndex);
 
-	CharSequence getUseMap();
-	void setUseMap(CharSequence useMap);
+	String getUseMap();
+	void setUseMap(String useMap);
 
-	CharSequence getValue();
-	void setValue(CharSequence value);
+	String getValue();
+	void setValue(String value);
 
 	void blur();
 	void focus();

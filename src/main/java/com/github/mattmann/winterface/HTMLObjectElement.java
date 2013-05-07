@@ -4,54 +4,54 @@ public interface HTMLObjectElement extends HTMLElement {
 	
 	HTMLFormElement getForm();
 
-	CharSequence getCode();
-	void setCode(CharSequence code);
+	String getCode();
+	void setCode(String code);
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getArchive();
-	void setArchive(CharSequence archive);
+	String getArchive();
+	void setArchive(String archive);
 
-	CharSequence getBorder();
-	void setBorder(CharSequence border);
+	String getBorder();
+	void setBorder(String border);
 
-	CharSequence getCodeBase();
-	void setCodeBase(CharSequence codeBase);
+	String getCodeBase();
+	void setCodeBase(String codeBase);
 
-	CharSequence getCodeType();
-	void setCodeType(CharSequence codeType);
+	String getCodeType();
+	void setCodeType(String codeType);
 
-	CharSequence getData();
-	void setData(CharSequence data);
+	String getData();
+	void setData(String data);
 
 	boolean isDeclare();
 	void setDeclare(boolean declare);
 
-	CharSequence getHeight();
-	void setHeight(CharSequence height);
+	String getHeight();
+	void setHeight(String height);
 
-	CharSequence getHspace();
-	void setHspace(CharSequence hspace);
+	String getHspace();
+	void setHspace(String hspace);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
-	CharSequence getStandby();
-	void setStandby(CharSequence standby);
+	String getStandby();
+	void setStandby(String standby);
 
 	long getTabIndex();
 	void setTabIndex(long tabIndex);
 
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 
-	CharSequence getUseMap();
-	void setUseMap(CharSequence useMap);
+	String getUseMap();
+	void setUseMap(String useMap);
 
-	CharSequence getVspace();
-	void setVspace(CharSequence vspace);
+	String getVspace();
+	void setVspace(String vspace);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 }

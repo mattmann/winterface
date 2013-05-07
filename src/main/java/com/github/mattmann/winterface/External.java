@@ -1,6 +1,6 @@
 package com.github.mattmann.winterface;
 
 public interface External {
-	void AddSearchProvider(CharSequence engineURL);
-	long IsSearchProviderInstalled(CharSequence engineURL);
+	void AddSearchProvider(String engineURL);
+	long IsSearchProviderInstalled(String engineURL);
 }

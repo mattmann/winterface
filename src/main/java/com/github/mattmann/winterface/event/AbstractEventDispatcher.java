@@ -25,13 +25,13 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 	
 	protected static final Log LOG = LogFactory.getLog(AbstractEventDispatcher.class);
 
-	public abstract void addEventListener(EventTarget target, CharSequence type, EventListener listener, boolean useCapture);
+	public abstract void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture);
 
-	public abstract void removeEventListener(EventTarget target, CharSequence type, EventListener listener, boolean useCapture);
+	public abstract void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture);
 
-	public abstract Event createEvent(CharSequence eventInterface);
+	public abstract Event createEvent(String eventInterface);
 	
-	protected abstract Collection<EventListener> getEventListeners(EventTarget target, CharSequence type, boolean useCapture);
+	protected abstract Collection<EventListener> getEventListeners(EventTarget target, String type, boolean useCapture);
 
 	protected Collection<EventListener> getEventListeners(Event event) {
 		return getEventListeners(event.getCurrentTarget(), event.getType(), CAPTURING_PHASE == event.getEventPhase());

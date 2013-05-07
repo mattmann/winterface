@@ -5,9 +5,9 @@ public interface HTMLStyleElement extends HTMLElement {
 	boolean isDisabled();
 	void setDisabled(boolean disabled);
 	
-	CharSequence getMedia();
-	void setMedia(CharSequence media);
+	String getMedia();
+	void setMedia(String media);
 	
-	CharSequence getType();
-	void setType(CharSequence type);
+	String getType();
+	void setType(String type);
 }

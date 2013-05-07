@@ -26,7 +26,7 @@ public class ScriptableHTMLCollection implements HTMLCollection, Scriptable {
 		return collection.item(index);
 	}
 
-	public Node namedItem(CharSequence name) {
+	public Node namedItem(String name) {
 		return collection.namedItem(name);
 	}
 

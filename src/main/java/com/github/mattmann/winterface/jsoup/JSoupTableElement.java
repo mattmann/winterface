@@ -50,75 +50,75 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		return collect("> tbody");
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getBgColor() {
+	public String getBgColor() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setBgColor(CharSequence bgColor) {
+	public void setBgColor(String bgColor) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getBorder() {
+	public String getBorder() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setBorder(CharSequence border) {
+	public void setBorder(String border) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getCellPadding() {
+	public String getCellPadding() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCellPadding(CharSequence cellPadding) {
+	public void setCellPadding(String cellPadding) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getCellSpacing() {
+	public String getCellSpacing() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCellSpacing(CharSequence cellSpacing) {
+	public void setCellSpacing(String cellSpacing) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getFrame() {
+	public String getFrame() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setFrame(CharSequence frame) {
+	public void setFrame(String frame) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getRules() {
+	public String getRules() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setRules(CharSequence rules) {
+	public void setRules(String rules) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getSummary() {
+	public String getSummary() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setSummary(CharSequence summary) {
+	public void setSummary(String summary) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getWidth() {
+	public String getWidth() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setWidth(CharSequence width) {
+	public void setWidth(String width) {
 		throw new UnsupportedOperationException();
 	}
 

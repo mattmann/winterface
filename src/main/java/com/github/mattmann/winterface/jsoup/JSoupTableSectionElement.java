@@ -12,35 +12,35 @@ public class JSoupTableSectionElement extends JSoupElement implements HTMLTableS
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getCh() {
+	public String getCh() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCh(CharSequence ch) {
+	public void setCh(String ch) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getChOff() {
+	public String getChOff() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setChOff(CharSequence chOff) {
+	public void setChOff(String chOff) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getVAlign() {
+	public String getVAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setVAlign(CharSequence vAlign) {
+	public void setVAlign(String vAlign) {
 		throw new UnsupportedOperationException();
 	}
 

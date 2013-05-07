@@ -14,51 +14,51 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAbbr() {
+	public String getAbbr() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAbbr(CharSequence abbr) {
+	public void setAbbr(String abbr) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getAxis() {
+	public String getAxis() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAxis(CharSequence axis) {
+	public void setAxis(String axis) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getBgColor() {
+	public String getBgColor() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setBgColor(CharSequence bgColor) {
+	public void setBgColor(String bgColor) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getCh() {
+	public String getCh() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setCh(CharSequence ch) {
+	public void setCh(String ch) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getChOff() {
+	public String getChOff() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setChOff(CharSequence chOff) {
+	public void setChOff(String chOff) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -70,19 +70,19 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHeaders() {
+	public String getHeaders() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setHeaders(CharSequence headers) {
+	public void setHeaders(String headers) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getHeight() {
+	public String getHeight() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setHeight(CharSequence height) {
+	public void setHeight(String height) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -102,27 +102,27 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getScope() {
+	public String getScope() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setScope(CharSequence scope) {
+	public void setScope(String scope) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getVAlign() {
+	public String getVAlign() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setVAlign(CharSequence vAlign) {
+	public void setVAlign(String vAlign) {
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getWidth() {
+	public String getWidth() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setWidth(CharSequence width) {
+	public void setWidth(String width) {
 		throw new UnsupportedOperationException();
 	}
 

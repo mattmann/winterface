@@ -10,91 +10,91 @@ public class JSoupAppletElement extends JSoupElement implements HTMLAppletElemen
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getAlign() {
+	public String getAlign() {
 		return getAttribute("align");
 	}
 
-	public void setAlign(CharSequence align) {
+	public void setAlign(String align) {
 		setAttribute("align", align);
 	}
 
-	public CharSequence getAlt() {
+	public String getAlt() {
 		return getAttribute("alt");
 	}
 
-	public void setAlt(CharSequence alt) {
+	public void setAlt(String alt) {
 		setAttribute("alt", alt);
 	}
 
-	public CharSequence getArchive() {
+	public String getArchive() {
 		return getAttribute("archive");
 	}
 
-	public void setArchive(CharSequence archive) {
+	public void setArchive(String archive) {
 		setAttribute("archive", archive);
 	}
 
-	public CharSequence getCode() {
+	public String getCode() {
 		return getAttribute("code");
 	}
 
-	public void setCode(CharSequence code) {
+	public void setCode(String code) {
 		setAttribute("code", code);
 	}
 
-	public CharSequence getCodeBase() {
+	public String getCodeBase() {
 		return getAttribute("codeBase");
 	}
 
-	public void setCodeBase(CharSequence codeBase) {
+	public void setCodeBase(String codeBase) {
 		setAttribute("codeBase", codeBase);
 	}
 
-	public CharSequence getHeight() {
+	public String getHeight() {
 		return getAttribute("height");
 	}
 
-	public void setHeight(CharSequence height) {
+	public void setHeight(String height) {
 		setAttribute("height", height);
 	}
 
-	public CharSequence getHspace() {
+	public String getHspace() {
 		return getAttribute("hspace");
 	}
 
-	public void setHspace(CharSequence hspace) {
+	public void setHspace(String hspace) {
 		setAttribute("hspace", hspace);
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return getAttribute("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		setAttribute("name", name);
 	}
 
-	public CharSequence getObject() {
+	public String getObject() {
 		return getAttribute("object");
 	}
 
-	public void setObject(CharSequence object) {
+	public void setObject(String object) {
 		setAttribute("object", object);
 	}
 
-	public CharSequence getVspace() {
+	public String getVspace() {
 		return getAttribute("vspace");
 	}
 
-	public void setVspace(CharSequence vspace) {
+	public void setVspace(String vspace) {
 		setAttribute("vspace", vspace);
 	}
 
-	public CharSequence getWidth() {
+	public String getWidth() {
 		return getAttribute("width");
 	}
 
-	public void setWidth(CharSequence width) {
+	public void setWidth(String width) {
 		setAttribute("width", width);
 	}
 }

@@ -24,14 +24,14 @@ public class HTMLCollectionAdapter implements HTMLCollection, NodeList {
 		return nodes.get(index);
 	}
 
-	public Node namedItem(CharSequence name) {
+	public Node namedItem(String name) {
 		notNull(name);
 		for (Node node: nodes) {
 			Attr attr = (Attr)node.getAttributes().getNamedItem("id");
 			if (attr == null) {
 				continue;
 			}
-			CharSequence id = attr.getValue();
+			String id = attr.getValue();
 			if (name.equals(id)) {
 				return node;
 			}
@@ -41,7 +41,7 @@ public class HTMLCollectionAdapter implements HTMLCollection, NodeList {
 			if (attr == null) {
 				continue;
 			}
-			CharSequence id = attr.getValue();
+			String id = attr.getValue();
 			if (name.equals(id)) {
 				return node;
 			}

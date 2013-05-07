@@ -4,44 +4,44 @@ public interface HTMLImageElement extends HTMLElement {
 	
 	boolean isComplete();
 
-	CharSequence getLowsrc();
-	void setLowsrc(CharSequence lowsrc);
+	String getLowsrc();
+	void setLowsrc(String lowsrc);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getAlt();
-	void setAlt(CharSequence alt);
+	String getAlt();
+	void setAlt(String alt);
 
-	CharSequence getBorder();
-	void setBorder(CharSequence border);
+	String getBorder();
+	void setBorder(String border);
 
-	CharSequence getHeight();
-	void setHeight(CharSequence height);
+	String getHeight();
+	void setHeight(String height);
 
-	CharSequence getHspace();
-	void setHspace(CharSequence hspace);
+	String getHspace();
+	void setHspace(String hspace);
 
 	boolean getIsMap();
 	void setIsMap(boolean isMap);
 
-	CharSequence getLongDesc();
-	void setLongDesc(CharSequence longDesc);
+	String getLongDesc();
+	void setLongDesc(String longDesc);
 
-	CharSequence getSrc();
-	void setSrc(CharSequence src);
+	String getSrc();
+	void setSrc(String src);
 
-	CharSequence getUseMap();
-	void setUseMap(CharSequence useMap);
+	String getUseMap();
+	void setUseMap(String useMap);
 
-	CharSequence getVspace();
-	void setVspace(CharSequence vspace);
+	String getVspace();
+	void setVspace(String vspace);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 	
 	EventListener getOnabort();
 	void setOnabort(EventListener handler);

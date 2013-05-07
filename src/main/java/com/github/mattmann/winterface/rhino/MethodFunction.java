@@ -71,7 +71,7 @@ public class MethodFunction extends AbstractFunction {
 		if (type.isAssignableFrom(arg.getClass())) {
 			return arg;
 		}
-		if (String.class.equals(type) && arg instanceof CharSequence) {
+		if (String.class.equals(type) && arg instanceof String) {
 			return arg.toString();
 		}
 		if (Integer.TYPE.equals(type) && arg instanceof Number) {

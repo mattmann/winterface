@@ -15,32 +15,32 @@ public interface HTMLTableElement extends HTMLElement {
 
 	HTMLCollection getTBodies();
 
-	CharSequence getAlign();
-	void setAlign(CharSequence align);
+	String getAlign();
+	void setAlign(String align);
 
-	CharSequence getBgColor();
-	void setBgColor(CharSequence bgColor);
+	String getBgColor();
+	void setBgColor(String bgColor);
 
-	CharSequence getBorder();
-	void setBorder(CharSequence border);
+	String getBorder();
+	void setBorder(String border);
 
-	CharSequence getCellPadding();
-	void setCellPadding(CharSequence cellPadding);
+	String getCellPadding();
+	void setCellPadding(String cellPadding);
 
-	CharSequence getCellSpacing();
-	void setCellSpacing(CharSequence cellSpacing);
+	String getCellSpacing();
+	void setCellSpacing(String cellSpacing);
 
-	CharSequence getFrame();
-	void setFrame(CharSequence frame);
+	String getFrame();
+	void setFrame(String frame);
 
-	CharSequence getRules();
-	void setRules(CharSequence rules);
+	String getRules();
+	void setRules(String rules);
 
-	CharSequence getSummary();
-	void setSummary(CharSequence summary);
+	String getSummary();
+	void setSummary(String summary);
 
-	CharSequence getWidth();
-	void setWidth(CharSequence width);
+	String getWidth();
+	void setWidth(String width);
 
 	HTMLElement createTHead();
 

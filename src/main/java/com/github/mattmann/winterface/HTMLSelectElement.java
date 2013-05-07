@@ -2,13 +2,13 @@ package com.github.mattmann.winterface;
 
 public interface HTMLSelectElement extends HTMLElement {
 
-	CharSequence getType();
+	String getType();
 
 	int getSelectedIndex();
 	void setSelectedIndex(int selectedIndex);
 	
-	CharSequence getValue();
-	void setValue(CharSequence value);
+	String getValue();
+	void setValue(String value);
 	
 	long getLength();
 	
@@ -22,8 +22,8 @@ public interface HTMLSelectElement extends HTMLElement {
 	boolean isMultiple();
 	void setMultiple(boolean multiple);
 	
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
 	long getSize();
 	void setSize(long size);

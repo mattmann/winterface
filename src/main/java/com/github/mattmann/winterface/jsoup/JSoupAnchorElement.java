@@ -13,88 +13,88 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getAccessKey() {
+	public String getAccessKey() {
 		return getAttribute("accessKey");
 	}
 
-	public void setAccessKey(CharSequence accessKey) {
+	public void setAccessKey(String accessKey) {
 		setAttribute("accessKey", accessKey);
 	}
 
-	public CharSequence getCharset() {
+	public String getCharset() {
 		return getAttribute("charset");
 	}
 
-	public void setCharset(CharSequence charset) {
+	public void setCharset(String charset) {
 		setAttribute("charset", charset);
 	}
 
-	public CharSequence getCoords() {
+	public String getCoords() {
 		return getAttribute("coords");
 	}
 
-	public void setCoords(CharSequence coords) {
+	public void setCoords(String coords) {
 		setAttribute("coords", coords);
 	}
 
-	public CharSequence getHref() {
+	public String getHref() {
 		return getAttribute("href");
 	}
 
-	public void setHref(CharSequence href) {
+	public void setHref(String href) {
 		setAttribute("href", href);
 	}
 
-	public CharSequence getHreflang() {
+	public String getHreflang() {
 		return getAttribute("hreflang");
 	}
 
-	public void setHreflang(CharSequence hreflang) {
+	public void setHreflang(String hreflang) {
 		setAttribute("hreflang", hreflang);
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		return getAttribute("name");
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		setAttribute("name", name);
 	}
 
-	public CharSequence getMedia() {
+	public String getMedia() {
 		return getAttribute("media");
 	}
 
-	public void setMedia(CharSequence media) {
+	public void setMedia(String media) {
 		setAttribute("media", media);
 	}
 
-	public CharSequence getRel() {
+	public String getRel() {
 		return getAttribute("rel");
 	}
 
-	public void setRel(CharSequence rel) {
+	public void setRel(String rel) {
 		setAttribute("rel", rel);
 	}
 
-	public CharSequence getRev() {
+	public String getRev() {
 		return getAttribute("rev");
 	}
 
-	public void setRev(CharSequence rev) {
+	public void setRev(String rev) {
 		setAttribute("rev", rev);
 	}
 
-	public CharSequence getShape() {
+	public String getShape() {
 		return getAttribute("shape");
 	}
 
-	public void setShape(CharSequence shape) {
+	public void setShape(String shape) {
 		setAttribute("shape", shape);
 	}
 
 	public int getTabIndex() {
-		CharSequence value = getAttribute("tabIndex");
+		String value = getAttribute("tabIndex");
 		if (value == null) {
 			return 0;
 		}
@@ -110,19 +110,19 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 		setAttribute("tabIndex", String.valueOf(tabIndex));
 	}
 
-	public CharSequence getTarget() {
+	public String getTarget() {
 		return getAttribute("target");
 	}
 
-	public void setTarget(CharSequence target) {
+	public void setTarget(String target) {
 		setAttribute("target", target);
 	}
 
-	public CharSequence getType() {
+	public String getType() {
 		return getAttribute("type");
 	}
 
-	public void setType(CharSequence type) {
+	public void setType(String type) {
 		setAttribute("type", type);
 	}
 
@@ -130,7 +130,7 @@ public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElemen
 		Event event = ownerDocument.createEvent("Event");
 		event.initEvent("click", true, true);
 		dispatchEvent(event);
-		CharSequence href = getHref(); 
+		String href = getHref(); 
 		if (href.length() > 0) {
 			getLocation().setHref(href);
 		}

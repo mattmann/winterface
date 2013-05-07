@@ -5,19 +5,19 @@ import com.github.mattmann.winterface.EventTarget;
 
 public abstract class AbstractEvent implements Event {
 
-	public void initEvent(CharSequence eventType, boolean canBubble, boolean cancelableArg) {
+	public void initEvent(String eventType, boolean canBubble, boolean cancelableArg) {
 		setType(eventType);
 		setBubbles(canBubble);
 		setCancelable(cancelableArg);
 	}
 
-	private CharSequence type;
+	private String type;
 
-	public CharSequence getType() {
+	public String getType() {
 		return type;
 	}
 
-	protected void setType(CharSequence type) {
+	protected void setType(String type) {
 		this.type = type;
 	}
 

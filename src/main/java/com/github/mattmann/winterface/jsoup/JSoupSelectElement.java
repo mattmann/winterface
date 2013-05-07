@@ -19,7 +19,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getType() {
+	public String getType() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -52,7 +52,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getValue() {
+	public String getValue() {
 		HTMLOptionElement option = getSelectedOption();
 		if (option == null) {
 			return null;
@@ -60,7 +60,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		return option.getValue();
 	}
 
-	public void setValue(CharSequence value) {
+	public void setValue(String value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -84,7 +84,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 				return wrap(elements.get(index));
 			}
 
-			public Node namedItem(CharSequence name) {
+			public Node namedItem(String name) {
 				throw new UnsupportedOperationException();
 			}
 		};
@@ -106,7 +106,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getName() {
+	public String getName() {
 		final String name = getAttribute("name").toString();
 		final String id = getAttribute("id").toString();
 		if (isNotEmpty(name)) {
@@ -118,7 +118,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		return name;
 	}
 
-	public void setName(CharSequence name) {
+	public void setName(String name) {
 		throw new UnsupportedOperationException();
 	}
 

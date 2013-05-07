@@ -8,15 +8,15 @@ import com.github.mattmann.winterface.event.EventDispatcher;
 
 public class JSoupDOMImplementation implements DOMImplementation {
 
-	public boolean hasFeature(CharSequence feature, CharSequence version) {
+	public boolean hasFeature(String feature, String version) {
 		throw new UnsupportedOperationException();
 	}
 
-	public DocumentType createDocumentType(CharSequence qualifiedName, CharSequence publicId, CharSequence systemId) throws DOMException {
+	public DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Document createDocument(CharSequence namespaceURI, CharSequence qualifiedName, DocumentType doctype) throws DOMException {
+	public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype) throws DOMException {
 		org.jsoup.nodes.Document document = new org.jsoup.nodes.Document(namespaceURI.toString());
 		EventDispatcher eventDispatcher = new JSoupEventDispatcher();
 		return new JSoupDocument(document, eventDispatcher);

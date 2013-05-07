@@ -2,27 +2,27 @@ package com.github.mattmann.winterface;
 
 public interface HTMLFrameElement extends HTMLElement {
 
-	CharSequence getFrameBorder();
-	void setFrameBorder(CharSequence frameBorder);
+	String getFrameBorder();
+	void setFrameBorder(String frameBorder);
 
-	CharSequence getLongDesc();
-	void setLongDesc(CharSequence longDesc);
+	String getLongDesc();
+	void setLongDesc(String longDesc);
 
-	CharSequence getMarginHeight();
-	void setMarginHeight(CharSequence marginHeight);
+	String getMarginHeight();
+	void setMarginHeight(String marginHeight);
 
-	CharSequence getMarginWidth();
-	void setMarginWidth(CharSequence marginWidth);
+	String getMarginWidth();
+	void setMarginWidth(String marginWidth);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
 	boolean isNoResize();
 	void setNoResize(boolean noResize);
 
-	CharSequence getScrolling();
-	void setScrolling(CharSequence scrolling);
+	String getScrolling();
+	void setScrolling(String scrolling);
 
-	CharSequence getSrc();
-	void setSrc(CharSequence src);
+	String getSrc();
+	void setSrc(String src);
 }

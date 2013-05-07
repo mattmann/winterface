@@ -15,10 +15,10 @@ public interface Node {
 	public static final short DOCUMENT_FRAGMENT_NODE = 11;
 	public static final short NOTATION_NODE = 12;
 	
-	CharSequence getNodeName();
+	String getNodeName();
 	
-	CharSequence getNodeValue();
-	void setNodeValue(CharSequence nodeValue);
+	String getNodeValue();
+	void setNodeValue(String nodeValue);
 	
 	short getNodeType();
 	Node getParentNode();
@@ -37,14 +37,14 @@ public interface Node {
 	boolean hasChildNodes();
 	Node cloneNode(boolean deep);
 	void normalize();
-	boolean isSupported(CharSequence feature, CharSequence version);
+	boolean isSupported(String feature, String version);
 
-	CharSequence getNamespaceURI();
+	String getNamespaceURI();
 
-	CharSequence getPrefix();
-	void setPrefix(CharSequence prefix);
+	String getPrefix();
+	void setPrefix(String prefix);
 
-	CharSequence getLocalName();
+	String getLocalName();
 
 	boolean hasAttributes();
 }

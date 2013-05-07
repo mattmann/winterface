@@ -23,7 +23,7 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getText() {
+	public String getText() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -39,11 +39,11 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getLabel() {
+	public String getLabel() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setLabel(CharSequence label) {
+	public void setLabel(String label) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -56,11 +56,11 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public CharSequence getValue() {
+	public String getValue() {
 		return getAttribute("value");
 	}
 
-	public void setValue(CharSequence value) {
+	public void setValue(String value) {
 		throw new UnsupportedOperationException();
 	}
 

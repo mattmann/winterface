@@ -10,11 +10,11 @@ public class JSoupScriptElement extends JSoupElement implements HTMLScriptElemen
 		super(element, ownerDocument);
 	}
 
-	public CharSequence getCharset() {
+	public String getCharset() {
 		return getAttribute("charset");
 	}
 
-	public void setCharset(CharSequence charset) {
+	public void setCharset(String charset) {
 		setAttribute("charset", charset);
 	}
 
@@ -26,19 +26,19 @@ public class JSoupScriptElement extends JSoupElement implements HTMLScriptElemen
 		setBooleanAttribute("defer", defer);
 	}
 
-	public CharSequence getSrc() {
+	public String getSrc() {
 		return getAttribute("src");
 	}
 
-	public void setSrc(CharSequence src) {
+	public void setSrc(String src) {
 		setAttribute("src", src);
 	}
 
-	public CharSequence getType() {
+	public String getType() {
 		return getAttribute("type");
 	}
 
-	public void setType(CharSequence type) {
+	public void setType(String type) {
 		setAttribute("type", type);
 	}
 
@@ -50,11 +50,11 @@ public class JSoupScriptElement extends JSoupElement implements HTMLScriptElemen
 		setBooleanAttribute("async", async);
 	}
 
-	public CharSequence getText() {
+	public String getText() {
 		return node.text();
 	}
 
-	public void setText(CharSequence text) {
+	public void setText(String text) {
 		notNull(text);
 		node.text(text.toString());
 	}

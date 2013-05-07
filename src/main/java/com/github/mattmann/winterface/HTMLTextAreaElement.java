@@ -2,13 +2,13 @@ package com.github.mattmann.winterface;
 
 public interface HTMLTextAreaElement extends HTMLElement {
 
-	CharSequence getDefaultValue();
-	void setDefaultValue(CharSequence defaultValue);
+	String getDefaultValue();
+	void setDefaultValue(String defaultValue);
 	
 	HTMLFormElement getForm();
 
-	CharSequence getAccessKey();
-	void setAccessKey(CharSequence accessKey);
+	String getAccessKey();
+	void setAccessKey(String accessKey);
 
 	long getCols();
 	void setCols(long cols);
@@ -16,8 +16,8 @@ public interface HTMLTextAreaElement extends HTMLElement {
 	boolean isDisabled();
 	void setDisabled(boolean disabled);
 
-	CharSequence getName();
-	void setName(CharSequence name);
+	String getName();
+	void setName(String name);
 
 	boolean isReadOnly();
 	void setReadOnly(boolean readOnly);
@@ -28,10 +28,10 @@ public interface HTMLTextAreaElement extends HTMLElement {
 	long getTabIndex();
 	void setTabIndex(long tabIndex);
 
-	CharSequence getType();
+	String getType();
 
-	CharSequence getValue();
-	void setValue(CharSequence value);
+	String getValue();
+	void setValue(String value);
 
 	void blur();
 	void focus();
