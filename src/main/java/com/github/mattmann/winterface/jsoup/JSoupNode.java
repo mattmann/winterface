@@ -1,7 +1,6 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.NamedNodeMap;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -9,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jsoup.select.NodeVisitor;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;

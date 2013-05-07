@@ -1,24 +1,8 @@
 package com.github.mattmann.winterface;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public interface HTMLElement extends Element, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
-
-	String getId();
-	void setId(String id);
-
-	String getTitle();
-	void setTitle(String title);
-
-	String getLang();
-	void setLang(String lang);
-	
-	String getDir();
-	void setDir(String dir);
-	
-	String getClassName();
-	void setClassName(String className);
+public interface HTMLElement extends org.w3c.dom.html.HTMLElement, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
 	
 	String getInnerHTML();
 	void setInnerHTML(String innerHTML);
