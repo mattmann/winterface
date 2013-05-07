@@ -1,7 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLMenuElement extends HTMLElement {
-
-	boolean isCompact();
-	void setCompact(boolean compact);
+public interface HTMLMenuElement extends org.w3c.dom.html.HTMLMenuElement, HTMLElement {
 }

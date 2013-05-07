@@ -1,10 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLOptGroupElement extends HTMLElement {
-
-	boolean isDisabled();
-	void setDisabled(boolean disabled);
-	
-	String getLabel();
-	void setLabel(String label);
+public interface HTMLOptGroupElement extends org.w3c.dom.html.HTMLOptGroupElement, HTMLElement {
 }

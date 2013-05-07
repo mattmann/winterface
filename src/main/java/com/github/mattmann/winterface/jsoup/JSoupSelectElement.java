@@ -1,6 +1,5 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLOptionElement;
 import com.github.mattmann.winterface.HTMLSelectElement;
@@ -25,7 +24,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		HTMLCollection options = getOptions();
 		for (int i = 0; i < options.getLength(); i++) {
 			HTMLOptionElement option = (HTMLOptionElement)options.item(i);
-			if (option.isSelected()) {
+			if (option.getSelected()) {
 				return i;
 			}
 		}
@@ -39,7 +38,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		}
 		for (int i = 0; i < options.getLength(); i++) {
 			HTMLOptionElement option = (HTMLOptionElement)options.item(i);
-			if (option.isSelected()) {
+			if (option.getSelected()) {
 				return option;
 			}
 		}
@@ -62,7 +61,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public long getLength() {
+	public int getLength() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -120,27 +119,23 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public long getSize() {
+	public int getSize() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setSize(long size) {
+	public void setSize(int size) {
 		throw new UnsupportedOperationException();
 	}
 
-	public long getTabIndex() {
+	public int getTabIndex() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setTabIndex(long tabIndex) {
+	public void setTabIndex(int tabIndex) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void add(HTMLElement element, HTMLElement before) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public void remove(long index) {
+	public void remove(int index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -149,6 +144,18 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 	}
 
 	public void focus() {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean getDisabled() {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean getMultiple() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void add(org.w3c.dom.html.HTMLElement element, org.w3c.dom.html.HTMLElement before) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 

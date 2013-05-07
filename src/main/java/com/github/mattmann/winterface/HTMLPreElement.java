@@ -1,7 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLPreElement extends HTMLElement {
-
-	long getWidth();
-	void setWidth(long width);
+public interface HTMLPreElement extends org.w3c.dom.html.HTMLPreElement, HTMLElement {
 }

@@ -36,7 +36,7 @@ public class JSoupScriptElementTest {
 		assertEquals(scriptElement.getCharset(), "UTF-8");
 
 		scriptElement.setDefer(true);
-		assertEquals(scriptElement.isDefer(), true);
+		assertEquals(scriptElement.getDefer(), true);
 
 		scriptElement.setSrc(SRC);
 		assertEquals(scriptElement.getSrc(), SRC);

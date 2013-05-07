@@ -1,9 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLOptionElement;
+import org.jsoup.nodes.Element;
 
 public class JSoupOptionElement extends JSoupElement implements HTMLOptionElement {
 
@@ -15,7 +14,7 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isDefaultSelected() {
+	public boolean getDefaultSelected() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -27,11 +26,11 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public long getIndex() {
+	public int getIndex() {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isDisabled() {
+	public boolean getDisabled() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -47,7 +46,7 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isSelected() {
+	public boolean getSelected() {
 		String value = getAttribute("selected").toString();
 		return "selected".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
 	}

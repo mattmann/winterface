@@ -18,7 +18,7 @@ public class JSoupScriptElement extends JSoupElement implements HTMLScriptElemen
 		setAttribute("charset", charset);
 	}
 
-	public boolean isDefer() {
+	public boolean getDefer() {
 		return hasAttribute("defer");
 	}
 
@@ -57,5 +57,21 @@ public class JSoupScriptElement extends JSoupElement implements HTMLScriptElemen
 	public void setText(String text) {
 		notNull(text);
 		node.text(text.toString());
+	}
+
+	public String getHtmlFor() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setHtmlFor(String htmlFor) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getEvent() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setEvent(String event) {
+		throw new UnsupportedOperationException();
 	}
 }

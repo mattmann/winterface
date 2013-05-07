@@ -1,9 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLIsIndexElement extends HTMLElement {
-	
-	HTMLFormElement getForm();
-	
-	String getPrompt();
-	void setPrompt(String prompt);
+public interface HTMLIsIndexElement extends org.w3c.dom.html.HTMLIsIndexElement, HTMLElement {
 }

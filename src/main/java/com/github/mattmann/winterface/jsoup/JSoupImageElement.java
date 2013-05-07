@@ -11,11 +11,11 @@ public class JSoupImageElement extends JSoupElement implements HTMLImageElement 
 		super(element, ownerDocument);
 	}
 
-	public String getLowsrc() {
+	public String getLowSrc() {
 		return node.attr("lowsrc");
 	}
 
-	public void setLowsrc(String lowsrc) {
+	public void setLowSrc(String lowsrc) {
 		node.attr("lowsrc", lowsrc.toString());
 	}
 

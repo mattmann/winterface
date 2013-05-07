@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-
 import com.github.mattmann.winterface.HTMLTableCellElement;
+import org.jsoup.nodes.Element;
 
 public class JSoupTableCellElement extends JSoupElement implements HTMLTableCellElement {
 
@@ -10,7 +9,7 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		super(element, ownerDocument);
 	}
 
-	public long getCellIndex() {
+	public int getCellIndex() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -62,11 +61,11 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public long getColSpan() {
+	public int getColSpan() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setColSpan(long colSpan) {
+	public void setColSpan(int colSpan) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -86,7 +85,7 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isNoWrap() {
+	public boolean getNoWrap() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -94,11 +93,11 @@ public class JSoupTableCellElement extends JSoupElement implements HTMLTableCell
 		throw new UnsupportedOperationException();
 	}
 
-	public long getRowSpan() {
+	public int getRowSpan() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setRowSpan(long rowSpan) {
+	public void setRowSpan(int rowSpan) {
 		throw new UnsupportedOperationException();
 	}
 

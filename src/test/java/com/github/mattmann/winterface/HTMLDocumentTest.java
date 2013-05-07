@@ -91,7 +91,7 @@ public abstract class HTMLDocumentTest {
 		image.getHeight();
 		image.getHspace();
 		image.getLongDesc();
-		image.getLowsrc();
+		image.getLowSrc();
 		image.getName();
 		image.getSrc();
 		image.getUseMap();

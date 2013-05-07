@@ -1,7 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLDivElement extends HTMLElement {
-
-	String getAlign();
-	void setAlign(String align);
+public interface HTMLDivElement extends org.w3c.dom.html.HTMLDivElement, HTMLElement {
 }

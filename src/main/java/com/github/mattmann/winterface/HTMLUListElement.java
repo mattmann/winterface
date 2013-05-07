@@ -1,10 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLUListElement extends HTMLElement {
-
-	boolean isCompact();
-	void setCompact(boolean compact);
-
-	String getType();
-	void setType(String type);
+public interface HTMLUListElement extends org.w3c.dom.html.HTMLUListElement, HTMLElement {
 }

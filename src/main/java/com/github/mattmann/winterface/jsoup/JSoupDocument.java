@@ -173,7 +173,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return new JSoupBodyElement(node.body(), this);
 	}
 
-	public void setBody(HTMLElement body) {
+	public void setBody(org.w3c.dom.html.HTMLElement body) {
 		throw new UnsupportedOperationException();
 	}
 

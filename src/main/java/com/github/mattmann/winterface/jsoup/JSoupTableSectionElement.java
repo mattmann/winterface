@@ -48,11 +48,11 @@ public class JSoupTableSectionElement extends JSoupElement implements HTMLTableS
 		return collect("> tr");
 	}
 
-	public HTMLElement insertRow(long index) throws DOMException {
+	public HTMLElement insertRow(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void deleteRow(long index) throws DOMException {
+	public void deleteRow(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 

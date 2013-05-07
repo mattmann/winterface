@@ -1,9 +1,9 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.HTMLTableCaptionElement;
+import org.w3c.dom.html.HTMLTableCaptionElement;
 import com.github.mattmann.winterface.HTMLTableElement;
-import com.github.mattmann.winterface.HTMLTableSectionElement;
+import org.w3c.dom.html.HTMLTableSectionElement;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.html.HTMLCollection;
@@ -146,11 +146,11 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement insertRow(long index) throws DOMException {
+	public HTMLElement insertRow(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void deleteRow(long index) throws DOMException {
+	public void deleteRow(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 }

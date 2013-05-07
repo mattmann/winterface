@@ -19,7 +19,7 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isDefaultChecked() {
+	public boolean getDefaultChecked() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -74,7 +74,7 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isChecked() {
+	public boolean getChecked() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -82,7 +82,7 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isDisabled() {
+	public boolean getDisabled() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -90,11 +90,11 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public long getMaxLength() {
+	public int getMaxLength() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setMaxLength(long maxLength) {
+	public void setMaxLength(int maxLength) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -106,7 +106,7 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		setAttribute("name", name);
 	}
 
-	public boolean isReadOnly() {
+	public boolean getReadOnly() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -130,11 +130,11 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public long getTabIndex() {
+	public int getTabIndex() {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setTabIndex(long tabIndex) {
+	public void setTabIndex(int tabIndex) {
 		throw new UnsupportedOperationException();
 	}
 

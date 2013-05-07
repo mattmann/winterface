@@ -1,7 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLHtmlElement extends HTMLElement {
-
-	String getVersion();
-	void setVersion(String version);
+public interface HTMLHtmlElement extends org.w3c.dom.html.HTMLHtmlElement, HTMLElement {
 }

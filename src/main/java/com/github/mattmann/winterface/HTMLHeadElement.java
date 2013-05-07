@@ -1,7 +1,4 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLHeadElement extends HTMLElement {
-
-	String getProfile();
-	void setProfile(String profile);
+public interface HTMLHeadElement extends org.w3c.dom.html.HTMLHeadElement, HTMLElement {
 }

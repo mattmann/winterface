@@ -12,11 +12,11 @@ public class JSoupTableRowElement extends JSoupElement implements HTMLTableRowEl
 		super(element, ownerDocument);
 	}
 
-	public long getRowIndex() {
+	public int getRowIndex() {
 		throw new UnsupportedOperationException();
 	}
 
-	public long getSectionRowIndex() {
+	public int getSectionRowIndex() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -64,11 +64,11 @@ public class JSoupTableRowElement extends JSoupElement implements HTMLTableRowEl
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement insertCell(long index) throws DOMException {
+	public HTMLElement insertCell(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void deleteCell(long index) throws DOMException {
+	public void deleteCell(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
