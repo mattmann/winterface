@@ -1,16 +1,17 @@
 package com.github.mattmann.winterface.jsoup;
 
+import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.NamedNodeMap;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.select.NodeVisitor;
-import com.github.mattmann.winterface.DOMException;
-import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.NamedNodeMap;
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
-import com.github.mattmann.winterface.CharacterData;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
 
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -151,6 +152,55 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 
 	public boolean hasAttributes() {
 		return node.attributes().size() > 0;
+	}
+	public String getBaseURI() {
+		throw new UnsupportedOperationException();
+	}
+
+	public short compareDocumentPosition(Node other)
+			throws org.w3c.dom.DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getTextContent() throws org.w3c.dom.DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setTextContent(String textContent)
+			throws org.w3c.dom.DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean isSameNode(Node other) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String lookupPrefix(String namespaceURI) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean isDefaultNamespace(String namespaceURI) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String lookupNamespaceURI(String prefix) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean isEqualNode(Node arg) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Object getFeature(String feature, String version) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Object setUserData(String key, Object data, UserDataHandler handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Object getUserData(String key) {
+		throw new UnsupportedOperationException();
 	}
 
 	protected HTMLCollectionAdapter collect(final NodeFilter filter) {

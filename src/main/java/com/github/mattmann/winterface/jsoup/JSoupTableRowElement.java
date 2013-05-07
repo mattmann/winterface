@@ -1,11 +1,10 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.DOMException;
 import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLTableRowElement;
+import org.jsoup.nodes.Element;
+import org.w3c.dom.DOMException;
 
 public class JSoupTableRowElement extends JSoupElement implements HTMLTableRowElement {
 

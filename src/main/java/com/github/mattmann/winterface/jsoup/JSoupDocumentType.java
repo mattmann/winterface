@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.DocumentType;
 import com.github.mattmann.winterface.NamedNodeMap;
+import org.w3c.dom.DocumentType;
 
 public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> implements DocumentType {
 

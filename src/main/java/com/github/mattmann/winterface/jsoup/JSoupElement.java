@@ -1,18 +1,18 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.github.mattmann.winterface.Attr;
-import com.github.mattmann.winterface.DOMException;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
 import com.github.mattmann.winterface.OnErrorEventHandler;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.TypeInfo;
 
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
@@ -732,5 +732,23 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 
 	public String toString() {
 		return String.format("<%s/>", getTagName());
+	}
+
+	public TypeInfo getSchemaTypeInfo() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttribute(String name, boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttributeNS(String namespaceURI, String localName,
+			boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttributeNode(Attr idAttr, boolean isId)
+			throws DOMException {
+		throw new UnsupportedOperationException();
 	}
 }

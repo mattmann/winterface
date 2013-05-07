@@ -1,5 +1,7 @@
 package com.github.mattmann.winterface;
 
+import org.w3c.dom.DOMException;
+
 public interface HTMLTableSectionElement extends HTMLElement {
 
 	String getAlign();

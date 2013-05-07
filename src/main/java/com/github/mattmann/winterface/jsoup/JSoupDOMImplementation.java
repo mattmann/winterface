@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.DOMException;
-import com.github.mattmann.winterface.DOMImplementation;
-import com.github.mattmann.winterface.Document;
-import com.github.mattmann.winterface.DocumentType;
 import com.github.mattmann.winterface.event.EventDispatcher;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 
 public class JSoupDOMImplementation implements DOMImplementation {
 
@@ -20,5 +20,9 @@ public class JSoupDOMImplementation implements DOMImplementation {
 		org.jsoup.nodes.Document document = new org.jsoup.nodes.Document(namespaceURI.toString());
 		EventDispatcher eventDispatcher = new JSoupEventDispatcher();
 		return new JSoupDocument(document, eventDispatcher);
+	}
+
+	public Object getFeature(String feature, String version) {
+		throw new UnsupportedOperationException();
 	}
 }

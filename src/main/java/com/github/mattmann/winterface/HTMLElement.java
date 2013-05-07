@@ -1,5 +1,8 @@
 package com.github.mattmann.winterface;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 public interface HTMLElement extends Element, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
 
 	String getId();

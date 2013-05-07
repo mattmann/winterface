@@ -1,10 +1,9 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Element;
-
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLInputElement;
-import com.github.mattmann.winterface.Node;
+import org.jsoup.nodes.Element;
+import org.w3c.dom.Node;
 
 public class JSoupInputElement extends JSoupElement implements HTMLInputElement {
 

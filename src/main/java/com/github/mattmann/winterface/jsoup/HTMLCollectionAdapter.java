@@ -1,11 +1,10 @@
 package com.github.mattmann.winterface.jsoup;
 
-import java.util.List;
-import com.github.mattmann.winterface.Attr;
 import com.github.mattmann.winterface.HTMLCollection;
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
-
+import java.util.List;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class HTMLCollectionAdapter implements HTMLCollection, NodeList {

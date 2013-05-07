@@ -3,9 +3,8 @@ package com.github.mattmann.winterface.rhino;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class ScriptableNodeList implements NodeList, Scriptable {

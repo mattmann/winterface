@@ -1,8 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.TextNode;
-import com.github.mattmann.winterface.DOMException;
-import com.github.mattmann.winterface.Text;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Text;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupText extends JSoupNode<TextNode> implements Text {
@@ -26,7 +26,7 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 		return node.text().substring(offset, offset + count);
 	}
 
-	public long getLength() {
+	public int getLength() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -56,5 +56,17 @@ public class JSoupText extends JSoupNode<TextNode> implements Text {
 
 	public String toString() {
 		return node.text();
+	}
+
+	public boolean isElementContentWhitespace() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getWholeText() {
+		throw new UnsupportedOperationException();
+	}
+
+	public Text replaceWholeText(String content) throws DOMException {
+		throw new UnsupportedOperationException();
 	}
 }

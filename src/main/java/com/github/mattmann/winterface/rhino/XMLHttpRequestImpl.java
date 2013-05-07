@@ -1,5 +1,7 @@
 package com.github.mattmann.winterface.rhino;
 
+import com.github.mattmann.winterface.EventListener;
+import com.github.mattmann.winterface.event.AbstractEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
@@ -10,9 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.mattmann.winterface.Document;
-import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.event.AbstractEvent;
+import org.w3c.dom.Document;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class XMLHttpRequestImpl implements XMLHttpRequest {

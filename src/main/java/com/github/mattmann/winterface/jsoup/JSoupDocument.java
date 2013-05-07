@@ -1,17 +1,5 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import com.github.mattmann.winterface.Attr;
-import com.github.mattmann.winterface.CDATASection;
-import com.github.mattmann.winterface.Comment;
-import com.github.mattmann.winterface.DOMException;
-import com.github.mattmann.winterface.DOMImplementation;
-import com.github.mattmann.winterface.DocumentFragment;
-import com.github.mattmann.winterface.DocumentType;
-import com.github.mattmann.winterface.Element;
-import com.github.mattmann.winterface.EntityReference;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
@@ -19,13 +7,24 @@ import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLDocument;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLTitleElement;
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
-import com.github.mattmann.winterface.ProcessingInstruction;
-import com.github.mattmann.winterface.Text;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.event.EventDispatcher;
-
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.w3c.dom.Attr;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Comment;
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.EntityReference;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements HTMLDocument {
@@ -256,5 +255,62 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	
 	public String toString() {
 		return "#document";
+	}
+
+	public String getInputEncoding() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getXmlEncoding() {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean getXmlStandalone() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setXmlStandalone(boolean xmlStandalone) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getXmlVersion() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setXmlVersion(String xmlVersion) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean getStrictErrorChecking() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setStrictErrorChecking(boolean strictErrorChecking) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getDocumentURI() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setDocumentURI(String documentURI) {
+		throw new UnsupportedOperationException();
+	}
+
+	public Node adoptNode(Node source) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public DOMConfiguration getDomConfig() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void normalizeDocument() {
+		throw new UnsupportedOperationException();
+	}
+
+	public Node renameNode(Node n, String namespaceURI, String qualifiedName)
+			throws DOMException {
+		throw new UnsupportedOperationException();
 	}
 }

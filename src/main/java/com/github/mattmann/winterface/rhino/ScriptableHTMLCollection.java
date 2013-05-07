@@ -1,11 +1,10 @@
 package com.github.mattmann.winterface.rhino;
 
+import com.github.mattmann.winterface.HTMLCollection;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.github.mattmann.winterface.HTMLCollection;
-import com.github.mattmann.winterface.Node;
+import org.w3c.dom.Node;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class ScriptableHTMLCollection implements HTMLCollection, Scriptable {

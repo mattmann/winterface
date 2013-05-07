@@ -1,14 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
-import java.beans.PropertyChangeEvent;
-import org.jsoup.Connection.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.github.mattmann.winterface.AbstractWindow;
 import com.github.mattmann.winterface.ApplicationCache;
 import com.github.mattmann.winterface.BarProp;
-import com.github.mattmann.winterface.Document;
-import com.github.mattmann.winterface.Element;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
@@ -21,6 +15,12 @@ import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.WindowEventHandlers;
 import com.github.mattmann.winterface.event.EventDispatcher;
 import com.github.mattmann.winterface.rhino.RhinoDocument;
+import java.beans.PropertyChangeEvent;
+import org.jsoup.Connection.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.notNull;
 

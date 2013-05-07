@@ -1,16 +1,14 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.HTMLCollection;
-import com.github.mattmann.winterface.Node;
 import com.github.mattmann.winterface.rhino.MethodFunction;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Node;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupCollection implements HTMLCollection, Scriptable {
-
-	private static final long serialVersionUID = -4864443924597319035L;
 
 	private final JSoupNode<?> node;
 	private final Elements elements;

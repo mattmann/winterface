@@ -2,8 +2,6 @@ package com.github.mattmann.winterface.rhino;
 
 import com.github.mattmann.winterface.ApplicationCache;
 import com.github.mattmann.winterface.BarProp;
-import com.github.mattmann.winterface.Document;
-import com.github.mattmann.winterface.Element;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
@@ -26,6 +24,9 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.notNull;
 

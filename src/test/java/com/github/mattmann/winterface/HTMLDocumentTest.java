@@ -1,13 +1,5 @@
 package com.github.mattmann.winterface;
 
-import org.mockito.Mockito;
-
-import java.io.IOException;
-import java.net.URL;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.HTMLAnchorElement;
@@ -18,9 +10,14 @@ import com.github.mattmann.winterface.HTMLDocument;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLImageElement;
-import com.github.mattmann.winterface.Node;
-import com.github.mattmann.winterface.NodeList;
-
+import java.io.IOException;
+import java.net.URL;
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

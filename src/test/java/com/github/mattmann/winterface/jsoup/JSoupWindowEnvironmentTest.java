@@ -1,19 +1,17 @@
 package com.github.mattmann.winterface.jsoup;
 
+import com.github.mattmann.winterface.GlobalEventHandlers;
+import com.github.mattmann.winterface.HTMLDocument;
+import com.github.mattmann.winterface.HTMLImageElement;
+import com.github.mattmann.winterface.Window;
+import com.github.mattmann.winterface.WindowEventHandlers;
+import com.github.mattmann.winterface.jsoup.JSoupWindowEnvironment;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import com.github.mattmann.winterface.GlobalEventHandlers;
-import com.github.mattmann.winterface.HTMLDocument;
-import com.github.mattmann.winterface.HTMLImageElement;
-import com.github.mattmann.winterface.NodeList;
-import com.github.mattmann.winterface.Window;
-import com.github.mattmann.winterface.WindowEventHandlers;
-import com.github.mattmann.winterface.jsoup.JSoupWindowEnvironment;
-
+import org.w3c.dom.NodeList;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 

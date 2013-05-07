@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.Comment;
-import com.github.mattmann.winterface.DOMException;
+import org.w3c.dom.Comment;
+import org.w3c.dom.DOMException;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupComment extends JSoupNode<org.jsoup.nodes.Comment> implements Comment {
@@ -26,7 +26,7 @@ public class JSoupComment extends JSoupNode<org.jsoup.nodes.Comment> implements 
 
 	}
 
-	public long getLength() {
+	public int getLength() {
 		return node.getData().length();
 	}
 

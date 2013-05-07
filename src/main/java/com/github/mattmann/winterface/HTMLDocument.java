@@ -1,5 +1,9 @@
 package com.github.mattmann.winterface;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 public interface HTMLDocument extends Document, EventTarget {
 
 	HTMLElement querySelector(String selectors);
