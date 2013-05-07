@@ -3,7 +3,6 @@ package com.github.mattmann.winterface.jsoup;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLDocument;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLTitleElement;
@@ -25,6 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements HTMLDocument {
@@ -309,8 +309,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		throw new UnsupportedOperationException();
 	}
 
-	public Node renameNode(Node n, String namespaceURI, String qualifiedName)
-			throws DOMException {
+	public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 }

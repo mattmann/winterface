@@ -1,11 +1,11 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.rhino.MethodFunction;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupCollection implements HTMLCollection, Scriptable {

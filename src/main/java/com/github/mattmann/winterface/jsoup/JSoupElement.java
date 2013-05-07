@@ -3,7 +3,6 @@ package com.github.mattmann.winterface.jsoup;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 import org.jsoup.nodes.Element;
@@ -13,7 +12,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
-
+import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 

@@ -2,7 +2,6 @@ package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLFormElement;
 import com.github.mattmann.winterface.HTMLInputElement;
@@ -20,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.html.HTMLCollection;
 import static org.jsoup.Connection.KeyVal;
 
 public class JSoupFormElement extends JSoupElement implements HTMLFormElement {

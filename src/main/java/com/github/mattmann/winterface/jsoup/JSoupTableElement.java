@@ -1,12 +1,12 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.HTMLElement;
 import com.github.mattmann.winterface.HTMLTableCaptionElement;
 import com.github.mattmann.winterface.HTMLTableElement;
 import com.github.mattmann.winterface.HTMLTableSectionElement;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.html.HTMLCollection;
 
 public class JSoupTableElement extends JSoupElement implements HTMLTableElement {
 

@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface.rhino;
 
-import com.github.mattmann.winterface.HTMLCollection;
 import com.github.mattmann.winterface.event.EventDispatcher;
 import com.github.mattmann.winterface.jsoup.JSoupDocument;
 import org.jsoup.nodes.Document;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLCollection;
 
 public class RhinoDocument extends JSoupDocument {
 

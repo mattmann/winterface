@@ -1,6 +1,7 @@
 package com.github.mattmann.winterface;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.html.HTMLCollection;
 
 public interface HTMLTableRowElement extends HTMLElement {
 

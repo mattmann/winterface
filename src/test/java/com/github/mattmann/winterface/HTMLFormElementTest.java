@@ -1,22 +1,16 @@
 package com.github.mattmann.winterface;
 
-import org.mockito.Mockito;
-
+import com.github.mattmann.winterface.Event;
+import com.github.mattmann.winterface.EventListener;
+import com.github.mattmann.winterface.HTMLFormElement;
 import java.io.PrintWriter;
-
 import java.io.Writer;
-
 import java.io.StringWriter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.github.mattmann.winterface.Event;
-import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLCollection;
-import com.github.mattmann.winterface.HTMLFormElement;
-
+import org.mockito.Mockito;
+import org.w3c.dom.html.HTMLCollection;
 import static org.junit.Assert.assertEquals;
 
 public abstract class HTMLFormElementTest {

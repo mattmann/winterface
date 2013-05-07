@@ -3,6 +3,7 @@ package com.github.mattmann.winterface;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLCollection;
 
 public interface HTMLDocument extends Document, EventTarget {
 
