@@ -54,6 +54,10 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return this;
 	}
 
+	public short getNodeType() {
+		return DOCUMENT_NODE;
+	}
+
 	public HTMLElement querySelector(String query) {
 		NodeList nodes = querySelectorAll(query);
 		if (nodes.getLength() == 0) {

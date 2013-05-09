@@ -17,13 +17,16 @@ public class JSoupComment extends JSoupNode<org.jsoup.nodes.Comment> implements 
 		return ownerDocument;
 	}
 
+	public short getNodeType() {
+		return COMMENT_NODE;
+	}
+
 	public String getData() {
 		return node.getData();
 	}
 
 	public String substringData(int offset, int count) throws DOMException {
 		return node.getData().substring(offset, offset + count);
-
 	}
 
 	public int getLength() {

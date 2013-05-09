@@ -1,37 +1,22 @@
 package com.github.mattmann.winterface.jsoup;
 
-import org.jsoup.nodes.TextNode;
+import org.jsoup.nodes.DataNode;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Text;
 
-public class JSoupText extends JSoupCharacterData<TextNode> implements Text {
+public class JSoupCDATASection extends JSoupCharacterData<DataNode> implements CDATASection {
 
-	public JSoupText(TextNode node, JSoupDocument ownerDocument) {
+	public JSoupCDATASection(DataNode node, JSoupDocument ownerDocument) {
 		super(node, ownerDocument);
 	}
 
 	public short getNodeType() {
-		return TEXT_NODE;
-	}
-
-	public String getData() {
-		return node.text();
-	}
-
-	public String substringData(int offset, int count) throws DOMException {
-		return node.text().substring(offset, offset + count);
-	}
-
-	public String getNodeValue() {
-		return node.getWholeText();
+		return CDATA_SECTION_NODE;
 	}
 
 	public Text splitText(int offset) throws DOMException {
 		throw new UnsupportedOperationException();
-	}
-
-	public String toString() {
-		return node.text();
 	}
 
 	public boolean isElementContentWhitespace() {
@@ -46,11 +31,19 @@ public class JSoupText extends JSoupCharacterData<TextNode> implements Text {
 		throw new UnsupportedOperationException();
 	}
 
+	public String getData() throws DOMException {
+		return node.getWholeData();
+	}
+
 	public void setData(String data) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
 	public int getLength() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String substringData(int offset, int count) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 

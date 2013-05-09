@@ -5,8 +5,15 @@ import org.w3c.dom.DocumentType;
 
 public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> implements DocumentType {
 
-	public JSoupDocumentType(org.jsoup.nodes.DocumentType documentType) {
+	private final JSoupDocument ownerDocument;
+
+	public JSoupDocumentType(org.jsoup.nodes.DocumentType documentType, JSoupDocument ownerDocument) {
 		super(documentType);
+		this.ownerDocument = ownerDocument;
+	}
+
+	public short getNodeType() {
+		return DOCUMENT_TYPE_NODE;
 	}
 
 	public String getName() {
@@ -34,6 +41,6 @@ public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> i
 	}
 
 	public JSoupDocument getOwnerDocument() {
-		throw new UnsupportedOperationException();
+		return ownerDocument;
 	}
 }

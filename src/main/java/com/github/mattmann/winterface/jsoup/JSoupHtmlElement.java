@@ -17,5 +17,4 @@ public class JSoupHtmlElement extends JSoupElement implements HTMLHtmlElement {
 	public void setVersion(String version) {
 		throw new UnsupportedOperationException();
 	}
-
 }

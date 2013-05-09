@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
@@ -27,6 +28,10 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 
 	public JSoupDocument getOwnerDocument() {
 		return ownerDocument;
+	}
+
+	public short getNodeType() {
+		return ELEMENT_NODE;
 	}
 
 	protected HTMLCollection collect(final String query) {
@@ -111,8 +116,12 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		throw new UnsupportedOperationException();
 	}
 
-	public Attr getAttributeNode(String name) {
-		throw new UnsupportedOperationException();
+	public Attr getAttributeNode(final String name) {
+		final String value = node.attr(name);
+		if (value == null) {
+			return null;
+		}
+		return new JSoupAttr(this, name, value);
 	}
 
 	public Attr getAttributeNodeNS(String namespaceURI, String localName) {
@@ -149,6 +158,10 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		}
 	}
 
+	public NamedNodeMap getAttributes() {
+		return new JSoupAttributes(this, node.attributes());
+	}
+
 	public String getAttribute(String name) {
 		notNull(name);
 		return node.attr(name.toString());
@@ -163,7 +176,7 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 	}
 
 	public NodeList getElementsByTagName(String name) {
-		throw new UnsupportedOperationException();
+		return querySelectorAll(name);
 	}
 
 	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
