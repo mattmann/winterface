@@ -376,7 +376,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (HEADING_PATTERN.matcher(tagName).matches()) {
 			return new JSoupHeadingElement(element, ownerDocument);
 		}
-		throw new IllegalArgumentException(element.tagName());
-//		return new JSoupElement(element, ownerDocument);
+//		throw new IllegalArgumentException(element.tagName());
+		return new JSoupElement(element, ownerDocument);
 	}
 }
