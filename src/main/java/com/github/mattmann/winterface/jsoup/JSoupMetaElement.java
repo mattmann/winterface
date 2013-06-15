@@ -2,9 +2,9 @@ package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
 
-import com.github.mattmann.winterface.HTMLMetaElement;
+import com.github.mattmann.winterface.ExtendedHTMLMetaElement;
 
-public class JSoupMetaElement extends JSoupElement implements HTMLMetaElement {
+public class JSoupMetaElement extends JSoupElement implements ExtendedHTMLMetaElement {
 
 	public JSoupMetaElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);

@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLAppletElement;
+import org.w3c.dom.html.HTMLAppletElement;
 
 public class JSoupAppletElement extends JSoupElement implements HTMLAppletElement {
 

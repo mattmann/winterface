@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLBRElement;
+import org.w3c.dom.html.HTMLBRElement;
 
 public class JSoupBRElement extends JSoupElement implements HTMLBRElement {
 

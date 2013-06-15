@@ -1,8 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.GlobalEventHandlers;
-import com.github.mattmann.winterface.HTMLDocument;
-import com.github.mattmann.winterface.HTMLImageElement;
+import com.github.mattmann.winterface.ExtendedHTMLDocument;
+import com.github.mattmann.winterface.ExtendedHTMLImageElement;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.WindowEventHandlers;
 import com.github.mattmann.winterface.jsoup.JSoupWindowEnvironment;
@@ -33,12 +33,12 @@ public class JSoupWindowEnvironmentTest {
 		Window window = environment.open("https://www.google.com/", null, null, false);
 		assertNotNull(window);
 		
-		HTMLDocument document = (HTMLDocument)window.getDocument();
+		ExtendedHTMLDocument document = (ExtendedHTMLDocument)window.getDocument();
 		assertNotNull(document);
 		
 		NodeList images = document.querySelectorAll("img");
 		for (int i = 0; i < images.getLength(); i++) {
-			HTMLImageElement image = (HTMLImageElement)images.item(i);
+			ExtendedHTMLImageElement image = (ExtendedHTMLImageElement)images.item(i);
 			assertNotNull(image.getSrc());
 		}
 	}

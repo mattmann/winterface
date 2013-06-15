@@ -1,13 +1,11 @@
 package com.github.mattmann.winterface.jsoup;
 
-
+import com.github.mattmann.winterface.Event;
+import com.github.mattmann.winterface.ExtendedHTMLAnchorElement;
+import com.github.mattmann.winterface.Location;
 import org.jsoup.nodes.Element;
 
-import com.github.mattmann.winterface.Event;
-import com.github.mattmann.winterface.HTMLAnchorElement;
-import com.github.mattmann.winterface.Location;
-
-public class JSoupAnchorElement extends JSoupElement implements HTMLAnchorElement {
+public class JSoupAnchorElement extends JSoupElement implements ExtendedHTMLAnchorElement {
 
 	public JSoupAnchorElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);

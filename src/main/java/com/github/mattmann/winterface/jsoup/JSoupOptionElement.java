@@ -1,8 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLFormElement;
-import com.github.mattmann.winterface.HTMLOptionElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.html.HTMLOptionElement;
 
 public class JSoupOptionElement extends JSoupElement implements HTMLOptionElement {
 
@@ -10,7 +10,7 @@ public class JSoupOptionElement extends JSoupElement implements HTMLOptionElemen
 		super(element, ownerDocument);
 	}
 
-	public HTMLFormElement getForm() {
+	public ExtendedHTMLFormElement getForm() {
 		throw new UnsupportedOperationException();
 	}
 

@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLBodyElement;
+import org.w3c.dom.html.HTMLBodyElement;
 
 public class JSoupBodyElement extends JSoupElement implements HTMLBodyElement {
 

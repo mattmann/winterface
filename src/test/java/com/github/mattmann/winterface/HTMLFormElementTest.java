@@ -2,7 +2,7 @@ package com.github.mattmann.winterface;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLFormElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.io.StringWriter;
@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class HTMLFormElementTest {
 
-	protected abstract HTMLFormElement createHTMLFormElement() throws Exception;
+	protected abstract ExtendedHTMLFormElement createHTMLFormElement() throws Exception;
 	
-	private HTMLFormElement form;
+	private ExtendedHTMLFormElement form;
 	
 	@Before
 	public void setUp() throws Exception {

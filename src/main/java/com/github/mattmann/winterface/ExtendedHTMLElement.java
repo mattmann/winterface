@@ -1,8 +1,9 @@
 package com.github.mattmann.winterface;
 
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLElement;
 
-public interface HTMLElement extends org.w3c.dom.html.HTMLElement, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
+public interface ExtendedHTMLElement extends HTMLElement, EventTarget, GlobalEventHandlers, NodeEventHandlers, TouchEventHandlers {
 	
 	String getInnerHTML();
 	void setInnerHTML(String innerHTML);
@@ -10,6 +11,6 @@ public interface HTMLElement extends org.w3c.dom.html.HTMLElement, EventTarget, 
 	String getOuterHTML();
 	void setOuterHTML(String outerHTML);
 
-	HTMLElement querySelector(String selectors);
+	ExtendedHTMLElement querySelector(String selectors);
 	NodeList querySelectorAll(String selectors);
 }

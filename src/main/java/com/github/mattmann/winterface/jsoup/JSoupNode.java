@@ -1,6 +1,6 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -274,7 +274,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 
 	protected static Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
 	
-	protected HTMLElement wrap(final org.jsoup.nodes.Element element) {
+	protected ExtendedHTMLElement wrap(final org.jsoup.nodes.Element element) {
 		final String tagName = element.tagName();
 		final JSoupDocument ownerDocument = getOwnerDocument();
 		if ("a".equals(tagName)) {
@@ -313,9 +313,6 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if ("input".equals(tagName)) {
 			return new JSoupInputElement(element, ownerDocument);
 		}
-		if ("footer".equals(tagName)) {
-			return new JSoupFooterElement(element, ownerDocument);
-		}
 		if ("form".equals(tagName)) {
 			return new JSoupFormElement(element, ownerDocument);
 		}
@@ -327,9 +324,6 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		}
 		if ("meta".equals(tagName)) {
 			return new JSoupMetaElement(element, ownerDocument);
-		}
-		if ("nav".equals(tagName)) {
-			return new JSoupNavElement(element, ownerDocument);
 		}
 		if ("noscript".equals(tagName)) {
 			return new JSoupElement(element, ownerDocument);

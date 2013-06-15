@@ -1,9 +1,9 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLFormElement;
-import com.github.mattmann.winterface.HTMLInputElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLInputElement;
 
 public class JSoupInputElement extends JSoupElement implements HTMLInputElement {
 
@@ -27,11 +27,11 @@ public class JSoupInputElement extends JSoupElement implements HTMLInputElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLFormElement getForm() {
+	public ExtendedHTMLFormElement getForm() {
 		Node parentNode = getParentNode();
 		while (parentNode != null) {
-			if (parentNode instanceof HTMLFormElement) {
-				return (HTMLFormElement)parentNode;
+			if (parentNode instanceof ExtendedHTMLFormElement) {
+				return (ExtendedHTMLFormElement)parentNode;
 			}
 			parentNode = parentNode.getParentNode();
 		}

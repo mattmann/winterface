@@ -6,6 +6,7 @@ import org.mozilla.javascript.IdScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("unused")
 public class ActiveXObject extends IdScriptableObject {
 
 	private static final long serialVersionUID = 3685364679909911760L;

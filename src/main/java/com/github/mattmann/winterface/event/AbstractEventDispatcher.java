@@ -11,8 +11,8 @@ import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
 import com.github.mattmann.winterface.EventTarget;
-import com.github.mattmann.winterface.HTMLDocument;
-import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLDocument;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import com.github.mattmann.winterface.Window;
 import static com.github.mattmann.winterface.Event.AT_TARGET;
 import static com.github.mattmann.winterface.Event.BUBBLING_PHASE;
@@ -65,11 +65,11 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 	
 	protected EventTarget next(EventTarget target) {
 		notNull(target);
-		if (target instanceof HTMLElement) {
-			return (EventTarget)((HTMLElement)target).getParentNode();
+		if (target instanceof ExtendedHTMLElement) {
+			return (EventTarget)((ExtendedHTMLElement)target).getParentNode();
 		}
-		if (target instanceof HTMLDocument) {
-			return ((HTMLDocument)target).getDefaultView();
+		if (target instanceof ExtendedHTMLDocument) {
+			return ((ExtendedHTMLDocument)target).getDefaultView();
 		}
 		if (target instanceof Window) {
 			return null;

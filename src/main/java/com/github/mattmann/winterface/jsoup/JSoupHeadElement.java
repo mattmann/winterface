@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-import com.github.mattmann.winterface.HTMLHeadElement;
+import org.w3c.dom.html.HTMLHeadElement;
 
 public class JSoupHeadElement extends JSoupElement implements HTMLHeadElement {
 

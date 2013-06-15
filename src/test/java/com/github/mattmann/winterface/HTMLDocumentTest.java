@@ -2,13 +2,13 @@ package com.github.mattmann.winterface;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLAnchorElement;
-import com.github.mattmann.winterface.HTMLAppletElement;
-import com.github.mattmann.winterface.HTMLBodyElement;
-import com.github.mattmann.winterface.HTMLDocument;
-import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.HTMLFormElement;
-import com.github.mattmann.winterface.HTMLImageElement;
+import org.w3c.dom.html.HTMLAnchorElement;
+import org.w3c.dom.html.HTMLAppletElement;
+import org.w3c.dom.html.HTMLBodyElement;
+import com.github.mattmann.winterface.ExtendedHTMLDocument;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
+import com.github.mattmann.winterface.ExtendedHTMLImageElement;
 import java.io.IOException;
 import java.net.URL;
 import org.apache.commons.io.IOUtils;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 public abstract class HTMLDocumentTest {
 	
-	private HTMLDocument htmlDocument;
+	private ExtendedHTMLDocument htmlDocument;
 
 	@Before
 	public void setUp() throws IOException {
@@ -33,11 +33,11 @@ public abstract class HTMLDocumentTest {
 		htmlDocument = parseDocument(html, resource.toExternalForm());
 	}
 
-	protected abstract HTMLDocument parseDocument(String html, String baseURI) throws IOException;
+	protected abstract ExtendedHTMLDocument parseDocument(String html, String baseURI) throws IOException;
 	
 	@Test
 	public void test() {
-		HTMLElement textField = htmlDocument.querySelector("input[type=text]");
+		ExtendedHTMLElement textField = htmlDocument.querySelector("input[type=text]");
 		assertNotNull(textField);
 		NodeList paragraphs = htmlDocument.getElementsByTagName("p");
 		assertEquals(1, paragraphs.getLength());
@@ -45,7 +45,7 @@ public abstract class HTMLDocumentTest {
 		assertEquals(1, textAreas.getLength());
 		NodeList buttons = htmlDocument.getElementsByTagName("button");
 		assertEquals(2, buttons.getLength());
-		HTMLElement body = htmlDocument.getBody();
+		ExtendedHTMLElement body = htmlDocument.getBody();
 		assertTrue(body instanceof HTMLBodyElement);
 		test((HTMLBodyElement)body);
 		HTMLCollection anchors = htmlDocument.getAnchors();
@@ -71,19 +71,19 @@ public abstract class HTMLDocumentTest {
 		}
 		HTMLCollection forms = htmlDocument.getForms();
 		assertEquals(1, forms.getLength());
-		HTMLFormElement form = (HTMLFormElement)forms.item(0);
+		ExtendedHTMLFormElement form = (ExtendedHTMLFormElement)forms.item(0);
 		HTMLCollection formElements = form.getElements();
 		assertEquals(4, formElements.getLength());
 		HTMLCollection images = htmlDocument.getImages();
 		assertEquals(3, images.getLength());
 		for (int i = 0; i < images.getLength(); i++) {
 			Node image = images.item(i);
-			assertTrue(image instanceof HTMLImageElement);
-			test((HTMLImageElement)image);
+			assertTrue(image instanceof ExtendedHTMLImageElement);
+			test((ExtendedHTMLImageElement)image);
 		}
 	}
 
-	protected void test(HTMLImageElement image) {
+	protected void test(ExtendedHTMLImageElement image) {
 		image.getAlign();
 		image.getAlt();
 		image.getBorder();
@@ -103,7 +103,7 @@ public abstract class HTMLDocumentTest {
 		image.getOuterHTML();
 	}
 
-	protected void test(HTMLFormElement form) {
+	protected void test(ExtendedHTMLFormElement form) {
 		form.getAcceptCharset();
 		form.getAction();
 		form.getEnctype();
@@ -128,7 +128,7 @@ public abstract class HTMLDocumentTest {
 		applet.getObject();
 		applet.getVspace();
 		applet.getWidth();
-		applet.getOuterHTML();
+		((ExtendedHTMLElement) applet).getOuterHTML();
 	}
 
 	protected void test(HTMLAnchorElement anchor) {
@@ -147,9 +147,9 @@ public abstract class HTMLDocumentTest {
 //		anchor.blur();
 //		anchor.focus();
 		EventListener listener = Mockito.mock(EventListener.class);
-		anchor.getOuterHTML();
-		anchor.setOnclick(listener);
-		anchor.click();
+		((ExtendedHTMLElement) anchor).getOuterHTML();
+		((ExtendedHTMLElement) anchor).setOnclick(listener);
+		((ExtendedHTMLAnchorElement) anchor).click();
 		Mockito.verify(listener).handleEvent(Mockito.any(Event.class));
 	}
 	

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import static org.apache.commons.lang.Validate.notNull;
 
+@SuppressWarnings("unused")
 public class XMLHttpRequestImpl implements XMLHttpRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(XMLHttpRequestImpl.class);

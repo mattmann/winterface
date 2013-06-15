@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLScriptElement;
+import com.github.mattmann.winterface.ExtendedHTMLScriptElement;
 import org.jsoup.nodes.Element;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupScriptElement extends JSoupElement implements HTMLScriptElement {
+public class JSoupScriptElement extends JSoupElement implements ExtendedHTMLScriptElement {
 
 	public JSoupScriptElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);

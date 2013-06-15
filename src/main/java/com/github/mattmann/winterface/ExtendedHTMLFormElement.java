@@ -1,6 +1,8 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLFormElement extends org.w3c.dom.html.HTMLFormElement, HTMLElement {
+import org.w3c.dom.html.HTMLFormElement;
+
+public interface ExtendedHTMLFormElement extends HTMLFormElement, ExtendedHTMLElement {
 
 	EventListener getOnsubmit();
 	void setOnsubmit(EventListener onsubmit);

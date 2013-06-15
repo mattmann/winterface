@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLFontElement;
+import org.w3c.dom.html.HTMLFontElement;
 
 public class JSoupFontElement extends JSoupElement implements HTMLFontElement {
 

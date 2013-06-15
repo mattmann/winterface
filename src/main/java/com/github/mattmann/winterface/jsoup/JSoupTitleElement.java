@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLTitleElement;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.html.HTMLTitleElement;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupTitleElement extends JSoupElement implements HTMLTitleElement {

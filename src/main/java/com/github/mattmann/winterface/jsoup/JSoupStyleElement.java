@@ -2,9 +2,9 @@ package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
 
-import com.github.mattmann.winterface.HTMLScriptElement;
+import com.github.mattmann.winterface.ExtendedHTMLScriptElement;
 
-public class JSoupStyleElement extends JSoupElement implements HTMLScriptElement {
+public class JSoupStyleElement extends JSoupElement implements ExtendedHTMLScriptElement {
 
 	public JSoupStyleElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);

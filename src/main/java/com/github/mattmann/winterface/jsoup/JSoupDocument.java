@@ -3,9 +3,8 @@ package com.github.mattmann.winterface.jsoup;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLDocument;
-import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.HTMLTitleElement;
+import com.github.mattmann.winterface.ExtendedHTMLDocument;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import com.github.mattmann.winterface.Window;
 import com.github.mattmann.winterface.event.EventDispatcher;
 import org.jsoup.nodes.Document;
@@ -25,9 +24,11 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLTitleElement;
+
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements HTMLDocument {
+public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements ExtendedHTMLDocument {
 
 	public JSoupDocument(Document document, EventDispatcher eventDispatcher) {
 		super(document);
@@ -58,12 +59,12 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return DOCUMENT_NODE;
 	}
 
-	public HTMLElement querySelector(String query) {
+	public ExtendedHTMLElement querySelector(String query) {
 		NodeList nodes = querySelectorAll(query);
 		if (nodes.getLength() == 0) {
 			return null;
 		}
-		return (HTMLElement)nodes.item(0);
+		return (ExtendedHTMLElement)nodes.item(0);
 	}
 
 	public NodeList querySelectorAll(String query) {
@@ -150,7 +151,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public String getTitle() {
-		HTMLElement element = querySelector("> html > head > title");
+		ExtendedHTMLElement element = querySelector("> html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
 		}
@@ -173,7 +174,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement getBody() {
+	public ExtendedHTMLElement getBody() {
 		return new JSoupBodyElement(node.body(), this);
 	}
 

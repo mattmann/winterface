@@ -2,10 +2,8 @@ package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.HTMLFormElement;
-import com.github.mattmann.winterface.HTMLInputElement;
-import com.github.mattmann.winterface.HTMLSelectElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import com.github.mattmann.winterface.Location;
 import com.github.mattmann.winterface.Window;
 import java.io.IOException;
@@ -20,9 +18,12 @@ import org.apache.commons.logging.LogFactory;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLInputElement;
+import org.w3c.dom.html.HTMLSelectElement;
+
 import static org.jsoup.Connection.KeyVal;
 
-public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
+public class JSoupFormElement extends JSoupElement implements ExtendedHTMLFormElement {
 
 	protected static final Log LOG = LogFactory.getLog(JSoupFormElement.class);
 
@@ -37,7 +38,7 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		}
 		List<KeyVal> list = new ArrayList<KeyVal>(elements.getLength());
 		for (int i = 0; i < elements.getLength(); i++) {
-			KeyVal keyVal = resolveKeyVal((HTMLElement)elements.item(i));
+			KeyVal keyVal = resolveKeyVal((ExtendedHTMLElement)elements.item(i));
 			if (keyVal != null) {
 				list.add(keyVal);
 			}
@@ -53,7 +54,7 @@ public class JSoupFormElement extends JSoupElement implements HTMLFormElement {
 		return list;
 	}
 	
-	protected KeyVal resolveKeyVal(HTMLElement element) {
+	protected KeyVal resolveKeyVal(ExtendedHTMLElement element) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug(element.getOuterHTML());
 		}

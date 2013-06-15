@@ -3,7 +3,7 @@ package com.github.mattmann.winterface.jsoup;
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventException;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,7 +17,7 @@ import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
+public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElement {
 
 	protected final JSoupDocument ownerDocument;
 
@@ -38,12 +38,12 @@ public class JSoupElement extends JSoupNode<Element> implements HTMLElement {
 		return new JSoupCollection(this, node.select(query));
 	}
 
-	public HTMLElement querySelector(String query) {
+	public ExtendedHTMLElement querySelector(String query) {
 		NodeList nodes = querySelectorAll(query);
 		if (nodes.getLength() == 0) {
 			return null;
 		}
-		return (HTMLElement)nodes.item(0);
+		return (ExtendedHTMLElement)nodes.item(0);
 	}
 
 	public NodeList querySelectorAll(String query) {

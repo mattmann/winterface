@@ -1,13 +1,14 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLFormElement;
-import com.github.mattmann.winterface.HTMLOptionElement;
-import com.github.mattmann.winterface.HTMLSelectElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLOptionElement;
+import org.w3c.dom.html.HTMLSelectElement;
+
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 public class JSoupSelectElement extends JSoupElement implements HTMLSelectElement {
@@ -65,7 +66,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLFormElement getForm() {
+	public ExtendedHTMLFormElement getForm() {
 		throw new UnsupportedOperationException();
 	}
 

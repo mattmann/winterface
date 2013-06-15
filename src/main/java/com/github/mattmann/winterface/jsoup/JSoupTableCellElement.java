@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLTableCellElement;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.html.HTMLTableCellElement;
 
 public class JSoupTableCellElement extends JSoupElement implements HTMLTableCellElement {
 

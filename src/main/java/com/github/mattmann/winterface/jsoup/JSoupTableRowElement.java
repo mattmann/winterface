@@ -1,10 +1,10 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLElement;
-import com.github.mattmann.winterface.HTMLTableRowElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLTableRowElement;
 
 public class JSoupTableRowElement extends JSoupElement implements HTMLTableRowElement {
 
@@ -64,7 +64,7 @@ public class JSoupTableRowElement extends JSoupElement implements HTMLTableRowEl
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement insertCell(int index) throws DOMException {
+	public ExtendedHTMLElement insertCell(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 

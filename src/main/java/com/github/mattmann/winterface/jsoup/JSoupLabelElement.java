@@ -2,8 +2,7 @@ package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
 import org.w3c.dom.html.HTMLFormElement;
-
-import com.github.mattmann.winterface.HTMLLabelElement;
+import org.w3c.dom.html.HTMLLabelElement;
 
 public class JSoupLabelElement extends JSoupElement implements HTMLLabelElement {
 

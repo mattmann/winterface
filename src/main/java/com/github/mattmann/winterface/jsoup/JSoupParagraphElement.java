@@ -1,7 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLParagraphElement;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.html.HTMLParagraphElement;
 
 public class JSoupParagraphElement extends JSoupElement implements HTMLParagraphElement {
 

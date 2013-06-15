@@ -1,8 +1,8 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import org.w3c.dom.html.HTMLTableCaptionElement;
-import com.github.mattmann.winterface.HTMLTableElement;
+import org.w3c.dom.html.HTMLTableElement;
 import org.w3c.dom.html.HTMLTableSectionElement;
 import org.jsoup.nodes.Element;
 import org.w3c.dom.DOMException;
@@ -122,7 +122,7 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement createTHead() {
+	public ExtendedHTMLElement createTHead() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -130,7 +130,7 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement createTFoot() {
+	public ExtendedHTMLElement createTFoot() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -138,7 +138,7 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement createCaption() {
+	public ExtendedHTMLElement createCaption() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -146,7 +146,7 @@ public class JSoupTableElement extends JSoupElement implements HTMLTableElement 
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLElement insertRow(int index) throws DOMException {
+	public ExtendedHTMLElement insertRow(int index) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 

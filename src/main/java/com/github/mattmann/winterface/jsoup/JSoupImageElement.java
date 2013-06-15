@@ -1,11 +1,11 @@
 package com.github.mattmann.winterface.jsoup;
 
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLImageElement;
+import com.github.mattmann.winterface.ExtendedHTMLImageElement;
 import com.github.mattmann.winterface.OnErrorEventHandler;
 import org.jsoup.nodes.Element;
 
-public class JSoupImageElement extends JSoupElement implements HTMLImageElement {
+public class JSoupImageElement extends JSoupElement implements ExtendedHTMLImageElement {
 
 	public JSoupImageElement(Element element, JSoupDocument ownerDocument) {
 		super(element, ownerDocument);

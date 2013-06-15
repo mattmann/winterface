@@ -1,6 +1,6 @@
 package com.github.mattmann.winterface.jsoup;
 
-import com.github.mattmann.winterface.HTMLHeadingElement;
+import org.w3c.dom.html.HTMLHeadingElement;
 import org.jsoup.nodes.Element;
 
 public class JSoupHeadingElement extends JSoupElement implements HTMLHeadingElement {
@@ -16,5 +16,4 @@ public class JSoupHeadingElement extends JSoupElement implements HTMLHeadingElem
 	public void setAlign(String align) {
 		throw new UnsupportedOperationException();
 	}
-
 }

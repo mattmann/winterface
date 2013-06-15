@@ -1,15 +1,16 @@
 package com.github.mattmann.winterface;
 
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLDocument;
 
-public interface HTMLDocument extends org.w3c.dom.html.HTMLDocument, EventTarget {
+public interface ExtendedHTMLDocument extends HTMLDocument, EventTarget {
 
-	HTMLElement querySelector(String selectors);
+	ExtendedHTMLElement querySelector(String selectors);
 	NodeList querySelectorAll(String selectors);
 
 	NodeList getElementsByName(String elementName);
 	
 	Window getDefaultView();
 
-	HTMLElement getBody();
+	ExtendedHTMLElement getBody();
 }

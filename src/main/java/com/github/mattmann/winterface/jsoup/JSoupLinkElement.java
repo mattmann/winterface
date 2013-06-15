@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLLinkElement;
+import org.w3c.dom.html.HTMLLinkElement;
 
 public class JSoupLinkElement extends JSoupElement implements HTMLLinkElement {
 

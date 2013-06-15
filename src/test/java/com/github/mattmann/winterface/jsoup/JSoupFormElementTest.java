@@ -9,7 +9,7 @@ import org.jsoup.parser.Parser;
 import org.junit.Before;
 import org.mockito.Mock;
 import com.github.mattmann.winterface.GlobalEventHandlers;
-import com.github.mattmann.winterface.HTMLFormElement;
+import com.github.mattmann.winterface.ExtendedHTMLFormElement;
 import com.github.mattmann.winterface.HTMLFormElementTest;
 import com.github.mattmann.winterface.WindowEventHandlers;
 import com.github.mattmann.winterface.jsoup.JSoupDocument;
@@ -36,7 +36,7 @@ public class JSoupFormElementTest extends HTMLFormElementTest {
 	}
 
 	@SuppressWarnings("unused")
-	protected HTMLFormElement createHTMLFormElement() throws IOException {
+	protected ExtendedHTMLFormElement createHTMLFormElement() throws IOException {
 		URL url = new URL("http://www.google.com/");
 		Document jsoupDocument = Parser.parse("<html><body><form/></body></html>", url.toExternalForm());
 		doReturn(request).when(connection).request();
@@ -49,7 +49,7 @@ public class JSoupFormElementTest extends HTMLFormElementTest {
 		JSoupLocation location = new JSoupLocation(connection);
 		JSoupDocument document = new JSoupDocument(jsoupDocument, new JSoupEventDispatcher());
 		JSoupWindow window = new JSoupWindow(globalEventHandlers, windowEventHandlers, location, document);
-		HTMLFormElement form = (HTMLFormElement)document.querySelector("form");
+		ExtendedHTMLFormElement form = (ExtendedHTMLFormElement)document.querySelector("form");
 		assertNotNull(form);
 		return form;
 	}

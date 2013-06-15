@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLUListElement;
+import org.w3c.dom.html.HTMLUListElement;
 
 public class JSoupUListElement extends JSoupElement implements HTMLUListElement {
 

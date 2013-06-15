@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.github.mattmann.winterface.Event;
 import com.github.mattmann.winterface.EventListener;
-import com.github.mattmann.winterface.HTMLElement;
+import com.github.mattmann.winterface.ExtendedHTMLElement;
 import com.github.mattmann.winterface.jsoup.JSoupEvent;
 import com.github.mattmann.winterface.jsoup.JSoupEventDispatcher;
 
@@ -31,7 +31,7 @@ public class JSoupEventDispatcherTest {
 	
 	@Test
 	public void test1() {
-		final HTMLElement target = Mockito.mock(HTMLElement.class);
+		final ExtendedHTMLElement target = Mockito.mock(ExtendedHTMLElement.class);
 		final String type = "click";
 		final EventListener listener = Mockito.mock(EventListener.class);
 		final boolean useCapture = false;

@@ -1,6 +1,8 @@
 package com.github.mattmann.winterface;
 
-public interface HTMLImageElement extends org.w3c.dom.html.HTMLImageElement, HTMLElement {
+import org.w3c.dom.html.HTMLImageElement;
+
+public interface ExtendedHTMLImageElement extends HTMLImageElement, ExtendedHTMLElement {
 
 	boolean isComplete();
 	

@@ -1,8 +1,7 @@
 package com.github.mattmann.winterface.jsoup;
 
 import org.jsoup.nodes.Element;
-
-import com.github.mattmann.winterface.HTMLDivElement;
+import org.w3c.dom.html.HTMLDivElement;
 
 public class JSoupDivElement extends JSoupElement implements HTMLDivElement {
 
