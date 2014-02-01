@@ -1,6 +1,10 @@
-package com.github.snoblind.winterface;
+package com.github.snoblind.winterface.abstracts;
 
 import static org.apache.commons.lang.Validate.notNull;
+import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.GlobalEventHandlers;
+import com.github.snoblind.winterface.Window;
+import com.github.snoblind.winterface.WindowEventHandlers;
 
 public abstract class AbstractWindow extends DelegatingGlobalEventHandlers implements Window {
 	

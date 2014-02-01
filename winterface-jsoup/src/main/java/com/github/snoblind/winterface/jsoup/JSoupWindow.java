@@ -1,6 +1,5 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.AbstractWindow;
 import com.github.snoblind.winterface.ApplicationCache;
 import com.github.snoblind.winterface.BarProp;
 import com.github.snoblind.winterface.Event;
@@ -13,6 +12,7 @@ import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.WindowEventHandlers;
+import com.github.snoblind.winterface.abstracts.AbstractWindow;
 import com.github.snoblind.winterface.event.EventDispatcher;
 //import com.github.snoblind.winterface.rhino.RhinoDocument;
 import java.beans.PropertyChangeEvent;
