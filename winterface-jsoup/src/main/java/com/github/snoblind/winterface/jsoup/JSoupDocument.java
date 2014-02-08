@@ -6,6 +6,7 @@ import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.HTMLCollectionAdapter;
+import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import org.jsoup.nodes.Document;
@@ -30,12 +31,18 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements ExtendedHTMLDocument {
 
-	public JSoupDocument(Document document, EventDispatcher eventDispatcher) {
+	protected final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
+	protected final EventDispatcher eventDispatcher;
+
+	public JSoupDocument(final Document document, final EventDispatcher eventDispatcher) {
 		super(document);
 		notNull(this.eventDispatcher = eventDispatcher);
+		ownerDocument = this;
 	}
 
-	protected final EventDispatcher eventDispatcher;
+	public NodeAdapterFactory<org.jsoup.nodes.Node> getNodeAdapterFactory() {
+		return nodeAdapterFactory;
+	}
 
 	public EventDispatcher getEventDispatcher() {
 		return eventDispatcher;
@@ -49,10 +56,6 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 
 	public void setDefaultView(Window defaultView) {
 		this.defaultView = defaultView;
-	}
-
-	public JSoupDocument getOwnerDocument() {
-		return this;
 	}
 
 	public short getNodeType() {
@@ -72,7 +75,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return new NodeList() {
 
 			public Node item(int index) {
-				return wrap(elements.get(index));
+				return adapt(elements.get(index));
 			}
 
 			public int getLength() {
@@ -110,8 +113,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public Element createElement(String tagName) throws DOMException {
-		notNull(tagName);
-		return wrap(node.createElement(tagName.toString()));
+		return nodeAdapterFactory.adapt(node.createElement(tagName));
 	}
 
 	public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {

@@ -5,11 +5,8 @@ import org.w3c.dom.DocumentType;
 
 public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> implements DocumentType {
 
-	private final JSoupDocument ownerDocument;
-
 	public JSoupDocumentType(org.jsoup.nodes.DocumentType documentType, JSoupDocument ownerDocument) {
-		super(documentType);
-		this.ownerDocument = ownerDocument;
+		super(documentType, ownerDocument);
 	}
 
 	public short getNodeType() {
@@ -38,9 +35,5 @@ public class JSoupDocumentType extends JSoupNode<org.jsoup.nodes.DocumentType> i
 
 	public String getInternalSubset() {
 		throw new UnsupportedOperationException();
-	}
-
-	public JSoupDocument getOwnerDocument() {
-		return ownerDocument;
 	}
 }

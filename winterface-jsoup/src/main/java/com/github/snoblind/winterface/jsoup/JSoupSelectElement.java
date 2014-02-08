@@ -80,7 +80,7 @@ public class JSoupSelectElement extends JSoupElement implements HTMLSelectElemen
 			}
 
 			public Node item(int index) {
-				return wrap(elements.get(index));
+				return adapt(elements.get(index));
 			}
 
 			public Node namedItem(String name) {

@@ -16,7 +16,7 @@ public class JSoupQuerySelector extends AbstractQuerySelector {
 		return new NodeList() {
 
 			public Node item(int index) {
-				return node.wrap(elements.get(index));
+				return node.adapt(elements.get(index));
 			}
 
 			public int getLength() {

@@ -22,19 +22,19 @@ public class JSoupCollection implements HTMLCollection, Scriptable {
 	}
 
 	public Node item(int index) {
-		return node.wrap(elements.get(index));
+		return node.adapt(elements.get(index));
 	}
 
 	public Node namedItem(String name) {
 		notNull(name);
 		for (Element element: elements) {
 			if (element.attr("id").equals(name)) {
-				return node.wrap(element);
+				return node.adapt(element);
 			}
 		}
 		for (Element element: elements) {
 			if (element.attr("name").equals(name)) {
-				return node.wrap(element);
+				return node.adapt(element);
 			}
 		}
 		return null;

@@ -1,10 +1,8 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.HTMLCollectionAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import org.jsoup.select.NodeVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +19,17 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(JSoupNode.class);
 
 	protected final T node;
+	protected JSoupDocument ownerDocument;
 	
-	public JSoupNode(T node) {
+	public JSoupNode(final T node, final JSoupDocument ownerDocument) {
 		notNull(this.node = node);
+		notNull(this.ownerDocument = ownerDocument);
 	}
 
+	protected JSoupNode(final T node) {
+		notNull(this.node = node);
+	}
+	
 	public String getNodeName() {
 		return node.nodeName();
 	}
@@ -35,10 +39,12 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (parentNode == null) {
 			return null;
 		}
-		return wrap(parentNode);
+		return adapt(parentNode);
 	}
 	
-	public abstract JSoupDocument getOwnerDocument();
+	public JSoupDocument getOwnerDocument() {
+		return ownerDocument;
+	}
 
 	public String getNodeValue() {
 		throw new UnsupportedOperationException(getClass().getName());
@@ -47,22 +53,6 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	public void setNodeValue(String nodeValue) {
 		throw new UnsupportedOperationException();
 	}
-
-//	public short getNodeType() {
-//		if (node instanceof org.jsoup.nodes.Element) {
-//			return ELEMENT_NODE;
-//		}
-//		if (node instanceof org.jsoup.nodes.TextNode) {
-//			return TEXT_NODE;
-//		}
-//		if (node instanceof org.jsoup.nodes.Comment) {
-//			return COMMENT_NODE;
-//		}
-//		if (node instanceof org.jsoup.nodes.DataNode) {
-//			return TEXT_NODE;
-//		}
-//		throw new UnsupportedOperationException(node.getClass().getName());
-//	}
 
 	public static String getInnerText(Node node) {
 		if (node instanceof CharacterData) {
@@ -86,7 +76,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		return new NodeList() {
 
 			public Node item(int index) {
-				return wrap(childNodes.get(index));
+				return adapt(childNodes.get(index));
 			}
 
 			public int getLength() {
@@ -95,11 +85,15 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		};
 	}
 
+	protected Node adapt(org.jsoup.nodes.Node node) {
+		return ownerDocument.nodeAdapterFactory.adapt(node);
+	}
+	
 	public Node getFirstChild() {
 		if (node.childNodeSize() == 0) {
 			return null;
 		}
-		return wrap(node.childNode(0));
+		return adapt(node.childNode(0));
 	}
 
 	public Node getLastChild() {
@@ -107,7 +101,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (length == 0) {
 			return null;
 		}
-		return wrap(node.childNode(length - 1));
+		return adapt(node.childNode(length - 1));
 	}
 
 	public Node getPreviousSibling() {
@@ -115,7 +109,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (previousSibling == null) {
 			return null;
 		}
-		return wrap(previousSibling);
+		return adapt(previousSibling);
 	}
 
 	public Node getNextSibling() {
@@ -123,7 +117,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		if (nextSibling == null) {
 			return null;
 		}
-		return wrap(nextSibling);
+		return adapt(nextSibling);
 	}
 
 	public NamedNodeMap getAttributes() {
@@ -236,140 +230,11 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		node.traverse(new NodeVisitor() {
 			public void head(org.jsoup.nodes.Node node, int depth) {
 				if (filter.accept(node)) {
-					list.add(wrap(node));
+					list.add(adapt(node));
 				}
 			}
 			public void tail(org.jsoup.nodes.Node node, int depth) {}
 		});
 		return new HTMLCollectionAdapter(list);
-	}
-
-	protected Node wrap(org.jsoup.nodes.Node node) {
-		notNull(node);
-		final JSoupDocument ownerDocument = getOwnerDocument();
-		if (node instanceof org.jsoup.nodes.Document) {
-			if (getOwnerDocument().node.equals(node)) {
-				return getOwnerDocument();
-			}
-			throw new IllegalArgumentException(node.getClass().getName());
-		}
-		if (node instanceof org.jsoup.nodes.Element) {
-			return wrap((org.jsoup.nodes.Element)node);
-		}
-		if (node instanceof org.jsoup.nodes.TextNode) {
-			return new JSoupText((org.jsoup.nodes.TextNode)node, ownerDocument);
-		}
-		if (node instanceof org.jsoup.nodes.Comment) {
-			return new JSoupComment((org.jsoup.nodes.Comment)node, ownerDocument);
-		}
-		if (node instanceof org.jsoup.nodes.DataNode) {
-			return new JSoupCDATASection((org.jsoup.nodes.DataNode)node, ownerDocument);
-		}
-		if (node instanceof org.jsoup.nodes.DocumentType) {
-			return new JSoupDocumentType((org.jsoup.nodes.DocumentType)node, ownerDocument);
-		}
-		throw new IllegalArgumentException(node.getClass().getName());
-	}
-
-	protected static Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
-	
-	protected ExtendedHTMLElement wrap(final org.jsoup.nodes.Element element) {
-		final String tagName = element.tagName();
-		final JSoupDocument ownerDocument = getOwnerDocument();
-		if ("a".equals(tagName)) {
-			return new JSoupAnchorElement(element, ownerDocument);
-		}
-		if ("applet".equals(tagName)) {
-			return new JSoupAppletElement(element, ownerDocument);
-		}
-		if ("b".equals(tagName)) {
-			return new JSoupElement(element, ownerDocument);
-		}
-		if ("body".equals(tagName)) {
-			return new JSoupBodyElement(element, ownerDocument);
-		}
-		if ("br".equals(tagName)) {
-			return new JSoupBRElement(element, ownerDocument);
-		}
-		if ("div".equals(tagName)) {
-			return new JSoupDivElement(element, ownerDocument);
-		}
-		if ("font".equals(tagName)) {
-			return new JSoupFontElement(element, ownerDocument);
-		}
-		if ("label".equals(tagName)) {
-			return new JSoupLabelElement(element, ownerDocument);
-		}
-		if ("li".equals(tagName)) {
-			return new JSoupLIElement(element, ownerDocument);
-		}
-		if ("link".equals(tagName)) {
-			return new JSoupLinkElement(element, ownerDocument);
-		}
-		if ("img".equals(tagName)) {
-			return new JSoupImageElement(element, ownerDocument);
-		}
-		if ("input".equals(tagName)) {
-			return new JSoupInputElement(element, ownerDocument);
-		}
-		if ("form".equals(tagName)) {
-			return new JSoupFormElement(element, ownerDocument);
-		}
-		if ("head".equals(tagName)) {
-			return new JSoupHeadElement(element, ownerDocument);
-		}
-		if ("html".equals(tagName)) {
-			return new JSoupHtmlElement(element, ownerDocument);
-		}
-		if ("meta".equals(tagName)) {
-			return new JSoupMetaElement(element, ownerDocument);
-		}
-		if ("noscript".equals(tagName)) {
-			return new JSoupElement(element, ownerDocument);
-		}
-		if ("ol".equals(tagName)) {
-			return new JSoupOLElement(element, ownerDocument);
-		}
-		if ("option".equals(tagName)) {
-			return new JSoupOptionElement(element, ownerDocument);
-		}
-		if ("p".equals(tagName)) {
-			return new JSoupParagraphElement(element, ownerDocument);
-		}
-		if ("script".equals(tagName)) {
-			return new JSoupScriptElement(element, ownerDocument);
-		}
-		if ("select".equals(tagName)) {
-			return new JSoupSelectElement(element, ownerDocument);
-		}
-		if ("span".equals(tagName)) {
-			return new JSoupElement(element, ownerDocument);
-		}
-		if ("style".equals(tagName)) {
-			return new JSoupStyleElement(element, ownerDocument);
-		}
-		if ("table".equals(tagName)) {
-			return new JSoupTableElement(element, ownerDocument);
-		}
-		if ("tbody".equals(tagName)) {
-			return new JSoupTableSectionElement(element, ownerDocument);
-		}
-		if ("td".equals(tagName)) {
-			return new JSoupTableCellElement(element, ownerDocument);
-		}
-		if ("title".equals(tagName)) {
-			return new JSoupTitleElement(element, ownerDocument);
-		}
-		if ("tr".equals(tagName)) {
-			return new JSoupTableRowElement(element, ownerDocument);
-		}
-		if ("ul".equals(tagName)) {
-			return new JSoupUListElement(element, ownerDocument);
-		}
-		if (HEADING_PATTERN.matcher(tagName).matches()) {
-			return new JSoupHeadingElement(element, ownerDocument);
-		}
-//		throw new IllegalArgumentException(element.tagName());
-		return new JSoupElement(element, ownerDocument);
 	}
 }

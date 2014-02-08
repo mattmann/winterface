@@ -1,55 +1,46 @@
-package com.github.snoblind.winterface.jsoup;
+package com.github.snoblind.winterface.abstracts;
 
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
-import org.w3c.dom.html.HTMLCollection;
-import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElement {
+public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLElement {
 
-	public JSoupElement(Element element, JSoupDocument ownerDocument) {
-		super(element, ownerDocument);
-	}
-
-	public short getNodeType() {
-		return ELEMENT_NODE;
-	}
-
-	protected HTMLCollection collect(final String query) {
-		return new JSoupCollection(this, node.select(query));
-	}
+	protected QuerySelector querySelector;
+	protected HTMLParser parser;
+	protected EventDispatcher eventDispatcher;
 
 	public ExtendedHTMLElement querySelector(String query) {
-		NodeList nodes = querySelectorAll(query);
-		if (nodes.getLength() == 0) {
-			return null;
-		}
-		return (ExtendedHTMLElement)nodes.item(0);
+		return querySelector.querySelector(this, query);
 	}
 
 	public NodeList querySelectorAll(String query) {
-		final Elements elements = node.select(query.toString());
-		return new NodeList() {
+		return querySelector.querySelectorAll(this, query);
+	}
 
-			public Node item(int index) {
-				return adapt(elements.get(index));
-			}
+	public String getInnerHTML() {
+		return parser.getInnerHTML(this);
+	}
 
-			public int getLength() {
-				return elements.size();
-			}
-		};
+	public void setInnerHTML(String innerHTML) {
+		parser.setInnerHTML(this, innerHTML);
+	}
+
+	public String getOuterHTML() {
+		return parser.getOuterHTML(this);
+	}
+
+	public void setOuterHTML(String outerHTML) {
+		parser.setOuterHTML(this, outerHTML);
 	}
 
 	public String getId() {
@@ -92,86 +83,15 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
-	public String getInnerHTML() {
-		return node.html();
-	}
-
-	public void setInnerHTML(String html) {
-		node.html(html.toString());
-	}
-
-	public String getOuterHTML() {
-		return node.outerHtml();
-	}
-
-	public void setOuterHTML(String outerHTML) {
+	public String getTagName() {
 		throw new UnsupportedOperationException();
-	}
-
-	public Attr getAttributeNode(final String name) {
-		final String value = node.attr(name);
-		if (value == null) {
-			return null;
-		}
-		return new JSoupAttr(this, name, value);
-	}
-
-	public Attr getAttributeNodeNS(String namespaceURI, String localName) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public Attr setAttributeNode(Attr newAttr) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean hasAttribute(String name) {
-		notNull(name);
-		return node.attributes().hasKey(name.toString());
-	}
-
-	public boolean hasAttributeNS(String namespaceURI, String localName) {
-		throw new UnsupportedOperationException();
-	}
-	
-	protected void setBooleanAttribute(String name, boolean value) {
-		if (value) {
-			setAttribute(name, name);
-		}
-		else {
-			removeAttribute(name);
-		}
-	}
-
-	public NamedNodeMap getAttributes() {
-		return new JSoupAttributes(this, node.attributes());
 	}
 
 	public String getAttribute(String name) {
-		notNull(name);
-		return node.attr(name.toString());
-	}
-
-	public String getAttributeNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getTagName() {
-		return node.tagName();
-	}
-
-	public NodeList getElementsByTagName(String name) {
-		return querySelectorAll(name);
-	}
-
-	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
+	public void setAttribute(String name, String value) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -179,30 +99,80 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
+	public Attr getAttributeNode(String name) {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setAttribute(String name, String value) throws DOMException {
-		notNull(name);
-		node.attr(name.toString(), value == null ? null : value.toString());
+	public Attr setAttributeNode(Attr newAttr) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public NodeList getElementsByTagName(String name) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
+		throw new UnsupportedOperationException();
 	}
 
 	public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
+	public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean hasAttribute(String name) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public TypeInfo getSchemaTypeInfo() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttribute(String name, boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		ownerDocument.eventDispatcher.addEventListener(this, type, listener, useCapture);
+		eventDispatcher.addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		ownerDocument.eventDispatcher.removeEventListener(this, type, listener, useCapture);
+		eventDispatcher.removeEventListener(this, type, listener, useCapture);
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		event.setTarget(this);
-		return ownerDocument.eventDispatcher.dispatchEvent(event);
+		return eventDispatcher.dispatchEvent(event);
 	}
 
 	public EventListener getOnabort() {
@@ -268,21 +238,13 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	public void setOnchange(EventListener handler) {
 		throw new UnsupportedOperationException();
 	}
-	
-	private EventListener onclick;
 
 	public EventListener getOnclick() {
-		return onclick;
+		throw new UnsupportedOperationException();
 	}
 
-	public void setOnclick(EventListener onclick) {
-		if (this.onclick != null) {
-			removeEventListener("click", this.onclick, false);
-		}
-		this.onclick = onclick;
-		if (this.onclick != null) {
-			addEventListener("click", this.onclick, false);
-		}
+	public void setOnclick(EventListener handler) {
+		throw new UnsupportedOperationException();
 	}
 
 	public EventListener getOnclose() {
@@ -677,10 +639,6 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
-	public void setOnerror(EventListener onerror) {
-		throw new UnsupportedOperationException();
-	}
-
 	public EventListener getOntouchstart() {
 		throw new UnsupportedOperationException();
 	}
@@ -726,28 +684,6 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public void setOntouchcancel(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public String toString() {
-		return String.format("<%s/>", getTagName());
-	}
-
-	public TypeInfo getSchemaTypeInfo() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setIdAttribute(String name, boolean isId) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setIdAttributeNS(String namespaceURI, String localName,
-			boolean isId) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setIdAttributeNode(Attr idAttr, boolean isId)
-			throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 }

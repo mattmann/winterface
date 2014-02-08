@@ -2,19 +2,11 @@ package com.github.snoblind.winterface.jsoup;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMException;
-import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupComment extends JSoupNode<org.jsoup.nodes.Comment> implements Comment {
 
-	private final JSoupDocument ownerDocument;
-
 	public JSoupComment(org.jsoup.nodes.Comment node, JSoupDocument ownerDocument) {
-		super(node);
-		notNull(this.ownerDocument = ownerDocument);
-	}
-
-	public JSoupDocument getOwnerDocument() {
-		return ownerDocument;
+		super(node, ownerDocument);
 	}
 
 	public short getNodeType() {
