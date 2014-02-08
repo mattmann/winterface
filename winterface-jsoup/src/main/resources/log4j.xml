@@ -9,10 +9,6 @@
 		</layout>
 	</appender>
 
-	<logger name="com.github.mattmann.winterface.rhino.ActiveXObject">
-		<level value="info"/>
-	</logger>
-
 	<root> 
 		<priority value="error"/>
 		<appender-ref ref="console"/>

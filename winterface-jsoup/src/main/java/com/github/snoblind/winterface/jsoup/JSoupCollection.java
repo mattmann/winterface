@@ -1,7 +1,5 @@
 package com.github.snoblind.winterface.jsoup;
 
-//import com.github.snoblind.winterface.rhino.MethodFunction;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.mozilla.javascript.Scriptable;
