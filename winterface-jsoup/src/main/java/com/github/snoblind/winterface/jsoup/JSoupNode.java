@@ -6,7 +6,6 @@ import java.util.List;
 import org.jsoup.select.NodeVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -54,21 +53,8 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 		throw new UnsupportedOperationException();
 	}
 
-	public static String getInnerText(Node node) {
-		if (node instanceof CharacterData) {
-			return ((CharacterData)node).getData();
-		}
-		StringBuilder builder = new StringBuilder();
-		NodeList childNodes = node.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			JSoupNode<?> child = (JSoupNode<?>)childNodes.item(i);
-			builder.append(child.getInnerText());
-		}
-		return builder.toString();
-	}
-
 	public String getInnerText() {
-		return JSoupNode.getInnerText(this);
+		return ownerDocument.parser.getInnerText(this);
 	}
 
 	public NodeList getChildNodes() {
@@ -175,12 +161,12 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	public boolean hasAttributes() {
 		return node.attributes().size() > 0;
 	}
+
 	public String getBaseURI() {
 		throw new UnsupportedOperationException();
 	}
 
-	public short compareDocumentPosition(Node other)
-			throws org.w3c.dom.DOMException {
+	public short compareDocumentPosition(Node other) throws org.w3c.dom.DOMException {
 		throw new UnsupportedOperationException();
 	}
 

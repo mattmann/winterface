@@ -10,7 +10,6 @@ import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -32,6 +31,8 @@ import static org.apache.commons.lang.Validate.notNull;
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements ExtendedHTMLDocument {
 
 	protected final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
+	protected final JSoupQuerySelector querySelector = new JSoupQuerySelector();
+	protected final JSoupHTMLParser parser = new JSoupHTMLParser();
 	protected final EventDispatcher eventDispatcher;
 
 	public JSoupDocument(final Document document, final EventDispatcher eventDispatcher) {
@@ -63,25 +64,11 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public ExtendedHTMLElement querySelector(String query) {
-		NodeList nodes = querySelectorAll(query);
-		if (nodes.getLength() == 0) {
-			return null;
-		}
-		return (ExtendedHTMLElement)nodes.item(0);
+		return querySelector.querySelector(this, query);
 	}
 
 	public NodeList querySelectorAll(String query) {
-		final Elements elements = node.select(query.toString());
-		return new NodeList() {
-
-			public Node item(int index) {
-				return adapt(elements.get(index));
-			}
-
-			public int getLength() {
-				return elements.size();
-			}
-		};
+		return querySelector.querySelectorAll(this, query);
 	}
 
 	public Attr createAttribute(String name) throws DOMException {

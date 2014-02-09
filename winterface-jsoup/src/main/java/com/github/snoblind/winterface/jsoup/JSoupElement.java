@@ -6,11 +6,9 @@ import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.html.HTMLCollection;
@@ -31,25 +29,11 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public ExtendedHTMLElement querySelector(String query) {
-		NodeList nodes = querySelectorAll(query);
-		if (nodes.getLength() == 0) {
-			return null;
-		}
-		return (ExtendedHTMLElement)nodes.item(0);
+		return ownerDocument.querySelector.querySelector(this, query);
 	}
 
 	public NodeList querySelectorAll(String query) {
-		final Elements elements = node.select(query.toString());
-		return new NodeList() {
-
-			public Node item(int index) {
-				return adapt(elements.get(index));
-			}
-
-			public int getLength() {
-				return elements.size();
-			}
-		};
+		return ownerDocument.querySelector.querySelectorAll(this, query);
 	}
 
 	public String getId() {
@@ -93,19 +77,19 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public String getInnerHTML() {
-		return node.html();
+		return ownerDocument.parser.getInnerHTML(this);
 	}
 
 	public void setInnerHTML(String html) {
-		node.html(html.toString());
+		ownerDocument.parser.setInnerHTML(this, html);
 	}
 
 	public String getOuterHTML() {
-		return node.outerHtml();
+		return ownerDocument.parser.getOuterHTML(this);
 	}
 
-	public void setOuterHTML(String outerHTML) {
-		throw new UnsupportedOperationException();
+	public void setOuterHTML(String html) {
+		ownerDocument.parser.setOuterHTML(this, html);
 	}
 
 	public Attr getAttributeNode(final String name) {
@@ -741,13 +725,11 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
-	public void setIdAttributeNS(String namespaceURI, String localName,
-			boolean isId) throws DOMException {
+	public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 
-	public void setIdAttributeNode(Attr idAttr, boolean isId)
-			throws DOMException {
+	public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
 }
