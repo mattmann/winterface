@@ -24,7 +24,7 @@ public class Main {
 	private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	private static final String INITIAL_URL = "http://www.nytimes.com/";
-	
+
 	private static final Answer<Object> ANSWER_UNSUPPORTED_OPERATION = new Answer<Object>() {
 		public Object answer(InvocationOnMock invocation) throws Throwable {
 			throw new UnsupportedOperationException(invocation.getMethod().toString());

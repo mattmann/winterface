@@ -170,11 +170,11 @@ public class JSoupFormElement extends JSoupElement implements ExtendedHTMLFormEl
 
 	public void setOnsubmit(EventListener onsubmit) {
 		if (this.onsubmit != null) {
-			ownerDocument.eventDispatcher.removeEventListener(this, "submit", this.onsubmit, false);
+			getEventDispatcher().removeEventListener(this, "submit", this.onsubmit, false);
 		}
 		this.onsubmit = onsubmit;
 		if (this.onsubmit != null) {
-			ownerDocument.eventDispatcher.addEventListener(this, "submit", this.onsubmit, false);
+			getEventDispatcher().addEventListener(this, "submit", this.onsubmit, false);
 		}
 	}
 
@@ -186,11 +186,11 @@ public class JSoupFormElement extends JSoupElement implements ExtendedHTMLFormEl
 
 	public void setOnreset(EventListener onreset) {
 		if (this.onreset != null) {
-			ownerDocument.eventDispatcher.removeEventListener(this, "reset", this.onreset, false);
+			getEventDispatcher().removeEventListener(this, "reset", this.onreset, false);
 		}
 		this.onreset = onreset;
 		if (this.onreset != null) {
-			ownerDocument.eventDispatcher.addEventListener(this, "reset", this.onreset, false);
+			getEventDispatcher().addEventListener(this, "reset", this.onreset, false);
 		}
 	}
 }

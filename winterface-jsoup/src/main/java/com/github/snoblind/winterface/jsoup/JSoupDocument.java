@@ -30,10 +30,10 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements ExtendedHTMLDocument {
 
-	protected final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
-	protected final JSoupQuerySelector querySelector = new JSoupQuerySelector();
-	protected final JSoupHTMLParser parser = new JSoupHTMLParser();
-	protected final EventDispatcher eventDispatcher;
+	private final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
+	private final JSoupQuerySelector querySelector = new JSoupQuerySelector();
+	private final JSoupHTMLParser parser = new JSoupHTMLParser();
+	private final EventDispatcher eventDispatcher;
 
 	public JSoupDocument(final Document document, final EventDispatcher eventDispatcher) {
 		super(document);
@@ -47,6 +47,14 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 
 	public EventDispatcher getEventDispatcher() {
 		return eventDispatcher;
+	}
+
+	public JSoupQuerySelector getQuerySelector() {
+		return querySelector;
+	}
+
+	public JSoupHTMLParser getParser() {
+		return parser;
 	}
 
 	protected Window defaultView;

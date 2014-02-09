@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface.jsoup;
 
 import com.github.snoblind.winterface.HTMLCollectionAdapter;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.select.NodeVisitor;
@@ -28,6 +29,10 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	protected JSoupNode(final T node) {
 		notNull(this.node = node);
 	}
+
+	public EventDispatcher getEventDispatcher() {
+		return ownerDocument.getEventDispatcher();
+	}
 	
 	public String getNodeName() {
 		return node.nodeName();
@@ -54,7 +59,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public String getInnerText() {
-		return ownerDocument.parser.getInnerText(this);
+		return ownerDocument.getParser().getInnerText(this);
 	}
 
 	public NodeList getChildNodes() {
@@ -72,7 +77,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	protected Node adapt(org.jsoup.nodes.Node node) {
-		return ownerDocument.nodeAdapterFactory.adapt(node);
+		return ownerDocument.getNodeAdapterFactory().adapt(node);
 	}
 	
 	public Node getFirstChild() {

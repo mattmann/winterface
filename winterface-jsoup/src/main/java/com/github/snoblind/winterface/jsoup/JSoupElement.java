@@ -29,11 +29,11 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public ExtendedHTMLElement querySelector(String query) {
-		return ownerDocument.querySelector.querySelector(this, query);
+		return ownerDocument.getQuerySelector().querySelector(this, query);
 	}
 
 	public NodeList querySelectorAll(String query) {
-		return ownerDocument.querySelector.querySelectorAll(this, query);
+		return ownerDocument.getQuerySelector().querySelectorAll(this, query);
 	}
 
 	public String getId() {
@@ -77,19 +77,19 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public String getInnerHTML() {
-		return ownerDocument.parser.getInnerHTML(this);
+		return ownerDocument.getParser().getInnerHTML(this);
 	}
 
 	public void setInnerHTML(String html) {
-		ownerDocument.parser.setInnerHTML(this, html);
+		ownerDocument.getParser().setInnerHTML(this, html);
 	}
 
 	public String getOuterHTML() {
-		return ownerDocument.parser.getOuterHTML(this);
+		return ownerDocument.getParser().getOuterHTML(this);
 	}
 
 	public void setOuterHTML(String html) {
-		ownerDocument.parser.setOuterHTML(this, html);
+		ownerDocument.getParser().setOuterHTML(this, html);
 	}
 
 	public Attr getAttributeNode(final String name) {
@@ -140,7 +140,7 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 
 	public String getAttribute(String name) {
 		notNull(name);
-		return node.attr(name.toString());
+		return node.attr(name);
 	}
 
 	public String getAttributeNS(String namespaceURI, String localName) {
@@ -177,16 +177,16 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		ownerDocument.eventDispatcher.addEventListener(this, type, listener, useCapture);
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		ownerDocument.eventDispatcher.removeEventListener(this, type, listener, useCapture);
+		ownerDocument.getEventDispatcher().removeEventListener(this, type, listener, useCapture);
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		event.setTarget(this);
-		return ownerDocument.eventDispatcher.dispatchEvent(event);
+		return ownerDocument.getEventDispatcher().dispatchEvent(event);
 	}
 
 	public EventListener getOnabort() {
