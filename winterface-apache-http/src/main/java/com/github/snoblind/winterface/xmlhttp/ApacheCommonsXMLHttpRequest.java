@@ -3,11 +3,9 @@ package com.github.snoblind.winterface.xmlhttp;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.collections4.Factory;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -18,8 +16,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
@@ -28,16 +24,12 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 
 	private final HttpClient client;
 	private final Factory<? extends Event> eventFactory;
-	private final DocumentBuilderFactory documentBuilderFactory;
+	private final Factory<? extends HTMLParser> parserFactory;
 
-	public ApacheCommonsXMLHttpRequest(final HttpClient client, final Factory<? extends Event> eventFactory, final DocumentBuilderFactory documentBuilderFactory) {
+	public ApacheCommonsXMLHttpRequest(final HttpClient client, final Factory<? extends Event> eventFactory, final Factory<? extends HTMLParser> parserFactory) {
 		notNull(this.client = client);
 		notNull(this.eventFactory = eventFactory);
-		notNull(this.documentBuilderFactory = documentBuilderFactory);
-	}
-
-	public ApacheCommonsXMLHttpRequest(final HttpClient client, final Factory<? extends Event> eventFactory) {
-		this(client, eventFactory, DocumentBuilderFactory.newInstance());
+		notNull(this.parserFactory = parserFactory);
 	}
 
 	@SuppressWarnings("unused") private String username;
@@ -102,13 +94,9 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 		try {
 			responseText = IOUtils.toString(istream = entity.getContent());
 			try {
-				responseXML = documentBuilderFactory.newDocumentBuilder().parse(new InputSource(new StringReader(responseText)));
+				responseXML = parserFactory.create().parse(responseText, url);
 			}
-			catch (ParserConfigurationException x) {
-				LOGGER.error("XML parsing error", x);
-				responseXML = null;
-			}
-			catch (SAXException x) {
+			catch (Exception x) {
 				LOGGER.error("XML parsing error", x);
 				responseXML = null;
 			}
@@ -156,5 +144,35 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 
 	public void setOnreadystatechange(EventListener onreadystatechange) {
 		this.onreadystatechange = onreadystatechange;
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	public static class Builder {
+
+		private HttpClient client;
+		private Factory<? extends Event> eventFactory;
+		private Factory<? extends HTMLParser> parserFactory;
+
+		public ApacheCommonsXMLHttpRequest build() {
+			return new ApacheCommonsXMLHttpRequest(client, eventFactory, parserFactory);
+		}
+		
+		public Builder client(final HttpClient client) {
+			this.client = client;
+			return this;
+		}
+
+		public Builder eventFactory(final Factory<? extends Event> eventFactory) {
+			this.eventFactory = eventFactory;
+			return this;
+		}
+
+		public Builder parserFactory(final Factory<? extends HTMLParser> parserFactory) {
+			this.parserFactory = parserFactory;
+			return this;
+		}
 	}
 }

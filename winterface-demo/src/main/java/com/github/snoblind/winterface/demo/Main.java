@@ -1,15 +1,23 @@
 package com.github.snoblind.winterface.demo;
 
+import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
+import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.jsoup.JSoupHTMLParser;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.PrintStreamConsole;
 import com.github.snoblind.winterface.rhino.RhinoNavigator;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
 import com.github.snoblind.winterface.rhino.RhinoWindowEnvironment;
+import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
 import java.io.IOException;
 import java.util.Timer;
+import org.apache.commons.collections4.Factory;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.mockito.Mockito;
@@ -25,7 +33,7 @@ public class Main {
 
 	private static final String INITIAL_URL = "http://www.nytimes.com/";
 
-	private static final Answer<Object> ANSWER_UNSUPPORTED_OPERATION = new Answer<Object>() {
+	private static final Answer<Object> ANSWER = new Answer<Object>() {
 		public Object answer(InvocationOnMock invocation) throws Throwable {
 			throw new UnsupportedOperationException(invocation.getMethod().toString());
 		}
@@ -34,8 +42,29 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		final Timer timer = new Timer();
 		final HttpClient httpClient = new DefaultHttpClient();
-		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER_UNSUPPORTED_OPERATION);
-		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER_UNSUPPORTED_OPERATION);
+		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
+		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER);
+		final EventDispatcher eventDispatcher = Mockito.mock(EventDispatcher.class, ANSWER);
+		final HttpClient client = new DefaultHttpClient();
+		final Factory<Event> eventFactory = new Factory<Event>() {
+			public Event create() {
+				return new EventImpl();
+			}
+		};
+		final Factory<HTMLParser> parserFactory = new Factory<HTMLParser>() {
+			public HTMLParser create() {
+				return new JSoupHTMLParser(eventDispatcher);
+			}
+		};
+		final Factory<XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
+			public XMLHttpRequest create() {
+				return ApacheCommonsXMLHttpRequest.builder()
+						.client(client)
+						.eventFactory(eventFactory)
+						.parserFactory(parserFactory)
+						.build();
+			}
+		};
 		final Navigator navigator = new RhinoNavigator();
 		final Console console = new PrintStreamConsole();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -47,7 +76,13 @@ public class Main {
 		});
 		try {
 			RhinoWindowEnvironment environment = RhinoWindowEnvironment.builder()
-					.timer(timer).console(console).globalEventHandlers(globalEventHandlers).windowEventHandlers(windowEventHandlers).build();
+					.console(console)
+					.globalEventHandlers(globalEventHandlers)
+					.parserFactory(parserFactory)
+					.timer(timer)
+					.windowEventHandlers(windowEventHandlers)
+					.xmlHttpRequestFactory(xmlHttpRequestFactory)
+					.build();
 			RhinoWindow window = environment.open(INITIAL_URL, null, null, false);
 			try {
 				Demo.builder().console(console).httpClient(httpClient).navigator(navigator).window(window).build().call();

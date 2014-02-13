@@ -1,16 +1,21 @@
 package com.github.snoblind.winterface.demo;
 
 import com.github.snoblind.winterface.Event;
+import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.MapEventDispatcher;
+import com.github.snoblind.winterface.jsoup.JSoupHTMLParser;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
 import com.github.snoblind.winterface.rhino.XMLHttpRequestConstructor;
+import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import jline.console.ConsoleReader;
 import org.apache.commons.collections4.Factory;
-import org.apache.commons.collections4.functors.InstantiateFactory;
 import org.apache.http.client.HttpClient;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
@@ -20,6 +25,7 @@ import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.apache.commons.collections4.functors.InstantiateFactory.instantiateFactory;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.mozilla.javascript.ScriptableObject.DONTENUM;
 import static org.mozilla.javascript.ScriptableObject.defineProperty;
@@ -39,8 +45,23 @@ public class Demo implements Callable<Void> {
 	private Demo() {}
 	
 	public Void call() throws IOException {
-        final Factory<? extends Event> eventFactory = new InstantiateFactory<EventImpl>(EventImpl.class);
-        final XMLHttpRequestConstructor requestConstructor = new XMLHttpRequestConstructor(httpClient, eventFactory);
+		final EventDispatcher eventDispatcher = new MapEventDispatcher();
+        final Factory<? extends Event> eventFactory = instantiateFactory(EventImpl.class, null, null);
+		final Factory<? extends HTMLParser> parserFactory = new Factory<HTMLParser>() {
+			public HTMLParser create() {
+				return new JSoupHTMLParser(eventDispatcher);
+			}
+		};
+        final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
+			public XMLHttpRequest create() {
+				return ApacheCommonsXMLHttpRequest.builder()
+						.client(httpClient)
+						.eventFactory(eventFactory)
+						.parserFactory(parserFactory)
+						.build();
+			}
+        };
+		final XMLHttpRequestConstructor requestConstructor = new XMLHttpRequestConstructor(xmlHttpRequestFactory);
         final ConsoleReader jline = new ConsoleReader();
         final Context context = Context.enter();
 		LOGGER.debug("Rhino Context entered.");

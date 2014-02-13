@@ -1,43 +1,96 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.event.MapEventDispatcher;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.GlobalEventHandlers;
+import com.github.snoblind.winterface.Location;
+import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
-import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.event.MapEventDispatcher;
-import com.github.snoblind.winterface.jsoup.JSoupLocation;
+import com.github.snoblind.winterface.XMLHttpRequest;
 import java.io.IOException;
 import java.util.Timer;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
+import org.apache.commons.collections4.Factory;
+import org.springframework.beans.factory.annotation.Required;
+import org.w3c.dom.Node;
+import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class RhinoWindowEnvironment implements WindowEnvironment {
+public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 
-	protected final Timer timer;
-	protected final Console console;
-	protected final GlobalEventHandlers globalEventHandlers;
-	protected final WindowEventHandlers windowEventHandlers;
+	private Console console;
+	private Factory<HTMLParser> parserFactory;
+	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
+	private GlobalEventHandlers globalEventHandlers;
+	private NodeAdapterFactory<Node> nodeAdapterFactory;
+	private Timer timer;
+	private WindowEventHandlers windowEventHandlers;
 
-	private RhinoWindowEnvironment(Timer timer, Console console, GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers) {
-		notNull(this.timer = timer);
-		notNull(this.console = console);
-		notNull(this.globalEventHandlers = globalEventHandlers);
-		notNull(this.windowEventHandlers = windowEventHandlers);
+	private RhinoWindowEnvironment() {
+	}
+
+	@Required
+	public NodeAdapterFactory<Node> getNodeAdapterFactory() {
+		return nodeAdapterFactory;
+	}
+
+	@Required
+	public Console getConsole() {
+		return console;
+	}
+
+	@Required
+	public Factory<HTMLParser> getParserFactory() {
+		return parserFactory;
+	}
+
+	@Required
+	public Factory<XMLHttpRequest> getXmlHttpRequestFactory() {
+		return xmlHttpRequestFactory;
+	}
+
+	@Required
+	public GlobalEventHandlers getGlobalEventHandlers() {
+		return globalEventHandlers;
+	}
+
+	@Required
+	public Timer getTimer() {
+		return timer;
+	}
+
+	@Required
+	public WindowEventHandlers getWindowEventHandlers() {
+		return windowEventHandlers;
 	}
 
 	public RhinoWindow open(String url, String target, String features, boolean replace) throws IOException {
 		notNull(url);
 		isTrue(target == null && features == null && replace == false);
-		final Connection connection = Jsoup.connect(url.toString());
-		final JSoupLocation location = new JSoupLocation(connection);
-		final EventDispatcher eventDispatcher = new MapEventDispatcher();
-		final RhinoDocument document = new RhinoDocument(connection.get(), eventDispatcher);
 		final RhinoWindow window  = RhinoWindow.builder()
-				.timer(timer).console(console).globalEventHandlers(globalEventHandlers)
-				.windowEventHandlers(windowEventHandlers).location(location).document(document).build();
+				.console(console)
+				.eventDispatcher(new MapEventDispatcher())
+				.globalEventHandlers(globalEventHandlers)
+				.nodeAdapterFactory(nodeAdapterFactory)
+				.parserFactory(parserFactory)
+				.timer(timer)
+				.windowEventHandlers(windowEventHandlers)
+				.xmlHttpRequestFactory(xmlHttpRequestFactory)
+				.build();
+		final Location location = new RhinoLocation(window);
+		location.setHref(url);
+		window.setLocation(location);
 		return window;
+	}
+
+	public RhinoWindowEnvironment clone() {
+		try {
+			return (RhinoWindowEnvironment) super.clone();
+		}
+		catch (CloneNotSupportedException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public static Builder builder() {
@@ -46,35 +99,48 @@ public class RhinoWindowEnvironment implements WindowEnvironment {
 	
 	public static class Builder {
 
-		private Timer timer;
-		private Console console;
-		private GlobalEventHandlers globalEventHandlers;
-		private WindowEventHandlers windowEventHandlers;
+		private final RhinoWindowEnvironment environment = new RhinoWindowEnvironment();
 
 		private Builder() {
 		}
 
 		public RhinoWindowEnvironment build() {
-			return new RhinoWindowEnvironment(timer, console, globalEventHandlers, windowEventHandlers);
+			assertRequiredProperties(environment);
+			return environment.clone();
 		}
 
+		public Builder parserFactory(Factory<HTMLParser> parserFactory) {
+			environment.parserFactory = parserFactory;
+			return this;
+		}
+		
 		public Builder timer(Timer timer) {
-			this.timer = timer;
+			environment.timer = timer;
 			return this;
 		}
 
 		public Builder console(Console console) {
-			this.console = console;
+			environment.console = console;
 			return this;
 		}
 
 		public Builder globalEventHandlers(GlobalEventHandlers globalEventHandlers) {
-			this.globalEventHandlers = globalEventHandlers;
+			environment.globalEventHandlers = globalEventHandlers;
 			return this;
 		}
 
 		public Builder windowEventHandlers(WindowEventHandlers windowEventHandlers) {
-			this.windowEventHandlers = windowEventHandlers;
+			environment.windowEventHandlers = windowEventHandlers;
+			return this;
+		}
+
+		public Builder xmlHttpRequestFactory(Factory<XMLHttpRequest> xmlHttpRequestFactory) {
+			environment.xmlHttpRequestFactory = xmlHttpRequestFactory;
+			return this;
+		}
+
+		public Builder nodeAdapterFactory(NodeAdapterFactory<Node> nodeAdapterFactory) {
+			environment.nodeAdapterFactory = nodeAdapterFactory;
 			return this;
 		}
 	}

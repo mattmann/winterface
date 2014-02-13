@@ -10,76 +10,107 @@ import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.History;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
+import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.WindowEventHandlers;
+import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.jsoup.JSoupLocation;
-import com.github.snoblind.winterface.jsoup.JSoupLocationListener;
-
-import java.beans.PropertyChangeEvent;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.util.Timer;
-import org.jsoup.Connection.Response;
+import org.apache.commons.collections4.Factory;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
+import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
-
-import static java.lang.String.format;
+import org.w3c.dom.Node;
+import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static org.apache.commons.lang.Validate.notNull;
 
-@SuppressWarnings("unused")
-public class RhinoWindow extends ScriptableObject implements Window {
+public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	private static final long serialVersionUID = 6419776873162088518L;
 	private static final Logger LOG = LoggerFactory.getLogger(RhinoWindow.class);
 
-	protected final JSoupLocation location;
-	protected final Timer timer;
+	protected Timer timer;
 
-	protected RhinoDocument document;
+	private Location location;
+	private RhinoDocument document;
+	private Console console;
+	private GlobalEventHandlers globalEventHandlers;
+	private WindowEventHandlers windowEventHandlers;
+	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
+	private EventDispatcher eventDispatcher;
+	private NodeAdapterFactory<Node> nodeAdapterFactory;
+	private Factory<HTMLParser> parserFactory;
 
-	private final Console console;
-	private final GlobalEventHandlers globalEventHandlers;
-	private final WindowEventHandlers windowEventHandlers;
+	@Required
+	public Factory<HTMLParser> getParserFactory() {
+		return parserFactory;
+	}
 
-	private RhinoWindow(Timer timer, Console console, GlobalEventHandlers globalEventHandlers, WindowEventHandlers windowEventHandlers, JSoupLocation location, RhinoDocument document) {
-		notNull(this.timer = timer);
-		notNull(this.console = console);
-		notNull(this.globalEventHandlers = globalEventHandlers);
-		notNull(this.windowEventHandlers = windowEventHandlers);
-		notNull(this.location = location);
-		notNull(this.document = document);
-		document.setDefaultView(this);
-		final RhinoWindow window = this;
-		final EventDispatcher eventDispatcher = document.getEventDispatcher();
-		location.addLocationListener(new JSoupLocationListener() {
+	@Required
+	public Factory<XMLHttpRequest> getXmlHttpRequestFactory() {
+		return xmlHttpRequestFactory;
+	}
 
-			public void propertyChange(PropertyChangeEvent event) {
-				LOG.debug("location.{} changed from \"{}\" to \"{}\".", event.getPropertyName(), event.getOldValue(), event.getNewValue());
-			}
+	@Required
+	public EventDispatcher getEventDispatcher() {
+		return eventDispatcher;
+	}
 
-			public void responseReceived(JSoupLocation location, Response response) {
-				if (LOG.isDebugEnabled()) {
-					final int code = response.statusCode();
-					final String message = response.statusMessage();
-					final String encoding = response.charset();
-					final int characterCount = response.body().length();
-					LOG.debug(format("Response received. Status code is %d. Status message is %s. Character encoding is %s. Body is %,d characters.", code, message, encoding, characterCount));
-				}
-			}
+	@Required
+	public NodeAdapterFactory<Node> getNodeAdapterFactory() {
+		return nodeAdapterFactory;
+	}
 
-			public void documentParsed(JSoupLocation location, org.jsoup.nodes.Document document) {
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("Document parsed. Title is \"{}\".", document.title());
-				}
-				window.document = new RhinoDocument(document, eventDispatcher);
-				window.document.setDefaultView(window);
-			}
-		});
+	@Required
+	public Timer getTimer() {
+		return timer;
+	}
+
+	@Required
+	public Console getConsole() {
+		return console;
+	}
+
+	@Required
+	public GlobalEventHandlers getGlobalEventHandlers() {
+		return globalEventHandlers;
+	}
+
+	@Required
+	public WindowEventHandlers getWindowEventHandlers() {
+		return windowEventHandlers;
+	}
+	
+//	@Required
+	public Navigator getNavigator() {
+		throw new UnsupportedOperationException();
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	protected void setLocation(Location location) {
+		this.location = location;
+	}
+	
+	public RhinoDocument getDocument() {
+		return document;
+	}
+
+	protected void setDocument(final RhinoDocument document) {
+		notNull(document);
+		if (this.document != null) {
+			this.document.setDefaultView(null);
+		}
+		this.document = document;
+		this.document.setDefaultView(this);
 	}
 
 	public boolean has(String name, Scriptable start) {
@@ -114,15 +145,15 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		eventDispatcher.addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		eventDispatcher.removeEventListener(this, type, listener, useCapture);
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
+		return eventDispatcher.dispatchEvent(event);
 	}
 
 	public EventListener getOnabort() {
@@ -741,10 +772,6 @@ public class RhinoWindow extends ScriptableObject implements Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public Document getDocument() {
-		throw new UnsupportedOperationException();
-	}
-
 	public String getName() {
 		throw new UnsupportedOperationException();
 	}
@@ -769,15 +796,7 @@ public class RhinoWindow extends ScriptableObject implements Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public Location getLocation() {
-		return location;
-	}
-
 	public long getLength() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Navigator getNavigator() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -842,7 +861,7 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public Window getSelf() {
-		throw new UnsupportedOperationException();
+		return this;
 	}
 
 	public Window getTop() {
@@ -850,11 +869,20 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public Window getWindow() {
-		throw new UnsupportedOperationException();
+		return this;
 	}
 
 	public Window open(String url, String target, String features, boolean replace) throws IOException {
 		throw new UnsupportedOperationException();
+	}
+
+	public RhinoWindow clone() {
+		try {
+			return (RhinoWindow) super.clone();
+		}
+		catch (CloneNotSupportedException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public static Builder builder() {
@@ -862,48 +890,68 @@ public class RhinoWindow extends ScriptableObject implements Window {
 	}
 
 	public static class Builder {
-		
-		private Timer timer;
-		private Console console;
-		private GlobalEventHandlers globalEventHandlers;
-		private WindowEventHandlers windowEventHandlers;
-		private JSoupLocation location;
-		private RhinoDocument document;
+
+		private final RhinoWindow window = new RhinoWindow();
 
 		private Builder() {
 		}
 
 		public RhinoWindow build() {
-			return new RhinoWindow(timer, console, globalEventHandlers, windowEventHandlers, location, document);
+			assertRequiredProperties(window);
+			final RhinoWindow window = this.window.clone();
+			if (window.document != null) {
+				window.setDocument(window.document);
+			}
+			return window;
+		}
+
+		public Builder document(RhinoDocument document) {
+			window.setDocument(document);
+			return this;
 		}
 		
 		public Builder timer(Timer timer) {
-			this.timer = timer;
+			window.timer = timer;
 			return this;
 		}
 		
 		public Builder console(Console console) {
-			this.console = console;
+			window.console = console;
 			return this;
 		}
 		
 		public Builder globalEventHandlers(GlobalEventHandlers globalEventHandlers) {
-			this.globalEventHandlers = globalEventHandlers;
+			window.globalEventHandlers = globalEventHandlers;
 			return this;
 		}
 		
 		public Builder windowEventHandlers(WindowEventHandlers windowEventHandlers) {
-			this.windowEventHandlers = windowEventHandlers;
+			window.windowEventHandlers = windowEventHandlers;
+			return this;
+		}
+
+		public Builder location(Location location) {
+			window.setLocation(location);
+			return this;
+		}
+
+		public Builder eventDispatcher(EventDispatcher eventDispatcher) {
+			window.eventDispatcher = eventDispatcher;
+			return this;
+		}
+
+		public Builder parserFactory(Factory<HTMLParser> parserFactory) {
+			window.parserFactory = parserFactory;
 			return this;
 		}
 		
-		public Builder location(JSoupLocation location) {
-			this.location = location;
+		public Builder nodeAdapterFactory(NodeAdapterFactory<Node> nodeAdapterFactory) {
+			window.nodeAdapterFactory = nodeAdapterFactory;
 			return this;
 		}
-		
-		public Builder document(RhinoDocument document) {
-			this.document = document;
+
+		public Builder xmlHttpRequestFactory(Factory<XMLHttpRequest> xmlHttpRequestFactory) {
+			window.xmlHttpRequestFactory = xmlHttpRequestFactory;
 			return this;
 		}
 	}

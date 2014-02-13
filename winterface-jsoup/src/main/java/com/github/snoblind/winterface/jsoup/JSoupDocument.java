@@ -32,12 +32,13 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 
 	private final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
 	private final JSoupQuerySelector querySelector = new JSoupQuerySelector();
-	private final JSoupHTMLParser parser = new JSoupHTMLParser();
+	private final JSoupHTMLParser parser;
 	private final EventDispatcher eventDispatcher;
 
 	public JSoupDocument(final Document document, final EventDispatcher eventDispatcher) {
 		super(document);
 		notNull(this.eventDispatcher = eventDispatcher);
+		notNull(this.parser = new JSoupHTMLParser(eventDispatcher));
 		ownerDocument = this;
 	}
 

@@ -1,9 +1,7 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
+import com.github.snoblind.winterface.XMLHttpRequest;
 import org.apache.commons.collections4.Factory;
-import org.apache.http.client.HttpClient;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -17,17 +15,14 @@ public class XMLHttpRequestConstructor extends BaseFunction {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(XMLHttpRequestConstructor.class);
 
-	private final HttpClient client;
-	private final Factory<? extends Event> eventFactory;
-	
+	private final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory;
 
-	public XMLHttpRequestConstructor(final HttpClient client, final Factory<? extends Event> eventFactory) {
-		notNull(this.client = client);
-		notNull(this.eventFactory = eventFactory);
+	public XMLHttpRequestConstructor(final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory) {
+		notNull(this.xmlHttpRequestFactory = xmlHttpRequestFactory);
 	}
 
 	public Scriptable construct(final Context context, final Scriptable scope, Object[] args) {
 		LOGGER.debug("construct({}, {}, {})", context, scope, args);
-		return new XMLHttpRequestAdapter(context, scope, new ApacheCommonsXMLHttpRequest(client, eventFactory));
+		return new XMLHttpRequestAdapter(context, scope, xmlHttpRequestFactory.create());
 	}
 }
