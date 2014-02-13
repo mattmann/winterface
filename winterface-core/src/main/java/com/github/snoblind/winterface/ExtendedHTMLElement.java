@@ -11,6 +11,6 @@ public interface ExtendedHTMLElement extends HTMLElement, EventTarget, GlobalEve
 	String getOuterHTML();
 	void setOuterHTML(String outerHTML);
 
-	ExtendedHTMLElement querySelector(String selectors);
+	HTMLElement querySelector(String selectors);
 	NodeList querySelectorAll(String selectors);
 }

@@ -25,6 +25,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.html.HTMLCollection;
+import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLTitleElement;
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -72,7 +73,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return DOCUMENT_NODE;
 	}
 
-	public ExtendedHTMLElement querySelector(String query) {
+	public HTMLElement querySelector(String query) {
 		return querySelector.querySelector(this, query);
 	}
 
@@ -149,7 +150,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public String getTitle() {
-		ExtendedHTMLElement element = querySelector("> html > head > title");
+		final HTMLElement element = querySelector("> html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
 		}

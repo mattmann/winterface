@@ -5,6 +5,7 @@ import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
 import java.util.Timer;
 import org.junit.Before;
@@ -29,6 +30,7 @@ public class RhinoWindowEnvironmentTest {
 	@Mock private GlobalEventHandlers globalEventHandlers;
 	@Mock private HTMLParser parser;
 	@Mock private NodeAdapterFactory<Node> nodeAdapterFactory;
+	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
 	@Mock private XMLHttpRequest xmlHttpRequest;
@@ -41,6 +43,7 @@ public class RhinoWindowEnvironmentTest {
 				.globalEventHandlers(globalEventHandlers)
 				.nodeAdapterFactory(nodeAdapterFactory)
 				.parserFactory(constantFactory(parser))
+				.querySelector(querySelector)
 				.timer(timer)
 				.windowEventHandlers(windowEventHandlers)
 				.xmlHttpRequestFactory(constantFactory(xmlHttpRequest))

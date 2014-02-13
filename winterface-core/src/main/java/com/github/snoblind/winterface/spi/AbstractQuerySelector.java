@@ -1,18 +1,18 @@
 package com.github.snoblind.winterface.spi;
 
-import com.github.snoblind.winterface.ExtendedHTMLDocument;
-import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
 
 public abstract class AbstractQuerySelector implements QuerySelector {
 
-	public ExtendedHTMLElement querySelector(ExtendedHTMLDocument document, String query) {
+	public HTMLElement querySelector(HTMLDocument document, String query) {
 		final NodeList nodes = querySelectorAll(document, query);
-		return nodes.getLength() == 0 ? null : (ExtendedHTMLElement)nodes.item(0);
+		return nodes.getLength() == 0 ? null : (HTMLElement) nodes.item(0);
 	}
 
-	public ExtendedHTMLElement querySelector(ExtendedHTMLElement element, String query) {
+	public HTMLElement querySelector(HTMLElement element, String query) {
 		final NodeList nodes = querySelectorAll(element, query);
-		return nodes.getLength() == 0 ? null : (ExtendedHTMLElement)nodes.item(0);
+		return nodes.getLength() == 0 ? null : (HTMLElement) nodes.item(0);
 	}
 }

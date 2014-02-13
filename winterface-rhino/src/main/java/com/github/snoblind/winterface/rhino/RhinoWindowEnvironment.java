@@ -2,6 +2,7 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.NodeAdapterFactory;
@@ -24,10 +25,16 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	private GlobalEventHandlers globalEventHandlers;
 	private NodeAdapterFactory<Node> nodeAdapterFactory;
+	private QuerySelector querySelector;
 	private Timer timer;
 	private WindowEventHandlers windowEventHandlers;
 
 	private RhinoWindowEnvironment() {
+	}
+
+	@Required
+	public QuerySelector getQuerySelector() {
+		return querySelector;
 	}
 
 	@Required
@@ -74,6 +81,7 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 				.globalEventHandlers(globalEventHandlers)
 				.nodeAdapterFactory(nodeAdapterFactory)
 				.parserFactory(parserFactory)
+				.querySelector(querySelector)
 				.timer(timer)
 				.windowEventHandlers(windowEventHandlers)
 				.xmlHttpRequestFactory(xmlHttpRequestFactory)
@@ -107,6 +115,11 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 		public RhinoWindowEnvironment build() {
 			assertRequiredProperties(environment);
 			return environment.clone();
+		}
+
+		public Builder querySelector(QuerySelector querySelector) {
+			environment.querySelector = querySelector;
+			return this;
 		}
 
 		public Builder parserFactory(Factory<HTMLParser> parserFactory) {

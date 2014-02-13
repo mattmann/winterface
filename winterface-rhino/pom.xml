@@ -22,11 +22,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.snoblind</groupId>
-			<artifactId>winterface-jsoup</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.snoblind</groupId>
 			<artifactId>winterface-apache-http</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

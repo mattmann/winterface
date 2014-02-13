@@ -3,7 +3,7 @@ package com.github.snoblind.winterface;
 import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLAppletElement;
 import org.w3c.dom.html.HTMLBodyElement;
-
+import org.w3c.dom.html.HTMLElement;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLAnchorElement;
@@ -11,7 +11,6 @@ import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
 import com.github.snoblind.winterface.ExtendedHTMLImageElement;
-
 import java.io.IOException;
 import java.net.URL;
 import org.apache.commons.io.IOUtils;
@@ -40,7 +39,7 @@ public abstract class HTMLDocumentTest {
 	
 	@Test
 	public void test() {
-		ExtendedHTMLElement textField = htmlDocument.querySelector("input[type=text]");
+		HTMLElement textField = htmlDocument.querySelector("input[type=text]");
 		assertNotNull(textField);
 		NodeList paragraphs = htmlDocument.getElementsByTagName("p");
 		assertEquals(1, paragraphs.getLength());
@@ -48,7 +47,7 @@ public abstract class HTMLDocumentTest {
 		assertEquals(1, textAreas.getLength());
 		NodeList buttons = htmlDocument.getElementsByTagName("button");
 		assertEquals(2, buttons.getLength());
-		ExtendedHTMLElement body = htmlDocument.getBody();
+		HTMLElement body = htmlDocument.getBody();
 		assertTrue(body instanceof HTMLBodyElement);
 		test((HTMLBodyElement)body);
 		HTMLCollection anchors = htmlDocument.getAnchors();

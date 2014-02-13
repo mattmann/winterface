@@ -12,6 +12,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.html.HTMLElement;
 
 public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLElement {
 
@@ -19,7 +20,7 @@ public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLEle
 	protected HTMLParser parser;
 	protected EventDispatcher eventDispatcher;
 
-	public ExtendedHTMLElement querySelector(String query) {
+	public HTMLElement querySelector(String query) {
 		return querySelector.querySelector(this, query);
 	}
 

@@ -1,12 +1,12 @@
 package com.github.snoblind.winterface.spi;
 
-import com.github.snoblind.winterface.ExtendedHTMLDocument;
-import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
 
 public interface QuerySelector {
-	ExtendedHTMLElement querySelector(ExtendedHTMLDocument document, String query);
-	ExtendedHTMLElement querySelector(ExtendedHTMLElement element, String query);
-	NodeList querySelectorAll(ExtendedHTMLDocument document, String query);
-	NodeList querySelectorAll(ExtendedHTMLElement element, String query);
+	HTMLElement querySelector(HTMLDocument document, String query);
+	HTMLElement querySelector(HTMLElement element, String query);
+	NodeList querySelectorAll(HTMLDocument document, String query);
+	NodeList querySelectorAll(HTMLElement element, String query);
 }

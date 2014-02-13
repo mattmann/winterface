@@ -17,6 +17,7 @@ import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
@@ -37,16 +38,22 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	protected Timer timer;
 
-	private Location location;
-	private RhinoDocument document;
 	private Console console;
-	private GlobalEventHandlers globalEventHandlers;
-	private WindowEventHandlers windowEventHandlers;
-	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
+	private Location location;
 	private EventDispatcher eventDispatcher;
-	private NodeAdapterFactory<Node> nodeAdapterFactory;
 	private Factory<HTMLParser> parserFactory;
+	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
+	private GlobalEventHandlers globalEventHandlers;
+	private NodeAdapterFactory<Node> nodeAdapterFactory;
+	private QuerySelector querySelector;
+	private RhinoDocument document;
+	private WindowEventHandlers windowEventHandlers;
 
+	@Required
+	public QuerySelector getQuerySelector() {
+		return querySelector;
+	}
+	
 	@Required
 	public Factory<HTMLParser> getParserFactory() {
 		return parserFactory;
@@ -905,6 +912,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 			return window;
 		}
 
+		public Builder querySelector(QuerySelector querySelector) {
+			window.querySelector = querySelector;
+			return this;
+		}
+		
 		public Builder document(RhinoDocument document) {
 			window.setDocument(document);
 			return this;

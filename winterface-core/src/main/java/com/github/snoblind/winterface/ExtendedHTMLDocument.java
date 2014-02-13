@@ -2,15 +2,17 @@ package com.github.snoblind.winterface;
 
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.html.HTMLElement;
 
 public interface ExtendedHTMLDocument extends HTMLDocument, EventTarget {
 
-	ExtendedHTMLElement querySelector(String selectors);
+	HTMLElement querySelector(String selectors);
+
 	NodeList querySelectorAll(String selectors);
 
 	NodeList getElementsByName(String elementName);
 	
 	Window getDefaultView();
 
-	ExtendedHTMLElement getBody();
+	HTMLElement getBody();
 }

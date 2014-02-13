@@ -3,6 +3,10 @@ package com.github.snoblind.winterface.rhino;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.apache.commons.lang.StringUtils.defaultString;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -13,62 +17,125 @@ public class RhinoLocation implements Location {
 	
 	public RhinoLocation(final RhinoWindow window) {
 		notNull(this.window = window);
+		window.setLocation(this);
 	}
-
+	
 	public String getProtocol() {
-		throw new UnsupportedOperationException();
+		try {
+			return String.format("%s:", new URI(href).getScheme());
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setProtocol(String protocol) {
-		throw new UnsupportedOperationException();
+		try {
+			int index = protocol.indexOf(':');
+			if (index > 0) {
+				protocol = protocol.substring(0, index);
+			}
+			assign(new URIBuilder().uri(new URI(href)).scheme(protocol).build().toASCIIString());
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getHost() {
-		throw new UnsupportedOperationException();
+		try {
+			return new URI(href).getHost();
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setHost(String host) {
-		throw new UnsupportedOperationException();
+		try {
+			assign(new URIBuilder().uri(new URI(href)).host(host).build().toASCIIString());
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getHostname() {
-		throw new UnsupportedOperationException();
+		return getHost();
 	}
 
 	public void setHostname(String hostname) {
-		throw new UnsupportedOperationException();
+		setHost(hostname);
 	}
 
 	public String getPort() {
-		throw new UnsupportedOperationException();
+		try {
+			final int port = new URI(href).getPort();
+			if (port < 0) {
+				return EMPTY;
+			}
+			return Integer.toString(port);
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setPort(String port) {
-		throw new UnsupportedOperationException();
+		try {
+			assign(new URIBuilder().uri(new URI(href)).port(Integer.parseInt(port)).build().toASCIIString());
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getPathname() {
-		throw new UnsupportedOperationException();
+		try {
+			return new URI(href).getPath();
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setPathname(String pathname) {
-		throw new UnsupportedOperationException();
+		try {
+			assign(new URIBuilder().uri(new URI(href)).path(pathname).build().toASCIIString());
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getSearch() {
-		throw new UnsupportedOperationException();
+		try {
+			return defaultString(new URI(href).getQuery());
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setSearch(String search) {
-		throw new UnsupportedOperationException();
+		try {
+			assign(new URIBuilder().uri(new URI(href)).query(search).build().toASCIIString());
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getHash() {
-		throw new UnsupportedOperationException();
+		try {
+			return defaultString(new URI(href).getFragment());
+		}
+		catch (URISyntaxException x) {
+			return EMPTY;
+		}
 	}
 
 	public void setHash(String hash) {
-		throw new UnsupportedOperationException();
+		try {
+			href = new URIBuilder().uri(new URI(href)).fragment(hash).build().toASCIIString();
+		}
+		catch (URISyntaxException x) {
+		}
 	}
 
 	public String getHref() {
@@ -91,6 +158,7 @@ public class RhinoLocation implements Location {
 					.eventDispatcher(window.getEventDispatcher())
 					.nodeAdapterFactory(window.getNodeAdapterFactory())
 					.parser(window.getParserFactory().create())
+					.querySelector(window.getQuerySelector())
 					.build());
 		}
 		catch (IOException x) {
@@ -99,10 +167,10 @@ public class RhinoLocation implements Location {
 	}
 
 	public void replace(String url) {
-		throw new UnsupportedOperationException();
+		assign(url);
 	}
 
 	public void reload() {
-		throw new UnsupportedOperationException();
+		assign(href);
 	}
 }

@@ -1,16 +1,14 @@
 package com.github.snoblind.winterface.rhino;
 
-import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
-import static org.apache.commons.lang.Validate.notNull;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
-import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -29,6 +27,8 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLTitleElement;
+import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 
 public class RhinoDocument extends RhinoNode<Document> implements Cloneable, ExtendedHTMLDocument {
 
@@ -36,8 +36,14 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	private EventDispatcher eventDispatcher;
 	private NodeAdapterFactory<Node> nodeAdapterFactory;
 	private HTMLParser parser;
+	private QuerySelector querySelector;
 
 	private RhinoDocument() {
+	}
+
+	@Required
+	public QuerySelector getQuerySelector() {
+		return querySelector;
 	}
 
 	@Required
@@ -232,10 +238,47 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 			document.parser = parser;
 			return this;
 		}
+
+		public Builder querySelector(QuerySelector querySelector) {
+			document.querySelector = querySelector;
+			return this;
+		}
+	}
+
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
+		eventDispatcher.addEventListener(this, type, listener, useCapture);
+	}
+
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
+		eventDispatcher.removeEventListener(this, type, listener, useCapture);
+	}
+
+	public boolean dispatchEvent(Event event) throws EventException {
+		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public HTMLElement querySelector(String selectors) {
+		return querySelector.querySelector(this, selectors);
+	}
+
+	public NodeList querySelectorAll(String selectors) {
+		return querySelector.querySelectorAll(this, selectors);
+	}
+
+	public NodeList getElementsByName(final String name) {
+		return querySelectorAll(name);
+	}
+
+	public HTMLElement getBody() {
+		return querySelector("> html > body");
 	}
 
 	public String getTitle() {
-		throw new UnsupportedOperationException();
+		final HTMLElement element = querySelector("> html > head > title");
+		if (element instanceof HTMLTitleElement) {
+			return ((HTMLTitleElement)element).getText();
+		}
+		return null;
 	}
 
 	public void setTitle(String title) {
@@ -299,34 +342,6 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public void writeln(String text) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
-	}
-
-	public ExtendedHTMLElement querySelector(String selectors) {
-		throw new UnsupportedOperationException();
-	}
-
-	public NodeList querySelectorAll(String selectors) {
-		throw new UnsupportedOperationException();
-	}
-
-	public NodeList getElementsByName(String elementName) {
-		throw new UnsupportedOperationException();
-	}
-
-	public ExtendedHTMLElement getBody() {
 		throw new UnsupportedOperationException();
 	}
 }
