@@ -235,7 +235,7 @@ public class AbstractHTMLDocument extends AbstractNode implements ExtendedHTMLDo
 		return eventDispatcher.dispatchEvent(event);
 	}
 
-	public HTMLElement querySelector(String query) {
+	public Element querySelector(String query) {
 		return querySelector.querySelector(this, query);
 	}
 

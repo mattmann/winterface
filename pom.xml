@@ -13,6 +13,7 @@
 		<module>winterface-demo</module>
 		<module>winterface-jsoup</module>
 		<module>winterface-rhino</module>
+		<module>winterface-jodd</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

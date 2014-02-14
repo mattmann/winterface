@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLCollection;
@@ -39,7 +40,7 @@ public abstract class HTMLDocumentTest {
 	
 	@Test
 	public void test() {
-		HTMLElement textField = htmlDocument.querySelector("input[type=text]");
+		Element textField = htmlDocument.querySelector("input[type=text]");
 		assertNotNull(textField);
 		NodeList paragraphs = htmlDocument.getElementsByTagName("p");
 		assertEquals(1, paragraphs.getLength());

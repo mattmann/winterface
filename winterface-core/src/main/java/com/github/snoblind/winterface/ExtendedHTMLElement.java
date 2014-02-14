@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLElement;
 
@@ -11,6 +12,6 @@ public interface ExtendedHTMLElement extends HTMLElement, EventTarget, GlobalEve
 	String getOuterHTML();
 	void setOuterHTML(String outerHTML);
 
-	HTMLElement querySelector(String selectors);
+	Element querySelector(String selectors);
 	NodeList querySelectorAll(String selectors);
 }

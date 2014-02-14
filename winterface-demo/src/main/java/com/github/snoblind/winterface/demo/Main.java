@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.demo;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Navigator;
+import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
@@ -14,6 +15,7 @@ import com.github.snoblind.winterface.rhino.RhinoNavigator;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
 import com.github.snoblind.winterface.rhino.RhinoWindowEnvironment;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
 import java.io.IOException;
 import java.util.Timer;
@@ -26,6 +28,7 @@ import org.mockito.stubbing.Answer;
 import org.mozilla.javascript.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
 
 public class Main {
 
@@ -35,16 +38,30 @@ public class Main {
 
 	private static final Answer<Object> ANSWER = new Answer<Object>() {
 		public Object answer(InvocationOnMock invocation) throws Throwable {
-			throw new UnsupportedOperationException(invocation.getMethod().toString());
+			final java.lang.reflect.Method method = invocation.getMethod();
+			final Object[] arguments = invocation.getArguments();
+			if (arguments.length == 0) {
+				if (method.getName().equals("finalize")) {
+					return null;
+				}
+				if (method.getName().equals("toString")) {
+					return invocation.getMock().getClass().getName();
+				}
+			}
+			System.err.println(method);
+			System.err.println(java.util.Arrays.toString(arguments));
+			throw new UnsupportedOperationException(method.toString());
 		}
 	};
 	
 	public static void main(String[] args) throws IOException {
+		@SuppressWarnings("unchecked") final NodeAdapterFactory<Node> nodeAdapterFactory = Mockito.mock(NodeAdapterFactory.class, ANSWER);
 		final Timer timer = new Timer();
 		final HttpClient httpClient = new DefaultHttpClient();
 		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
 		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER);
 		final EventDispatcher eventDispatcher = Mockito.mock(EventDispatcher.class, ANSWER);
+		final QuerySelector querySelector = Mockito.mock(QuerySelector.class, ANSWER);
 		final HttpClient client = new DefaultHttpClient();
 		final Factory<Event> eventFactory = new Factory<Event>() {
 			public Event create() {
@@ -78,7 +95,9 @@ public class Main {
 			RhinoWindowEnvironment environment = RhinoWindowEnvironment.builder()
 					.console(console)
 					.globalEventHandlers(globalEventHandlers)
+					.nodeAdapterFactory(nodeAdapterFactory)
 					.parserFactory(parserFactory)
+					.querySelector(querySelector)
 					.timer(timer)
 					.windowEventHandlers(windowEventHandlers)
 					.xmlHttpRequestFactory(xmlHttpRequestFactory)

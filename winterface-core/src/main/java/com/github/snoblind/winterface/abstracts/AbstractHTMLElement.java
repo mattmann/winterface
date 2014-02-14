@@ -10,9 +10,9 @@ import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
-import org.w3c.dom.html.HTMLElement;
 
 public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLElement {
 
@@ -20,7 +20,7 @@ public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLEle
 	protected HTMLParser parser;
 	protected EventDispatcher eventDispatcher;
 
-	public HTMLElement querySelector(String query) {
+	public Element querySelector(String query) {
 		return querySelector.querySelector(this, query);
 	}
 

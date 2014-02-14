@@ -12,7 +12,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.html.HTMLCollection;
-import org.w3c.dom.html.HTMLElement;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElement {
@@ -29,7 +28,7 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 		return new JSoupCollection(this, node.select(query));
 	}
 
-	public HTMLElement querySelector(String query) {
+	public org.w3c.dom.Element querySelector(String query) {
 		return ownerDocument.getQuerySelector().querySelector(this, query);
 	}
 

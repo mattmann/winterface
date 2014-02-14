@@ -7,10 +7,6 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class NodeListIterable implements Iterable<Node> {
 
-	public static NodeListIterable iterable(NodeList nodeList) {
-		return new NodeListIterable(nodeList);
-	}
-
 	private final NodeList nodeList;
 
 	public NodeListIterable(NodeList nodeList) {
@@ -21,5 +17,4 @@ public class NodeListIterable implements Iterable<Node> {
 	public Iterator<Node> iterator() {
 		return new NodeListIterator(nodeList);
 	}
-
 }

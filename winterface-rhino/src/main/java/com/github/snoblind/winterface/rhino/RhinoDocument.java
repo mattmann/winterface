@@ -257,7 +257,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		return eventDispatcher.dispatchEvent(event);
 	}
 
-	public HTMLElement querySelector(String selectors) {
+	public Element querySelector(String selectors) {
 		return querySelector.querySelector(this, selectors);
 	}
 
@@ -270,11 +270,11 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public HTMLElement getBody() {
-		return querySelector("> html > body");
+		return (HTMLElement) querySelector("> html > body");
 	}
 
 	public String getTitle() {
-		final HTMLElement element = querySelector("> html > head > title");
+		final Element element = querySelector("> html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
 		}
