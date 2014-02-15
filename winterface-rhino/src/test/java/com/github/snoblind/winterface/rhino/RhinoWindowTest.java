@@ -10,17 +10,23 @@ import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mozilla.javascript.Context;
 import org.w3c.dom.Node;
+import static com.github.snoblind.winterface.util.ClassPathResourceUtils.readString;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mozilla.javascript.ScriptableObject.putProperty;
 
 public class RhinoWindowTest {
 
+	private static final String JAVASCRIPT = readString(RhinoWindowTest.class, "/RhinoWindowTest.js");
+	
 	private RhinoWindow window;
 
 	@Mock private Console console;
@@ -34,7 +40,7 @@ public class RhinoWindowTest {
 	@Mock private RhinoDocument document;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
-
+	
 	@Before
 	public void setUp() {
 		initMocks(this);
@@ -52,6 +58,9 @@ public class RhinoWindowTest {
 				.windowEventHandlers(windowEventHandlers)
 				.xmlHttpRequestFactory(xmlHttpRequestFactory)
 				.build();
+        final Context context = Context.enter();
+		context.initStandardObjects(window);
+		putProperty(window, "window", window);
 	}
 
 	@Test
@@ -67,5 +76,13 @@ public class RhinoWindowTest {
 		assertSame(windowEventHandlers, window.getWindowEventHandlers());
 		assertSame(window, window.getWindow());
 		assertSame(xmlHttpRequestFactory, window.getXmlHttpRequestFactory());
+		
+		
+		System.out.println(window.eval(JAVASCRIPT));
+	}
+
+	@After
+	public void tearDown() {
+		Context.exit();
 	}
 }

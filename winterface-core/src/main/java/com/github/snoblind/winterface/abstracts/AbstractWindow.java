@@ -16,10 +16,11 @@ import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import java.io.IOException;
+import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class AbstractWindow implements Window {
+public abstract class AbstractWindow implements Window {
 
 	protected ApplicationCache applicationCache;
 	protected Document document;
@@ -148,7 +149,7 @@ public class AbstractWindow implements Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public Window getFrames() {
+	public List<Window> getFrames() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -774,5 +775,17 @@ public class AbstractWindow implements Window {
 
 	public void setOnwaiting(EventListener handler) {
 		globalEventHandlers.setOnwaiting(handler);
+	}
+
+	public Object eval(String script) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean isClosed() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getDefaultStatus() {
+		throw new UnsupportedOperationException();
 	}
 }

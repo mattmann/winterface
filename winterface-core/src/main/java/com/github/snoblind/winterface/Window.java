@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface;
 
 import java.io.IOException;
+import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -12,17 +13,25 @@ public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHan
 	BarProp getScrollbars();
 	BarProp getStatusbar();
 	BarProp getToolbar();
+	boolean isClosed();
 	boolean confirm(String message);
 	Document getDocument();
+	String getDefaultStatus();
 	String getName();
 	String getStatus();
 	String prompt(String message, String defaultText);
 	Element getFrameElement();
 	External getExternal();
 	History getHistory();
+	int getInnerWidth();
+	int getInnerHeight();
+	int getOuterWidth();
+	int getOuterHeight();
+	List<Window> getFrames();
 	Location getLocation();
 	long getLength();
 	Navigator getNavigator();
+	Object eval(String script);
 	Object get(String name);
 	Object showModalDialog(String url, Object optionalArgument);
 	void alert(String message);
@@ -34,7 +43,6 @@ public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHan
 	void setOpener(Window opener);
 	void setStatus(String status);
 	void stop();
-	Window getFrames();
 	Window get(long index);
 	Window getOpener();
 	Window getParent();

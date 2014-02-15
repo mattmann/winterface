@@ -18,9 +18,16 @@ import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
+import org.apache.commons.lang.StringUtils;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
@@ -29,6 +36,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
+import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
@@ -38,6 +48,8 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	protected Timer timer;
 
+	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
+	
 	private Console console;
 	private Location location;
 	private EventDispatcher eventDispatcher;
@@ -48,7 +60,8 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	private QuerySelector querySelector;
 	private RhinoDocument document;
 	private WindowEventHandlers windowEventHandlers;
-
+	private boolean closed;
+	
 	@Required
 	public QuerySelector getQuerySelector() {
 		return querySelector;
@@ -130,18 +143,37 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		if ("alert".equals(name)) {
 			return new MethodFunction(this, "alert");
 		}
-		if ("document".equals(name)) {
-			return document;
-		}
-		if ("location".equals(name)) {
-			return location;
-		}
 		if ("setTimeout".equals(name)) {
 			return new SetTimeoutFunction(this);
 		}
-		return super.get(name, start);
+		if (propertyDescriptorsByName.containsKey(name)) {
+			LOG.info("Instances of {} have a property named \"{}\".", getClass(), name);
+			return getProperty(name);
+		}
+		final Object result = super.get(name, start);
+		if (NOT_FOUND.equals(result)) {
+			LOG.warn("Window has no such member \"{}\".", name);
+		}
+		return result;
 	}
 
+	private Object getProperty(String name) {
+		final PropertyDescriptor descriptor = propertyDescriptorsByName.get(name);
+		if (descriptor == null) {
+			throw new IllegalArgumentException(name);
+		}
+		final Method method = descriptor.getReadMethod();
+		if (method == null) {
+			throw new RuntimeException(format("No read method for property \"%s\"?", name));
+		}
+		try {
+			return descriptor.getReadMethod().invoke(this);
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException x) {
+			throw new RuntimeException(x);
+		}
+	}
+	
 	public void put(String name, Scriptable start, Object value) {
 		LOG.debug("put({}, {}, {})", name, start, value);
 		super.put(name, start, value);
@@ -161,6 +193,45 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public Object eval(String source) {
+		final Context context = Context.getCurrentContext();
+		notNull(context);
+		return context.evaluateString(this, source, null, 0, null);
+	}
+
+	public void close() {
+		// fire events
+		closed = true;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public boolean getClosed() {
+		return isClosed();
+	}
+	
+	public String getDefaultStatus() {
+		return StringUtils.EMPTY;
+	}
+
+	public int getInnerWidth() {
+		return 0;
+	}
+
+	public int getInnerHeight() {
+		return 0;
+	}
+
+	public int getOuterWidth() {
+		return 0;
+	}
+
+	public int getOuterHeight() {
+		return 0;
 	}
 
 	public EventListener getOnabort() {
@@ -804,7 +875,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public long getLength() {
-		throw new UnsupportedOperationException();
+		return 0;
 	}
 
 	public Object get(String name) {
@@ -820,10 +891,6 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public void blur() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void close() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -851,8 +918,8 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public Window getFrames() {
-		throw new UnsupportedOperationException();
+	public List<Window> getFrames() {
+		return emptyList();
 	}
 
 	public Window get(long index) {
@@ -860,11 +927,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public Window getOpener() {
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	public Window getParent() {
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	public Window getSelf() {
@@ -872,7 +939,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public Window getTop() {
-		throw new UnsupportedOperationException();
+		return this;
 	}
 
 	public Window getWindow() {

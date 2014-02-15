@@ -10,7 +10,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.github.snoblind.winterface.rhino.ReflectionUtils.findMethod;
+import static com.github.snoblind.winterface.util.ReflectionUtils.findMethod;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 
