@@ -22,12 +22,14 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TreeMap;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections4.Factory;
 import org.apache.commons.lang.StringUtils;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
@@ -38,7 +40,9 @@ import org.w3c.dom.Node;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
 import static java.lang.String.format;
-import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableMap;
+import static org.apache.commons.codec.binary.StringUtils.getBytesUtf8;
+import static org.apache.commons.codec.binary.StringUtils.newStringUtf8;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
@@ -49,6 +53,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	protected Timer timer;
 
 	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
+	private final Map<String, Function> functionsByName;
 	
 	private Console console;
 	private Location location;
@@ -61,7 +66,71 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	private RhinoDocument document;
 	private WindowEventHandlers windowEventHandlers;
 	private boolean closed;
+
+	public RhinoWindow() {
+		try {
+			functionsByName = functionsByName();
+		}
+		catch (NoSuchMethodException x) {
+			throw new RuntimeException(x);
+		}
+	}
+
+	private MethodFunction newMethodFunction(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+		return new MethodFunction(this, getClass().getMethod(name, parameterTypes));
+	}
 	
+	private Map<String, Function> functionsByName() throws NoSuchMethodException {
+		final Map<String, Function> map = new TreeMap<String, Function>();
+		map.put("alert", newMethodFunction("alert", String.class));
+		map.put("atob", newMethodFunction("decodeBase64", String.class));
+		map.put("blur", newMethodFunction("blur"));
+		map.put("btoa", newMethodFunction("encodeBase64", String.class));
+//		map.put("clearInterval", newMethodFunction("clearInterval"));
+//		map.put("clearTimeout", newMethodFunction("clearTimeout"));
+		map.put("close", newMethodFunction("close"));
+//		map.put("confirm", newMethodFunction("confirm"));
+//		map.put("createPopup", newMethodFunction("createPopup"));
+		map.put("focus", newMethodFunction("focus"));
+		map.put("moveBy", newMethodFunction("moveBy", int.class, int.class));
+		map.put("moveTo", newMethodFunction("moveTo", int.class, int.class));
+		map.put("open", newMethodFunction("open", String.class, String.class, String.class, boolean.class));
+		map.put("print", newMethodFunction("print"));
+//		map.put("prompt", newMethodFunction("prompt"));
+		map.put("resizeBy", newMethodFunction("resizeBy", int.class, int.class));
+		map.put("resizeTo", newMethodFunction("resizeTo", int.class, int.class));
+		map.put("scrollBy", newMethodFunction("scrollBy", int.class, int.class));
+		map.put("scrollTo", newMethodFunction("scrollTo", int.class, int.class));
+//		map.put("setInterval", newMethodFunction("setInterval"));
+		map.put("setTimeout", new SetTimeoutFunction(this));
+		map.put("stop", newMethodFunction("stop"));
+		return unmodifiableMap(map);
+	}
+	
+	public void moveBy(int dx, int dy) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void moveTo(int x, int y) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void resizeBy(int dw, int dh) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void resizeTo(int w, int h) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void scrollBy(int dx, int dy) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void scrollTo(int x, int y) {
+		throw new UnsupportedOperationException();
+	}
+
 	@Required
 	public QuerySelector getQuerySelector() {
 		return querySelector;
@@ -140,21 +209,27 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	public Object get(String name, Scriptable start) {
 		LOG.debug("get({}, {})", name, start);
-		if ("alert".equals(name)) {
-			return new MethodFunction(this, "alert");
-		}
-		if ("setTimeout".equals(name)) {
-			return new SetTimeoutFunction(this);
-		}
 		if (propertyDescriptorsByName.containsKey(name)) {
 			LOG.info("Instances of {} have a property named \"{}\".", getClass(), name);
 			return getProperty(name);
+		}
+		if (functionsByName.containsKey(name)) {
+			LOG.info("Found function named \"{}\" in Map.", name);
+			return functionsByName.get(name);
 		}
 		final Object result = super.get(name, start);
 		if (NOT_FOUND.equals(result)) {
 			LOG.warn("Window has no such member \"{}\".", name);
 		}
 		return result;
+	}
+	
+	public String encodeBase64(String string) {
+		return Base64.encodeBase64String(getBytesUtf8(string));
+	}
+
+	public String decodeBase64(String string) {
+		return newStringUtf8(Base64.decodeBase64(string));
 	}
 
 	private Object getProperty(String name) {
@@ -918,8 +993,8 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<Window> getFrames() {
-		return emptyList();
+	public Window[] getFrames() {
+		return new Window[0];
 	}
 
 	public Window get(long index) {

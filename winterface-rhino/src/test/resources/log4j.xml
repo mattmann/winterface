@@ -9,6 +9,11 @@
 		</layout>
 	</appender>
 
+	<logger name="com.github.snoblind.winterface.rhino.MethodFunction" additivity="false">
+		<level value="error"/> 
+		<appender-ref ref="console"/>
+	</logger>
+
 	<root>
 		<priority value="error"/>
 		<appender-ref ref="console"/>

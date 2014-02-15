@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mozilla.javascript.Context;
 import org.w3c.dom.Node;
 import static com.github.snoblind.winterface.util.ClassPathResourceUtils.readString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -28,8 +29,8 @@ public class RhinoWindowTest {
 	private static final String JAVASCRIPT = readString(RhinoWindowTest.class, "/RhinoWindowTest.js");
 	
 	private RhinoWindow window;
+	private Console console;
 
-	@Mock private Console console;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private Factory<HTMLParser> parserFactory;
 	@Mock private Factory<XMLHttpRequest> xmlHttpRequestFactory;
@@ -45,6 +46,7 @@ public class RhinoWindowTest {
 	public void setUp() {
 		initMocks(this);
 		doNothing().when(document).setDefaultView(any(RhinoWindow.class));
+		console = new PrintStreamConsole(System.out);
 		window = RhinoWindow.builder()
 				.console(console)
 				.document(document)
@@ -76,9 +78,7 @@ public class RhinoWindowTest {
 		assertSame(windowEventHandlers, window.getWindowEventHandlers());
 		assertSame(window, window.getWindow());
 		assertSame(xmlHttpRequestFactory, window.getXmlHttpRequestFactory());
-		
-		
-		System.out.println(window.eval(JAVASCRIPT));
+		assertEquals(0.0, window.eval(JAVASCRIPT));
 	}
 
 	@After

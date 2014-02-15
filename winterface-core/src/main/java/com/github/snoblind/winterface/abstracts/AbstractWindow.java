@@ -16,7 +16,6 @@ import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import java.io.IOException;
-import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -146,10 +145,6 @@ public abstract class AbstractWindow implements Window {
 	}
 
 	public void stop() {
-		throw new UnsupportedOperationException();
-	}
-
-	public List<Window> getFrames() {
 		throw new UnsupportedOperationException();
 	}
 

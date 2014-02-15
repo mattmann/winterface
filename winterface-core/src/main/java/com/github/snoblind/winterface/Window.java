@@ -1,7 +1,6 @@
 package com.github.snoblind.winterface;
 
 import java.io.IOException;
-import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -27,7 +26,7 @@ public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHan
 	int getInnerHeight();
 	int getOuterWidth();
 	int getOuterHeight();
-	List<Window> getFrames();
+	Window[] getFrames();
 	Location getLocation();
 	long getLength();
 	Navigator getNavigator();
@@ -38,7 +37,13 @@ public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHan
 	void blur();
 	void close();
 	void focus();
+	void moveBy(int dx, int dy);
+	void moveTo(int x, int y);
 	void print();
+	void resizeBy(int dw, int dh);
+	void resizeTo(int w, int h);
+	void scrollBy(int dx, int dy);
+	void scrollTo(int x, int y);
 	void setName(String name);
 	void setOpener(Window opener);
 	void setStatus(String status);
