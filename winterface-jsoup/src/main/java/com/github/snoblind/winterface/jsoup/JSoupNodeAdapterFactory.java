@@ -1,6 +1,6 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.NodeAdapterFactory;
+import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import java.util.regex.Pattern;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;

@@ -4,10 +4,11 @@ import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.spi.CachingNodeAdapterFactory;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.util.Map;
 import org.mozilla.javascript.Function;
@@ -37,7 +38,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 
 	private static final long serialVersionUID = -1250907067692580140L;
 
-	private final NodeAdapterFactory<Node> nodeAdapterFactory = new RhinoNodeAdapterFactory(this);
+	private final NodeAdapterFactory<Node> nodeAdapterFactory = new CachingNodeAdapterFactory<Node>(new RhinoNodeAdapterFactory(this));
 
 	private Window defaultView;
 	private EventDispatcher eventDispatcher;

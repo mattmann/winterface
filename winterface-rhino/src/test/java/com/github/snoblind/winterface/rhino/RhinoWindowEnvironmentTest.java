@@ -1,10 +1,10 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.GlobalEventHandlers;
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
 import java.util.Timer;

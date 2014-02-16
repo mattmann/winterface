@@ -1,7 +1,6 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.NodeAdapterFactory;
-import java.util.regex.Pattern;
+import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -11,7 +10,7 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node> {
 
-	private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
+//	private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
 
 	private final RhinoDocument ownerDocument;
 

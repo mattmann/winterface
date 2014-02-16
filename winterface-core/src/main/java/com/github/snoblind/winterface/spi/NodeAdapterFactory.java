@@ -1,4 +1,4 @@
-package com.github.snoblind.winterface;
+package com.github.snoblind.winterface.spi;
 
 import org.w3c.dom.Node;
 

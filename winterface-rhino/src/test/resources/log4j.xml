@@ -9,6 +9,11 @@
 		</layout>
 	</appender>
 
+	<logger name="com.github.snoblind.winterface.spi.CachingNodeAdapterFactory" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="console"/>
+	</logger>
+
 	<logger name="com.github.snoblind.winterface.rhino.RhinoCSSStyleDeclaration" additivity="true">
 		<level value="off"/>
 		<appender-ref ref="console"/>

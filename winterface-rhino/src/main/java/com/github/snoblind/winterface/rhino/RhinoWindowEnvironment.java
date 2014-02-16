@@ -2,10 +2,10 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Location;
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
