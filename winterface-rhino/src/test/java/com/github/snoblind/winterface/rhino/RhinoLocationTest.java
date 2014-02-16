@@ -1,6 +1,5 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import static org.apache.commons.collections4.functors.ConstantFactory.constantFactory;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +31,6 @@ public class RhinoLocationTest {
 	@Mock private QuerySelector querySelector;
 	@Mock private RhinoWindow window;
 	@Mock private XMLHttpRequest request;
-	@Mock private NodeAdapterFactory<Node> nodeAdapterFactory;
 	
 	@Before
 	public void setUp() throws IOException {
@@ -43,7 +40,6 @@ public class RhinoLocationTest {
 		doReturn(constantFactory(request)).when(window).getXmlHttpRequestFactory();
 		doReturn(document).when(request).getResponseXML();
 		doReturn(eventDispatcher).when(window).getEventDispatcher();
-		doReturn(nodeAdapterFactory).when(window).getNodeAdapterFactory();
 		doReturn(querySelector).when(window).getQuerySelector();
 		location = new RhinoLocation(window);
 	}
@@ -61,7 +57,6 @@ public class RhinoLocationTest {
 		verify(request, times(2)).send(null);
 		verify(window).setLocation(location);
 		verify(window, times(2)).getEventDispatcher();
-		verify(window, times(2)).getNodeAdapterFactory();
 		verify(window, times(2)).getParserFactory();
 		verify(window, times(2)).getQuerySelector();
 		verify(window, times(2)).setDocument(any(RhinoDocument.class));
@@ -80,7 +75,6 @@ public class RhinoLocationTest {
 		verify(request, times(2)).send(null);
 		verify(window).setLocation(location);
 		verify(window, times(2)).getEventDispatcher();
-		verify(window, times(2)).getNodeAdapterFactory();
 		verify(window, times(2)).getParserFactory();
 		verify(window, times(2)).getQuerySelector();
 		verify(window, times(2)).setDocument(any(RhinoDocument.class));
@@ -99,7 +93,6 @@ public class RhinoLocationTest {
 		verify(request, times(2)).send(null);
 		verify(window).setLocation(location);
 		verify(window, times(2)).getEventDispatcher();
-		verify(window, times(2)).getNodeAdapterFactory();
 		verify(window, times(2)).getParserFactory();
 		verify(window, times(2)).getQuerySelector();
 		verify(window, times(2)).setDocument(any(RhinoDocument.class));
@@ -118,7 +111,6 @@ public class RhinoLocationTest {
 		verify(request, times(2)).send(null);
 		verify(window).setLocation(location);
 		verify(window, times(2)).getEventDispatcher();
-		verify(window, times(2)).getNodeAdapterFactory();
 		verify(window, times(2)).getParserFactory();
 		verify(window, times(2)).getQuerySelector();
 		verify(window, times(2)).setDocument(any(RhinoDocument.class));
@@ -137,7 +129,6 @@ public class RhinoLocationTest {
 		verify(request, times(2)).send(null);
 		verify(window).setLocation(location);
 		verify(window, times(2)).getEventDispatcher();
-		verify(window, times(2)).getNodeAdapterFactory();
 		verify(window, times(2)).getParserFactory();
 		verify(window, times(2)).getQuerySelector();
 		verify(window, times(2)).setDocument(any(RhinoDocument.class));
@@ -154,7 +145,6 @@ public class RhinoLocationTest {
 		verify(request).open("GET", "https://github.com/snoblind/winterface", false, null, null);
 		verify(request).send(null);
 		verify(window).getEventDispatcher();
-		verify(window).getNodeAdapterFactory();
 		verify(window).getParserFactory();
 		verify(window).getQuerySelector();
 		verify(window).setDocument(any(RhinoDocument.class));
@@ -168,6 +158,5 @@ public class RhinoLocationTest {
 		verifyZeroInteractions(eventDispatcher);
 		verifyZeroInteractions(parser);
 		verifyZeroInteractions(querySelector);
-		verifyZeroInteractions(nodeAdapterFactory);
 	}
 }

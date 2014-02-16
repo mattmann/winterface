@@ -10,7 +10,6 @@ import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.History;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.WindowEventHandlers;
@@ -20,8 +19,6 @@ import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TreeMap;
@@ -36,10 +33,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
+import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
 import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableMap;
 import static org.apache.commons.codec.binary.StringUtils.getBytesUtf8;
 import static org.apache.commons.codec.binary.StringUtils.newStringUtf8;
@@ -54,14 +50,13 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
 	private final Map<String, Function> functionsByName;
-	
+
 	private Console console;
 	private Location location;
 	private EventDispatcher eventDispatcher;
 	private Factory<HTMLParser> parserFactory;
 	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	private GlobalEventHandlers globalEventHandlers;
-	private NodeAdapterFactory<Node> nodeAdapterFactory;
 	private QuerySelector querySelector;
 	private RhinoDocument document;
 	private WindowEventHandlers windowEventHandlers;
@@ -82,6 +77,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	
 	private Map<String, Function> functionsByName() throws NoSuchMethodException {
 		final Map<String, Function> map = new TreeMap<String, Function>();
+		map.put("addEventListener", newMethodFunction("addEventListener", String.class, EventListener.class, boolean.class));
 		map.put("alert", newMethodFunction("alert", String.class));
 		map.put("atob", newMethodFunction("decodeBase64", String.class));
 		map.put("blur", newMethodFunction("blur"));
@@ -97,6 +93,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		map.put("open", newMethodFunction("open", String.class, String.class, String.class, boolean.class));
 		map.put("print", newMethodFunction("print"));
 //		map.put("prompt", newMethodFunction("prompt"));
+		map.put("removeEventListener", newMethodFunction("removeEventListener", String.class, EventListener.class, boolean.class));
 		map.put("resizeBy", newMethodFunction("resizeBy", int.class, int.class));
 		map.put("resizeTo", newMethodFunction("resizeTo", int.class, int.class));
 		map.put("scrollBy", newMethodFunction("scrollBy", int.class, int.class));
@@ -149,11 +146,6 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	@Required
 	public EventDispatcher getEventDispatcher() {
 		return eventDispatcher;
-	}
-
-	@Required
-	public NodeAdapterFactory<Node> getNodeAdapterFactory() {
-		return nodeAdapterFactory;
 	}
 
 	@Required
@@ -211,7 +203,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		LOG.debug("get({}, {})", name, start);
 		if (propertyDescriptorsByName.containsKey(name)) {
 			LOG.info("Instances of {} have a property named \"{}\".", getClass(), name);
-			return getProperty(name);
+			return getPropertyValue(this, propertyDescriptorsByName.get(name));
 		}
 		if (functionsByName.containsKey(name)) {
 			LOG.info("Found function named \"{}\" in Map.", name);
@@ -230,23 +222,6 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	public String decodeBase64(String string) {
 		return newStringUtf8(Base64.decodeBase64(string));
-	}
-
-	private Object getProperty(String name) {
-		final PropertyDescriptor descriptor = propertyDescriptorsByName.get(name);
-		if (descriptor == null) {
-			throw new IllegalArgumentException(name);
-		}
-		final Method method = descriptor.getReadMethod();
-		if (method == null) {
-			throw new RuntimeException(format("No read method for property \"%s\"?", name));
-		}
-		try {
-			return descriptor.getReadMethod().invoke(this);
-		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException x) {
-			throw new RuntimeException(x);
-		}
 	}
 	
 	public void put(String name, Scriptable start, Object value) {
@@ -1096,11 +1071,6 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 		public Builder parserFactory(Factory<HTMLParser> parserFactory) {
 			window.parserFactory = parserFactory;
-			return this;
-		}
-		
-		public Builder nodeAdapterFactory(NodeAdapterFactory<Node> nodeAdapterFactory) {
-			window.nodeAdapterFactory = nodeAdapterFactory;
 			return this;
 		}
 

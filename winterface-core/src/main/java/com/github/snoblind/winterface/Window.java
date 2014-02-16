@@ -4,6 +4,9 @@ import java.io.IOException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/*
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window
+ */
 public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHandlers {
 	ApplicationCache getApplicationCache();
 	BarProp getLocationbar();

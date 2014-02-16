@@ -36,6 +36,8 @@
 		}
 	}
 	
+	window.alphabet = 'abcdefghijklmnopqrstuvwxyz';
+	
 	assertFalse(closed);
 	assertEquals('', defaultStatus);
 	assertNotNull(document);
@@ -74,6 +76,10 @@
 	assertEquals(0, length);
 	assertEquals(0, frames.length);
 	assertNull(window[0]);
+	
+	$(function() {
+		window.alphabet = window.alphabet.split('').reverse('').join('').toUpperCase();
+	});
 
 	return 0;
 })();

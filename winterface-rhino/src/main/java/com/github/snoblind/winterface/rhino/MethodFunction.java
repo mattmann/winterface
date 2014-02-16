@@ -53,55 +53,23 @@ public class MethodFunction extends AbstractFunction {
 		}
 		return super.get(name, start);
 	}
-	
-	protected Object coerce(Object arg, Class<?> type) {
-		notNull(arg);
-		notNull(type);
-		LOGGER.debug("coerce({}({}), {})", arg.getClass().getName(), arg, type.getName());
-		if (type.isAssignableFrom(arg.getClass())) {
-			return arg;
-		}
-		if (String.class.equals(type) && arg instanceof String) {
-			return arg.toString();
-		}
-		if (Integer.TYPE.equals(type) && arg instanceof Number) {
-			return ((Number)arg).intValue();
-		}
-		throw new UnsupportedOperationException(String.format("coerce(%s(%s), %s)", arg.getClass().getName(), arg, type.getName()));
-	}
 
-	protected boolean coerce(Object[] args, Class<?>[] types) {
-		notNull(args);
-		notNull(types);
-		isTrue(args.length == types.length);
-		boolean modified = false;
-		for (int i = 0; i < args.length; i++) {
-			final Object value1 = args[i];
-			final Object value2 = coerce(args[i], types[i]);
-			if (value2 != value1) {
-				modified = true;
-				args[i] = value2;
-			}
-		}
-		return modified;
-	}
-
-	public Object call(Context context, Scriptable scope, Scriptable thisObject, Object[] args) {
+	public Object call(Context context, Scriptable scope, Scriptable thisObject, Object[] arguments) {
 		final Class<?>[] parameterTypes = method.getParameterTypes();
-		LOGGER.debug("call({}, {}, {}, {})", context, scope, thisObject, Arrays.toString(args));
+		LOGGER.debug("call({}, {}, {}, {})", context, scope, thisObject, Arrays.toString(arguments));
 //		isTrue(thisObject == object);
-		notNull(args);
-		isTrue(args.length <= parameterTypes.length);
-		if (args.length < parameterTypes.length) {
+		notNull(arguments);
+		isTrue(arguments.length <= parameterTypes.length);
+		if (arguments.length < parameterTypes.length) {
 			List<Object> list = new ArrayList<Object>(parameterTypes.length);
-			list.addAll(Arrays.asList(args));
+			list.addAll(Arrays.asList(arguments));
 			while (list.size() < parameterTypes.length) {
 				list.add(null);
 			}
-			args = list.toArray(new Object[list.size()]);
+			arguments = list.toArray(new Object[list.size()]);
 		}
 		try {
-			return method.invoke(object, args);
+			return method.invoke(object, arguments);
 		}
 		catch (InvocationTargetException x) {
 			throw new WrappedException(x);
@@ -110,15 +78,15 @@ public class MethodFunction extends AbstractFunction {
 			throw new WrappedException(x);
 		}
 		catch (IllegalArgumentException x) {
-			if (coerce(args, parameterTypes)) {
-				return call(context, scope, thisObject, args);
+			if (RhinoTypeConverter.getInstance().convert(context, scope, thisObject, arguments, parameterTypes)) {
+				return call(context, scope, thisObject, arguments);
 			}
 			if (LOGGER.isErrorEnabled()) {
 				StringBuilder builder = new StringBuilder();
 				builder.append("Arguments ");
-				for (int i = 0; i < args.length; i++) {
-					builder.append(args[i].getClass().getName()).append(" ").append(args[i]);
-					if (i + 1 < args.length) {
+				for (int i = 0; i < arguments.length; i++) {
+					builder.append(arguments[i].getClass().getName()).append(" ").append(arguments[i]);
+					if (i + 1 < arguments.length) {
 						builder.append(", ");
 					}
 				}

@@ -156,7 +156,6 @@ public class RhinoLocation implements Location {
 			window.setDocument(RhinoDocument.builder()
 					.document(request.getResponseXML())
 					.eventDispatcher(window.getEventDispatcher())
-					.nodeAdapterFactory(window.getNodeAdapterFactory())
 					.parser(window.getParserFactory().create())
 					.querySelector(window.getQuerySelector())
 					.build());

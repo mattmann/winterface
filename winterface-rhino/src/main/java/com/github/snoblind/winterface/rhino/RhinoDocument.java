@@ -9,6 +9,9 @@ import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
+import java.util.Map;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -32,13 +35,30 @@ import static com.github.snoblind.winterface.required.RequiredProperties.assertR
 
 public class RhinoDocument extends RhinoNode<Document> implements Cloneable, ExtendedHTMLDocument {
 
+	private static final long serialVersionUID = -1250907067692580140L;
+
+	private final NodeAdapterFactory<Node> nodeAdapterFactory = new RhinoNodeAdapterFactory(this);
+
 	private Window defaultView;
 	private EventDispatcher eventDispatcher;
-	private NodeAdapterFactory<Node> nodeAdapterFactory;
 	private HTMLParser parser;
 	private QuerySelector querySelector;
 
-	private RhinoDocument() {
+	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
+		final Map<String, Function> map = super.functionsByName();
+		map.put("createDocumentFragment", newMethodFunction("createDocumentFragment"));
+		map.put("createElement", newMethodFunction("createElement", String.class));
+		map.put("addEventListener", newMethodFunction("addEventListener", String.class, EventListener.class, boolean.class));
+		map.put("removeEventListener", newMethodFunction("removeEventListener", String.class, EventListener.class, boolean.class));
+		return map;
+	}
+
+	public Object get(String name, Scriptable start) {
+		return super.get(name, start);
+	}
+
+	public RhinoDocument getOwnerDocument() {
+		return this;
 	}
 
 	@Required
@@ -86,11 +106,11 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public Element createElement(String tagName) throws DOMException {
-		throw new UnsupportedOperationException();
+		return (Element) adapt(node.createElement(tagName));
 	}
 
 	public DocumentFragment createDocumentFragment() {
-		throw new UnsupportedOperationException();
+		return (DocumentFragment) adapt(node.createDocumentFragment());
 	}
 
 	public Text createTextNode(String data) {
@@ -122,7 +142,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public Node importNode(Node importedNode, boolean deep) throws DOMException {
-		throw new UnsupportedOperationException();
+		return adapt(node.importNode(importedNode, deep));
 	}
 
 	public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
@@ -226,11 +246,6 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 
 		public Builder eventDispatcher(final EventDispatcher eventDispatcher) {
 			document.eventDispatcher = eventDispatcher;
-			return this;
-		}
-
-		public Builder nodeAdapterFactory(final NodeAdapterFactory<Node> nodeAdapterFactory) {
-			document.nodeAdapterFactory = nodeAdapterFactory;
 			return this;
 		}
 
@@ -342,6 +357,10 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public void writeln(String text) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getClassName() {
 		throw new UnsupportedOperationException();
 	}
 }

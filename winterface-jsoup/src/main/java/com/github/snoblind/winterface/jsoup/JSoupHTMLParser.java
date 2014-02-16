@@ -1,14 +1,14 @@
 package com.github.snoblind.winterface.jsoup;
 
-import static org.apache.commons.lang.Validate.notNull;
-import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import org.jsoup.parser.Parser;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.html.HTMLDocument;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupHTMLParser implements HTMLParser {
 
@@ -18,7 +18,7 @@ public class JSoupHTMLParser implements HTMLParser {
 		notNull(this.eventDispatcher = eventDispatcher);
 	}
 
-	public HTMLDocument parse(String html, String baseUri) {
+	public Document parse(String html, String baseUri) {
 		return new JSoupDocument(Parser.parse(html, baseUri), eventDispatcher);
 	}
 
@@ -39,19 +39,19 @@ public class JSoupHTMLParser implements HTMLParser {
 		throw new UnsupportedOperationException();
 	}
 
-	public String getInnerHTML(ExtendedHTMLElement element) {
+	public String getInnerHTML(Element element) {
 		return ((JSoupElement) element).node.html();
 	}
 
-	public void setInnerHTML(ExtendedHTMLElement element, String html) {
+	public void setInnerHTML(Element element, String html) {
 		((JSoupElement) element).node.html(html);
 	}
 
-	public String getOuterHTML(ExtendedHTMLElement element) {
+	public String getOuterHTML(Element element) {
 		return ((JSoupElement) element).node.outerHtml();
 	}
 
-	public Node setOuterHTML(ExtendedHTMLElement element, String outerHTML) {
+	public Node setOuterHTML(Element element, String outerHTML) {
 		throw new UnsupportedOperationException();
 	}
 }

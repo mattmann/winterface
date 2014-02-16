@@ -1,33 +1,69 @@
 package com.github.snoblind.winterface.rhino;
 
-import org.springframework.beans.factory.annotation.Required;
+import java.beans.PropertyDescriptor;
+import java.util.HashMap;
+import java.util.Map;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
+import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
+import static com.github.snoblind.winterface.util.ReflectionUtils.setPropertyValue;
+import static java.lang.String.format;
+import static java.util.Collections.unmodifiableMap;
 
-public class RhinoNode<N extends Node> implements Node {
+public abstract class RhinoNode<N extends Node> extends ScriptableObject implements Node {
 
-	protected RhinoDocument ownerDocument;
+	private static final long serialVersionUID = 7612349807292023689L;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoNode.class);
+
+	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
+	private final Map<String, Function> functionsByName;
+
 	protected N node;
 
-	@Required
-	public N getNode() {
-		return node;
-	}
-	
-	public Document getOwnerDocument() {
-		return ownerDocument;
+	protected RhinoNode(N node) {
+		this.node = node;
+		try {
+			functionsByName = unmodifiableMap(functionsByName());
+		}
+		catch (NoSuchMethodException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
+	protected RhinoNode() {
+		this(null);
+	}
+
+	protected MethodFunction newMethodFunction(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
+		return new MethodFunction(this, getClass().getMethod(name, parameterTypes));
+	}
+
+	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
+		final Map<String, Function> map = new HashMap<String, Function>();
+		map.put("appendChild", newMethodFunction("appendChild", Node.class));
+		map.put("cloneNode", newMethodFunction("cloneNode", boolean.class));
+		map.put("removeChild", newMethodFunction("removeChild", Node.class));
+		return map;
+	}
+
+	public abstract RhinoDocument getOwnerDocument();
+
 	public String getInnerText() {
-		return ownerDocument.getParser().getInnerText(this);
+		return getOwnerDocument().getParser().getInnerText(this);
 	}
 
 	public void setInnerText(String text) {
-		ownerDocument.getParser().setInnerText(this, text);
+		getOwnerDocument().getParser().setInnerText(this, text);
 	}
 
 	public String getTextContent() throws DOMException {
@@ -39,7 +75,7 @@ public class RhinoNode<N extends Node> implements Node {
 	}
 
 	protected Node adapt(Node node) {
-		return ownerDocument.getNodeAdapterFactory().adapt(node);
+		return getOwnerDocument().getNodeAdapterFactory().adapt(node);
 	}
 
 	public NodeList getChildNodes() {
@@ -128,6 +164,7 @@ public class RhinoNode<N extends Node> implements Node {
 		return node.lookupNamespaceURI(prefix);
 	}
 
+	
 	public String getPrefix() {
 		return node.getPrefix();
 	}
@@ -153,7 +190,7 @@ public class RhinoNode<N extends Node> implements Node {
 	}
 
 	public NamedNodeMap getAttributes() {
-		throw new UnsupportedOperationException();
+		return node.getAttributes();
 	}
 
 	public Node insertBefore(Node newChild, Node refChild) throws DOMException {
@@ -164,16 +201,22 @@ public class RhinoNode<N extends Node> implements Node {
 		throw new UnsupportedOperationException();
 	}
 
-	public Node removeChild(Node oldChild) throws DOMException {
-		throw new UnsupportedOperationException();
+	public Node removeChild(Node child) throws DOMException {
+		if (child instanceof RhinoNode) {
+			child = ((RhinoNode<?>) child).node;
+		}
+		return adapt(node.removeChild(child));
 	}
 
-	public Node appendChild(Node newChild) throws DOMException {
-		throw new UnsupportedOperationException();
+	public Node appendChild(Node child) throws DOMException {
+		if (child instanceof RhinoNode) {
+			child = ((RhinoNode<?>) child).node;
+		}
+		return adapt(node.appendChild(child));
 	}
 
 	public Node cloneNode(boolean deep) {
-		throw new UnsupportedOperationException();
+		return adapt(node.cloneNode(deep));
 	}
 
 	public short compareDocumentPosition(Node other) throws DOMException {
@@ -186,5 +229,55 @@ public class RhinoNode<N extends Node> implements Node {
 
 	public boolean isEqualNode(Node arg) {
 		throw new UnsupportedOperationException();
+	}
+
+	public Object get(String name, Scriptable start) {
+		LOGGER.debug("get({}, {})", name, start);
+		if (propertyDescriptorsByName.containsKey(name)) {
+			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
+			return getPropertyValue(this, propertyDescriptorsByName.get(name));
+		}
+		if (functionsByName.containsKey(name)) {
+			LOGGER.info("Found function named \"{}\" in Map.", name);
+			return functionsByName.get(name);
+		}
+		final Object result = super.get(name, start);
+		if (NOT_FOUND.equals(result)) {
+			LOGGER.warn("Node {} has no such member \"{}\".", this, name);
+		}
+		return result;
+	}
+
+	public void put(String name, Scriptable start, Object value) {
+		LOGGER.debug("{}.put({}, {}, {})", getClass().getName(), name, start, value);
+		if (propertyDescriptorsByName.containsKey(name)) {
+			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
+			final PropertyDescriptor descriptor = propertyDescriptorsByName.get(name);
+			final Class<?> type = descriptor.getPropertyType();
+			setPropertyValue(this, descriptor, convert(value, type));
+		}
+		else {
+			super.put(name, start, value);
+		}
+	}
+
+	private Object convert(Object value, Class<?> type) {
+		if (value == null) {
+			return null;
+		}
+		if (type.isAssignableFrom(value.getClass())) {
+			return value;
+		}
+		if (String.class.equals(type) && value instanceof CharSequence) {
+			return value.toString();
+		}
+		throw new IllegalArgumentException(format("Cannot convert value %s (instance of %s) to type %s.", value, value.getClass(), type));
+	}
+
+	public Object getDefaultValue(Class<?> type) {
+		if (String.class.equals(type)) {
+			return toString();
+		}
+		return super.getDefaultValue(type);
 	}
 }

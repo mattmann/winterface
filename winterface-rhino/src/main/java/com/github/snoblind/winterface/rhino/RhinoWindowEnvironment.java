@@ -79,7 +79,6 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 				.console(console)
 				.eventDispatcher(new MapEventDispatcher())
 				.globalEventHandlers(globalEventHandlers)
-				.nodeAdapterFactory(nodeAdapterFactory)
 				.parserFactory(parserFactory)
 				.querySelector(querySelector)
 				.timer(timer)

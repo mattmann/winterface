@@ -2,7 +2,6 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
-import com.github.snoblind.winterface.NodeAdapterFactory;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLTitleElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -44,7 +42,6 @@ public class RhinoDocumentTest {
 
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private ExtendedHTMLDocument document;
-	@Mock private NodeAdapterFactory<Node> nodeAdapterFactory;
 	@Mock private HTMLParser parser;
 	@Mock private QuerySelector querySelector;
 	@Mock private ExtendedHTMLElement bodyElement;
@@ -56,7 +53,6 @@ public class RhinoDocumentTest {
 		rhinoDocument = RhinoDocument.builder()
 				.document(document)
 				.eventDispatcher(eventDispatcher)
-				.nodeAdapterFactory(nodeAdapterFactory)
 				.parser(parser)
 				.querySelector(querySelector)
 				.build();

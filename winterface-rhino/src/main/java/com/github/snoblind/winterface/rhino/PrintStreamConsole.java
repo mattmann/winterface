@@ -34,7 +34,6 @@ public class PrintStreamConsole implements Console {
 			out.println(toString((Map<String, Object>) value));
 		}
 		else {
-			out.println(value.getClass().getName());
 			out.println(value);
 		}
 	}

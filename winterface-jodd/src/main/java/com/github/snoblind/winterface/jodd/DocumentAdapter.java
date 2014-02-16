@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import jodd.lagarto.dom.Attribute;
 import jodd.lagarto.dom.Element;
-import jodd.lagarto.dom.LagartoNodeHtmlRenderer;
 import jodd.lagarto.dom.Node;
 import jodd.lagarto.LagartoLexer.Position;
-import org.w3c.dom.Document;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class DocumentAdapter extends jodd.lagarto.dom.Document {
