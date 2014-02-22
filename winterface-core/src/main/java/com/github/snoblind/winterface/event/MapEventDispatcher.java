@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.EventTarget;
@@ -61,6 +63,7 @@ public class MapEventDispatcher extends AbstractEventDispatcher {
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(format("%,d event listeners registered for target %s.", listeners.size(), target));
+			LOGGER.debug(map.keySet().toString());
 		}
 		return listeners;
 	}
@@ -83,6 +86,10 @@ public class MapEventDispatcher extends AbstractEventDispatcher {
 
 		public int hashCode() {
 			return reflectionHashCode(this);
+		}
+
+		public String toString() {
+			return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 		}
 	}
 }

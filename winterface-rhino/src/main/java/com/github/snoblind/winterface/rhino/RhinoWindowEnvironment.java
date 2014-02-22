@@ -2,7 +2,6 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
-import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Location;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
 import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.Node;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
@@ -24,7 +22,6 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 	private Factory<HTMLParser> parserFactory;
 	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	private GlobalEventHandlers globalEventHandlers;
-	private NodeAdapterFactory<Node> nodeAdapterFactory;
 	private QuerySelector querySelector;
 	private Timer timer;
 	private WindowEventHandlers windowEventHandlers;
@@ -35,11 +32,6 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 	@Required
 	public QuerySelector getQuerySelector() {
 		return querySelector;
-	}
-
-	@Required
-	public NodeAdapterFactory<Node> getNodeAdapterFactory() {
-		return nodeAdapterFactory;
 	}
 
 	@Required
@@ -148,11 +140,6 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 
 		public Builder xmlHttpRequestFactory(Factory<XMLHttpRequest> xmlHttpRequestFactory) {
 			environment.xmlHttpRequestFactory = xmlHttpRequestFactory;
-			return this;
-		}
-
-		public Builder nodeAdapterFactory(NodeAdapterFactory<Node> nodeAdapterFactory) {
-			environment.nodeAdapterFactory = nodeAdapterFactory;
 			return this;
 		}
 	}

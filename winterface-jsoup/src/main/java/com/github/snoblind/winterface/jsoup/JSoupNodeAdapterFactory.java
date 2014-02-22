@@ -11,16 +11,11 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class JSoupNodeAdapterFactory implements NodeAdapterFactory<Node> {
+public class JSoupNodeAdapterFactory implements NodeAdapterFactory<Node, JSoupDocument> {
 
 	private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
 
-	private final JSoupDocument ownerDocument;
-	public JSoupNodeAdapterFactory(JSoupDocument ownerDocument) {
-		notNull(this.ownerDocument = ownerDocument);
-	}
-
-	public JSoupNode<? extends Node> adapt(final Node node) {
+	public JSoupNode<? extends Node> adapt(final Node node, final JSoupDocument ownerDocument) {
 		notNull(node);
 		if (node instanceof Document) {
 			if (ownerDocument.node.equals(node)) {
@@ -29,7 +24,7 @@ public class JSoupNodeAdapterFactory implements NodeAdapterFactory<Node> {
 			throw new IllegalArgumentException(node.getClass().getName());
 		}
 		if (node instanceof Element) {
-			return adapt((Element) node);
+			return adapt((Element) node, ownerDocument);
 		}
 		if (node instanceof TextNode) {
 			return new JSoupText((TextNode) node, ownerDocument);
@@ -46,7 +41,7 @@ public class JSoupNodeAdapterFactory implements NodeAdapterFactory<Node> {
 		throw new IllegalArgumentException(node.getClass().getName());
 	}
 
-	protected JSoupElement adapt(final Element element) {
+	protected JSoupElement adapt(final Element element, final JSoupDocument ownerDocument) {
 		final String tagName = element.tagName();
 		if ("a".equals(tagName)) {
 			return new JSoupAnchorElement(element, ownerDocument);

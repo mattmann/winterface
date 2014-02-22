@@ -1,13 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
-import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.JAXPHTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
@@ -21,8 +21,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Undefined;
@@ -31,12 +29,7 @@ import static org.apache.commons.collections4.functors.ConstantFactory.constantF
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mozilla.javascript.ScriptableObject.putProperty;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RhinoWindowTest {
@@ -48,22 +41,20 @@ public class RhinoWindowTest {
 	private RhinoDocument document;
 	private Console console;
 	private HTMLParser parser;
+	private EventDispatcher eventDispatcher;
 
-	@Captor private ArgumentCaptor<EventListener> eventListenerCaptor;
-	
-	@Mock private EventDispatcher eventDispatcher;
 	@Mock private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	@Mock private GlobalEventHandlers globalEventHandlers;
 	@Mock private Location location;
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
-	@Mock private Event event;
 	
 	@Before
 	public void setUp() throws IOException, ParserConfigurationException, TransformerException {
 		initMocks(this);
 		final URL url = getClass().getResource("/RhinoWindowTest.html");
+		eventDispatcher = new MapEventDispatcher();
 		console = new PrintStreamConsole(System.out);
 		parser = new JAXPHTMLParser();
 		document = RhinoDocument.builder()
@@ -87,7 +78,6 @@ public class RhinoWindowTest {
         final Context context = Context.enter();
 		context.initStandardObjects(window);
 		putProperty(window, "window", window);
-		doNothing().when(eventDispatcher).addEventListener(any(EventTarget.class), anyString(), any(EventListener.class), eq(false));
 		doReturn(url.toExternalForm()).when(location).getHref();
 	}
 
@@ -105,9 +95,11 @@ public class RhinoWindowTest {
 		assertSame(xmlHttpRequestFactory, window.getXmlHttpRequestFactory());
 		assertEquals(Undefined.instance, window.eval(JQUERY));
 		assertEquals(0.0, window.eval(JAVASCRIPT));
-		verify(eventDispatcher).addEventListener(any(RhinoDocument.class), eq("DOMContentLoaded"), eventListenerCaptor.capture(), eq(false));
 		assertEquals("abcdefghijklmnopqrstuvwxyz", window.get("alphabet", null));
-		eventListenerCaptor.getValue().handleEvent(event);
+		final Event event = new EventImpl();
+		event.setTarget(document);
+		event.initEvent("DOMContentLoaded", false, false);
+		document.dispatchEvent(event);
 		assertEquals("ZYXWVUTSRQPONMLKJIHGFEDCBA", window.get("alphabet", null));
 	}
 

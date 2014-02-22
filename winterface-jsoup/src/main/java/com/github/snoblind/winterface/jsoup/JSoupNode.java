@@ -77,7 +77,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	protected Node adapt(org.jsoup.nodes.Node node) {
-		return ownerDocument.getNodeAdapterFactory().adapt(node);
+		return ownerDocument.getNodeAdapterFactory().adapt(node, ownerDocument);
 	}
 	
 	public Node getFirstChild() {

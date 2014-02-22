@@ -38,12 +38,12 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 
 	private static final long serialVersionUID = -1250907067692580140L;
 
-	private final NodeAdapterFactory<Node> nodeAdapterFactory = new CachingNodeAdapterFactory<Node>(new RhinoNodeAdapterFactory(this));
+	private final NodeAdapterFactory<Node, RhinoDocument> nodeAdapterFactory = new CachingNodeAdapterFactory<Node, RhinoDocument>(new RhinoNodeAdapterFactory());
 
-	private Window defaultView;
 	private EventDispatcher eventDispatcher;
 	private HTMLParser parser;
 	private QuerySelector querySelector;
+	private Window defaultView;
 
 	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
 		final Map<String, Function> map = super.functionsByName();
@@ -73,7 +73,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 	
 	@Required
-	public NodeAdapterFactory<Node> getNodeAdapterFactory() {
+	public NodeAdapterFactory<Node, RhinoDocument> getNodeAdapterFactory() {
 		return nodeAdapterFactory;
 	}
 
@@ -233,29 +233,43 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 
 	public static class Builder {
 		
-		private final RhinoDocument document = new RhinoDocument();
+		private RhinoDocument document;
 
 		public RhinoDocument build() {
 			assertRequiredProperties(document);
-			return document.clone();
+			final RhinoDocument document = this.document;
+			this.document = null;
+			return document;
 		}
 
 		public Builder document(final Document document) {
+			if (this.document == null) {
+				this.document = new RhinoDocument();
+			}
 			this.document.node = document;
 			return this;
 		}
 
 		public Builder eventDispatcher(final EventDispatcher eventDispatcher) {
+			if (this.document == null) {
+				this.document = new RhinoDocument();
+			}
 			document.eventDispatcher = eventDispatcher;
 			return this;
 		}
 
 		public Builder parser(final HTMLParser parser) {
+			if (this.document == null) {
+				this.document = new RhinoDocument();
+			}
 			document.parser = parser;
 			return this;
 		}
 
 		public Builder querySelector(QuerySelector querySelector) {
+			if (this.document == null) {
+				this.document = new RhinoDocument();
+			}
 			document.querySelector = querySelector;
 			return this;
 		}

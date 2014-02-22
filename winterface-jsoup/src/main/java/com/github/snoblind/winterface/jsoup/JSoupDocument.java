@@ -30,7 +30,7 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implements ExtendedHTMLDocument {
 
-	private final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory(this);
+	private final JSoupNodeAdapterFactory nodeAdapterFactory = new JSoupNodeAdapterFactory();
 	private final JSoupQuerySelector querySelector = new JSoupQuerySelector();
 	private final JSoupHTMLParser parser;
 	private final EventDispatcher eventDispatcher;
@@ -42,7 +42,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		ownerDocument = this;
 	}
 
-	public NodeAdapterFactory<org.jsoup.nodes.Node> getNodeAdapterFactory() {
+	public NodeAdapterFactory<org.jsoup.nodes.Node, JSoupDocument> getNodeAdapterFactory() {
 		return nodeAdapterFactory;
 	}
 
@@ -109,7 +109,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public Element createElement(String tagName) throws DOMException {
-		return nodeAdapterFactory.adapt(node.createElement(tagName));
+		return nodeAdapterFactory.adapt(node.createElement(tagName), this);
 	}
 
 	public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {

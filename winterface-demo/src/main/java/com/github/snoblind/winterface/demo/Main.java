@@ -14,7 +14,6 @@ import com.github.snoblind.winterface.rhino.RhinoNavigator;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
 import com.github.snoblind.winterface.rhino.RhinoWindowEnvironment;
 import com.github.snoblind.winterface.spi.HTMLParser;
-import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
 import java.io.IOException;
@@ -28,7 +27,6 @@ import org.mockito.stubbing.Answer;
 import org.mozilla.javascript.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
 
 public class Main {
 
@@ -55,7 +53,6 @@ public class Main {
 	};
 	
 	public static void main(String[] args) throws IOException {
-		@SuppressWarnings("unchecked") final NodeAdapterFactory<Node> nodeAdapterFactory = Mockito.mock(NodeAdapterFactory.class, ANSWER);
 		final Timer timer = new Timer();
 		final HttpClient httpClient = new DefaultHttpClient();
 		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
@@ -95,7 +92,6 @@ public class Main {
 			RhinoWindowEnvironment environment = RhinoWindowEnvironment.builder()
 					.console(console)
 					.globalEventHandlers(globalEventHandlers)
-					.nodeAdapterFactory(nodeAdapterFactory)
 					.parserFactory(parserFactory)
 					.querySelector(querySelector)
 					.timer(timer)
