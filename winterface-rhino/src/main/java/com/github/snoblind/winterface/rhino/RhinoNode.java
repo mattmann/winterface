@@ -75,7 +75,7 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 	}
 
 	protected Node adapt(Node node) {
-		return getOwnerDocument().getNodeAdapterFactory().adapt(node);
+		return getOwnerDocument().getNodeAdapterFactory().adapt(node, getOwnerDocument());
 	}
 
 	public NodeList getChildNodes() {

@@ -6,19 +6,12 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
-import static org.apache.commons.lang.Validate.notNull;
 
-public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node> {
+public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDocument> {
 
 //	private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
 
-	private final RhinoDocument ownerDocument;
-
-	public RhinoNodeAdapterFactory(RhinoDocument ownerDocument) {
-		notNull(this.ownerDocument = ownerDocument);
-	}
-
-	public RhinoNode<? extends Node> adapt(Node node) {
+	public RhinoNode<? extends Node> adapt(final Node node, final RhinoDocument ownerDocument) {
 		if (node == null) {
 			return null;
 		}
@@ -29,7 +22,7 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node> {
 			throw new IllegalArgumentException(node.getClass().getName());
 		}
 		if (node instanceof Element) {
-			return adapt((Element) node);
+			return adapt((Element) node, ownerDocument);
 		}
 		if (node instanceof Text) {
 			return new RhinoText((Text) node, ownerDocument);
@@ -49,7 +42,7 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node> {
 		throw new IllegalArgumentException(node.getClass().getName());
 	}
 
-	private RhinoElement adapt(Element element) {
+	private RhinoElement adapt(final Element element, final RhinoDocument ownerDocument) {
 		final String tagName = element.getTagName();
 		if ("html".equals(tagName)) {
 			return new RhinoHtmlElement(element, ownerDocument);

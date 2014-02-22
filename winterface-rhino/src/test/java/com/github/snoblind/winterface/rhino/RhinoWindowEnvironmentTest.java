@@ -4,7 +4,6 @@ import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.spi.HTMLParser;
-import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
 import java.util.Timer;
@@ -12,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import static org.apache.commons.collections4.functors.ConstantFactory.constantFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,7 +27,6 @@ public class RhinoWindowEnvironmentTest {
 	@Mock private Document responseXML;
 	@Mock private GlobalEventHandlers globalEventHandlers;
 	@Mock private HTMLParser parser;
-	@Mock private NodeAdapterFactory<Node> nodeAdapterFactory;
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
@@ -41,7 +38,6 @@ public class RhinoWindowEnvironmentTest {
 		environment = RhinoWindowEnvironment.builder()
 				.console(console)
 				.globalEventHandlers(globalEventHandlers)
-				.nodeAdapterFactory(nodeAdapterFactory)
 				.parserFactory(constantFactory(parser))
 				.querySelector(querySelector)
 				.timer(timer)
