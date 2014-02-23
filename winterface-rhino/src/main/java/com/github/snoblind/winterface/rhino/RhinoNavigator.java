@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.Navigator;
+import static org.apache.commons.lang.StringUtils.EMPTY;
 
 public class RhinoNavigator implements Navigator {
 
@@ -17,7 +18,7 @@ public class RhinoNavigator implements Navigator {
 	}
 
 	public String getUserAgent() {
-		throw new UnsupportedOperationException();
+		return EMPTY;
 	}
 
 	public String getLanguage() {

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import static java.util.Collections.emptyList;
 
 public final class NodeListUtils {
 
@@ -26,6 +27,9 @@ public final class NodeListUtils {
 	}
 
 	public static Iterable<Node> iterable(final NodeList nodes) {
+		if (nodes == null) {
+			return emptyList();
+		}
 		return new NodeListIterable(nodes);
 	}
 

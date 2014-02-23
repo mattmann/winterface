@@ -1,8 +1,10 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.GlobalEventHandlers;
+import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
@@ -21,23 +23,29 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class RhinoWindowEnvironmentTest {
 
+	private static final String URL = "https://github.com/snoblind/winterface";
+
 	private RhinoWindowEnvironment environment;
 
 	@Mock private Console console;
 	@Mock private Document responseXML;
+	@Mock private EventDispatcher eventDispatcher;
 	@Mock private GlobalEventHandlers globalEventHandlers;
 	@Mock private HTMLParser parser;
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
 	@Mock private XMLHttpRequest xmlHttpRequest;
+	@Mock private Navigator navigator;
 
 	@Before
 	public void setUp() throws IOException {
 		initMocks(this);
 		environment = RhinoWindowEnvironment.builder()
 				.console(console)
+				.eventDispatcher(eventDispatcher)
 				.globalEventHandlers(globalEventHandlers)
+				.navigator(navigator)
 				.parserFactory(constantFactory(parser))
 				.querySelector(querySelector)
 				.timer(timer)
@@ -49,13 +57,13 @@ public class RhinoWindowEnvironmentTest {
 	}
 
 	@Test
-	public void test() throws IOException {
-		final RhinoWindow window = environment.open("about:blank", null, null, false);
+	public void open() throws IOException {
+		final RhinoWindow window = environment.open(URL, null, null, false);
 		assertNotNull(window);
 		final RhinoDocument document = window.getDocument();
 		assertSame(responseXML, document.node);
-		assertEquals("about:blank", window.getLocation().getHref());
-		verify(xmlHttpRequest).open("GET", "about:blank", false, null, null);
+		assertEquals(URL, window.getLocation().getHref());
+		verify(xmlHttpRequest).open("GET", URL, false, null, null);
 		verify(xmlHttpRequest).send(null);
 	}
 }

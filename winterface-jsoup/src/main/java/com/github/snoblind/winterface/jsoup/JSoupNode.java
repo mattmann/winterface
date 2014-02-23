@@ -7,10 +7,14 @@ import java.util.List;
 import org.jsoup.select.NodeVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Attr;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.UserDataHandler;
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -51,7 +55,16 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public String getNodeValue() {
-		throw new UnsupportedOperationException(getClass().getName());
+		if (this instanceof Attr) {
+			return ((Attr) this).getValue();
+		}
+		if (this instanceof CharacterData) {
+			return ((CharacterData) this).getData();
+		}
+		if (this instanceof ProcessingInstruction) {
+			return ((ProcessingInstruction) this).getData();
+		}
+		return null;
 	}
 
 	public void setNodeValue(String nodeValue) {
@@ -148,7 +161,7 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public String getNamespaceURI() {
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	public String getPrefix() {
@@ -160,7 +173,13 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public String getLocalName() {
-		throw new UnsupportedOperationException();
+		if (this instanceof Element) {
+			return getNodeName();
+		}
+		if (this instanceof Attr) {
+			return getNodeName();
+		}
+		return null;
 	}
 
 	public boolean hasAttributes() {

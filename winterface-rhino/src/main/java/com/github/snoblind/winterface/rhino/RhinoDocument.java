@@ -4,6 +4,7 @@ import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.CachingNodeAdapterFactory;
@@ -51,6 +52,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		map.put("createElement", newMethodFunction("createElement", String.class));
 		map.put("addEventListener", newMethodFunction("addEventListener", String.class, EventListener.class, boolean.class));
 		map.put("removeEventListener", newMethodFunction("removeEventListener", String.class, EventListener.class, boolean.class));
+		map.put("getElementById", newMethodFunction("getElementById", String.class));
 		return map;
 	}
 
@@ -158,8 +160,8 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		throw new UnsupportedOperationException();
 	}
 
-	public Element getElementById(String elementId) {
-		throw new UnsupportedOperationException();
+	public Element getElementById(final String id) {
+		return querySelector.querySelector(this, String.format("#%s", id));
 	}
 
 	public String getInputEncoding() {
@@ -299,12 +301,16 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		return querySelectorAll(name);
 	}
 
-	public HTMLElement getBody() {
-		return (HTMLElement) querySelector("> html > body");
+	public ExtendedHTMLElement getHead() {
+		return (ExtendedHTMLElement) querySelector("html > head");
+	}
+	
+	public ExtendedHTMLElement getBody() {
+		return (ExtendedHTMLElement) querySelector("html > body");
 	}
 
 	public String getTitle() {
-		final Element element = querySelector("> html > head > title");
+		final Element element = querySelector("html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
 		}

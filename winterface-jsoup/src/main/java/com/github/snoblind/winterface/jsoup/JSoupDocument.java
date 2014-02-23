@@ -149,7 +149,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public String getTitle() {
-		final Element element = querySelector("> html > head > title");
+		final Element element = querySelector("html > head > title");
 		if (element instanceof HTMLTitleElement) {
 			return ((HTMLTitleElement)element).getText();
 		}

@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.jsoup;
 import java.io.IOException;
 import org.jsoup.parser.Parser;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.HTMLDocumentTest;
@@ -10,6 +11,7 @@ import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.jsoup.JSoupDocument;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -29,5 +31,10 @@ public class JSoupDocumentTest extends HTMLDocumentTest {
 		JSoupDocument document = new JSoupDocument(Parser.htmlParser().parseInput(html, baseURI), new MapEventDispatcher());
 		document.setDefaultView(window);
 		return document;
+	}
+
+	@Test
+	public void getTitle() {
+		assertEquals("This is the title.", htmlDocument.getTitle());
 	}
 }

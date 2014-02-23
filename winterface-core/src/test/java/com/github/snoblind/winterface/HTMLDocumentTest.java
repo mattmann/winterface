@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 public abstract class HTMLDocumentTest {
 	
-	private ExtendedHTMLDocument htmlDocument;
+	protected ExtendedHTMLDocument htmlDocument;
 
 	@Before
 	public void setUp() throws IOException {

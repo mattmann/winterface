@@ -1,8 +1,10 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.Wrapper;
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -16,10 +18,9 @@ import org.w3c.dom.UserDataHandler;
 import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
 import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
 import static com.github.snoblind.winterface.util.ReflectionUtils.setPropertyValue;
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableMap;
 
-public abstract class RhinoNode<N extends Node> extends ScriptableObject implements Node {
+public abstract class RhinoNode<N extends Node> extends ScriptableObject implements Node, Wrapper {
 
 	private static final long serialVersionUID = 7612349807292023689L;
 
@@ -42,6 +43,19 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 
 	protected RhinoNode() {
 		this(null);
+	}
+
+	public boolean isWrapperFor(Class<?> type) {
+		return type.isAssignableFrom(node.getClass());
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T unwrap(Class<T> type) {
+		return (T) node;
+	}
+
+	public String getClassName() {
+		throw new UnsupportedOperationException();
 	}
 
 	protected MethodFunction newMethodFunction(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
@@ -254,24 +268,11 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
 			final PropertyDescriptor descriptor = propertyDescriptorsByName.get(name);
 			final Class<?> type = descriptor.getPropertyType();
-			setPropertyValue(this, descriptor, convert(value, type));
+			setPropertyValue(this, descriptor, RhinoTypeConverter.getInstance().convert(Context.getCurrentContext(), start, start, value, type));
 		}
 		else {
 			super.put(name, start, value);
 		}
-	}
-
-	private Object convert(Object value, Class<?> type) {
-		if (value == null) {
-			return null;
-		}
-		if (type.isAssignableFrom(value.getClass())) {
-			return value;
-		}
-		if (String.class.equals(type) && value instanceof CharSequence) {
-			return value.toString();
-		}
-		throw new IllegalArgumentException(format("Cannot convert value %s (instance of %s) to type %s.", value, value.getClass(), type));
 	}
 
 	public Object getDefaultValue(Class<?> type) {

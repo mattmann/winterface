@@ -17,6 +17,7 @@ import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
+import com.github.snoblind.winterface.util.NodeListUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.util.Map;
@@ -33,6 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
 import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
@@ -44,7 +47,7 @@ import static org.apache.commons.lang.Validate.notNull;
 public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	private static final long serialVersionUID = 6419776873162088518L;
-	private static final Logger LOG = LoggerFactory.getLogger(RhinoWindow.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoWindow.class);
 
 	protected Timer timer;
 
@@ -53,6 +56,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	private Console console;
 	private Location location;
+	private Navigator navigator;
 	private EventDispatcher eventDispatcher;
 	private Factory<HTMLParser> parserFactory;
 	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
@@ -168,9 +172,9 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		return windowEventHandlers;
 	}
 	
-//	@Required
+	@Required
 	public Navigator getNavigator() {
-		throw new UnsupportedOperationException();
+		return navigator;
 	}
 
 	public Location getLocation() {
@@ -194,24 +198,40 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		this.document.setDefaultView(this);
 	}
 
+	protected void evalDocument() {
+		final NodeList nodes = document.querySelectorAll("script");
+		for (Node node: NodeListUtils.iterable(nodes)) {
+			evalScriptElement((RhinoElement) node);
+		}
+	}
+
+	private void evalScriptElement(RhinoElement scriptElement) {
+		String text = scriptElement.getInnerText().trim();
+		if (text.startsWith("<!--") && text.endsWith("-->")) {
+			text = text.substring(4, text.length() - 3).trim();
+		}
+		LOGGER.debug(text);
+		eval(text);
+	}
+	
 	public boolean has(String name, Scriptable start) {
-		LOG.debug("has({}, {})", name, start);
+		LOGGER.debug("has({}, {})", name, start);
 		return super.has(name, start);
 	}
 
 	public Object get(String name, Scriptable start) {
-		LOG.debug("get({}, {})", name, start);
+		LOGGER.debug("get({}, {})", name, start);
 		if (propertyDescriptorsByName.containsKey(name)) {
-			LOG.info("Instances of {} have a property named \"{}\".", getClass(), name);
+			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
 			return getPropertyValue(this, propertyDescriptorsByName.get(name));
 		}
 		if (functionsByName.containsKey(name)) {
-			LOG.info("Found function named \"{}\" in Map.", name);
+			LOGGER.info("Found function named \"{}\" in Map.", name);
 			return functionsByName.get(name);
 		}
 		final Object result = super.get(name, start);
 		if (NOT_FOUND.equals(result)) {
-			LOG.warn("Window has no such member \"{}\".", name);
+			LOGGER.warn("Window has no such member \"{}\".", name);
 		}
 		return result;
 	}
@@ -225,7 +245,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 	
 	public void put(String name, Scriptable start, Object value) {
-		LOG.debug("put({}, {}, {})", name, start, value);
+		LOGGER.debug("put({}, {}, {})", name, start, value);
 		super.put(name, start, value);
 	}
 
@@ -1000,82 +1020,83 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		throw new UnsupportedOperationException();
 	}
 
-	public RhinoWindow clone() {
-		try {
-			return (RhinoWindow) super.clone();
-		}
-		catch (CloneNotSupportedException x) {
-			throw new RuntimeException(x);
-		}
-	}
-
 	public static Builder builder() {
 		return new Builder();
 	}
 
 	public static class Builder {
 
-		private final RhinoWindow window = new RhinoWindow();
+		private RhinoWindow window;
 
 		private Builder() {
 		}
 
 		public RhinoWindow build() {
 			assertRequiredProperties(window);
-			final RhinoWindow window = this.window.clone();
-			if (window.document != null) {
-				window.setDocument(window.document);
+			final RhinoWindow window = this.window;
+			this.window = null;
+			return window;
+		}
+		
+		private RhinoWindow getWindow() {
+			if (window == null) {
+				window = new RhinoWindow();
 			}
 			return window;
 		}
 
+		public Builder navigator(Navigator navigator) {
+			getWindow().navigator = navigator;
+			return this;
+		}
+		
 		public Builder querySelector(QuerySelector querySelector) {
-			window.querySelector = querySelector;
+			getWindow().querySelector = querySelector;
 			return this;
 		}
 		
 		public Builder document(RhinoDocument document) {
-			window.setDocument(document);
+			getWindow().setDocument(document);
 			return this;
 		}
 		
 		public Builder timer(Timer timer) {
-			window.timer = timer;
+			getWindow().timer = timer;
 			return this;
 		}
 		
 		public Builder console(Console console) {
-			window.console = console;
+			getWindow().console = console;
 			return this;
 		}
 		
 		public Builder globalEventHandlers(GlobalEventHandlers globalEventHandlers) {
-			window.globalEventHandlers = globalEventHandlers;
+			getWindow().globalEventHandlers = globalEventHandlers;
 			return this;
 		}
 		
 		public Builder windowEventHandlers(WindowEventHandlers windowEventHandlers) {
-			window.windowEventHandlers = windowEventHandlers;
+			getWindow().windowEventHandlers = windowEventHandlers;
 			return this;
 		}
 
 		public Builder location(Location location) {
-			window.setLocation(location);
+			getWindow().setLocation(location);
 			return this;
 		}
 
 		public Builder eventDispatcher(EventDispatcher eventDispatcher) {
-			window.eventDispatcher = eventDispatcher;
+			getWindow().eventDispatcher = eventDispatcher;
 			return this;
 		}
 
 		public Builder parserFactory(Factory<HTMLParser> parserFactory) {
-			window.parserFactory = parserFactory;
+			getWindow().parserFactory = parserFactory;
 			return this;
 		}
 
 		public Builder xmlHttpRequestFactory(Factory<XMLHttpRequest> xmlHttpRequestFactory) {
-			window.xmlHttpRequestFactory = xmlHttpRequestFactory;
+			getWindow().xmlHttpRequestFactory = xmlHttpRequestFactory;
 			return this;
 		}
 	}

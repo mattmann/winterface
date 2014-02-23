@@ -27,7 +27,18 @@ public class MapEventDispatcher extends AbstractEventDispatcher {
 	public MapEventDispatcher() {
 		this(new HashMap<Key, Collection<EventListener>>());
 	}
-	
+
+	public EventListener getEventListener(EventTarget target, String type, boolean useCapture) {
+		final Collection<EventListener> listeners = getEventListeners(target, type, useCapture);
+		if (listeners.isEmpty()) {
+			return null;
+		}
+		if (listeners.size() > 1) {
+			LOGGER.warn("There are {} event listeners for target {}, type {}, and use capture {}.", listeners.size(), target, type, useCapture);
+		}
+		return listeners.iterator().next();
+	}
+
 	public Event createEvent(String eventInterface) {
 		if ("Event".equals(eventInterface)) {
 			return new EventImpl();

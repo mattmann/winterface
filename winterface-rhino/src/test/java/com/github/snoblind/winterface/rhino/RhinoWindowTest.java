@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.rhino;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Location;
+import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
@@ -49,7 +50,8 @@ public class RhinoWindowTest {
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
-	
+	@Mock private Navigator navigator;
+
 	@Before
 	public void setUp() throws IOException, ParserConfigurationException, TransformerException {
 		initMocks(this);
@@ -69,6 +71,7 @@ public class RhinoWindowTest {
 				.eventDispatcher(eventDispatcher)
 				.globalEventHandlers(globalEventHandlers)
 				.location(location)
+				.navigator(navigator)
 				.parserFactory(constantFactory(parser))
 				.querySelector(querySelector)
 				.timer(timer)

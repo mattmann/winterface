@@ -80,7 +80,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public String getOuterHTML() {
-		return ownerDocument.getParser().getInnerHTML(this);
+		return ownerDocument.getParser().getOuterHTML(this);
 	}
 
 	public void setOuterHTML(String outerHTML) {
@@ -152,7 +152,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public boolean hasAttribute(String name) {
-		throw new UnsupportedOperationException();
+		return node.hasAttribute(name);
 	}
 
 	public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
@@ -176,7 +176,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
@@ -247,8 +247,8 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
-	public void setOnchange(EventListener handler) {
-		throw new UnsupportedOperationException();
+	public void setOnchange(EventListener listener) {
+		addEventListener("change", listener, false);
 	}
 
 	public EventListener getOnclick() {
@@ -612,11 +612,11 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public EventListener getOnsubmit() {
-		throw new UnsupportedOperationException();
+		return ownerDocument.getEventDispatcher().getEventListener(this, "submit", false);
 	}
 
-	public void setOnsubmit(EventListener handler) {
-		throw new UnsupportedOperationException();
+	public void setOnsubmit(EventListener listener) {
+		ownerDocument.getEventDispatcher().addEventListener(this, "submit", listener, false);
 	}
 
 	public EventListener getOnsuspend() {

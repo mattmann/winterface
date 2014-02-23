@@ -7,6 +7,8 @@ import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.MapEventDispatcher;
+import com.github.snoblind.winterface.jodd.JoddQuerySelector;
 import com.github.snoblind.winterface.jsoup.JSoupHTMLParser;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.PrintStreamConsole;
@@ -16,7 +18,6 @@ import com.github.snoblind.winterface.rhino.RhinoWindowEnvironment;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
-import java.io.IOException;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
 import org.apache.http.client.HttpClient;
@@ -32,7 +33,7 @@ public class Main {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-	private static final String INITIAL_URL = "http://www.nytimes.com/";
+	private static final String INITIAL_URL = "about:blank";
 
 	private static final Answer<Object> ANSWER = new Answer<Object>() {
 		public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -52,14 +53,14 @@ public class Main {
 		}
 	};
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		final Timer timer = new Timer();
 		final HttpClient httpClient = new DefaultHttpClient();
 		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
 		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER);
-		final EventDispatcher eventDispatcher = Mockito.mock(EventDispatcher.class, ANSWER);
-		final QuerySelector querySelector = Mockito.mock(QuerySelector.class, ANSWER);
+		final QuerySelector querySelector = new JoddQuerySelector();
 		final HttpClient client = new DefaultHttpClient();
+		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final Factory<Event> eventFactory = new Factory<Event>() {
 			public Event create() {
 				return new EventImpl();
@@ -91,7 +92,9 @@ public class Main {
 		try {
 			RhinoWindowEnvironment environment = RhinoWindowEnvironment.builder()
 					.console(console)
+					.eventDispatcher(eventDispatcher)
 					.globalEventHandlers(globalEventHandlers)
+					.navigator(navigator)
 					.parserFactory(parserFactory)
 					.querySelector(querySelector)
 					.timer(timer)
@@ -99,8 +102,9 @@ public class Main {
 					.xmlHttpRequestFactory(xmlHttpRequestFactory)
 					.build();
 			RhinoWindow window = environment.open(INITIAL_URL, null, null, false);
+			System.out.println(INITIAL_URL);
 			try {
-				Demo.builder().console(console).httpClient(httpClient).navigator(navigator).window(window).build().call();
+				Demo.builder().console(console).htmlParserFactory(parserFactory).httpClient(httpClient).navigator(navigator).window(window).build().call();
 			}
 			finally {
 				exitContext();

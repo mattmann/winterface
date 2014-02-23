@@ -56,9 +56,8 @@ public class RhinoDocumentTest {
 				.parser(parser)
 				.querySelector(querySelector)
 				.build();
-		System.out.println(bodyElement);
-		doReturn(bodyElement).when(querySelector).querySelector(rhinoDocument, "> html > body");
-		doReturn(titleElement).when(querySelector).querySelector(rhinoDocument, "> html > head > title");
+		doReturn(bodyElement).when(querySelector).querySelector(rhinoDocument, "html > body");
+		doReturn(titleElement).when(querySelector).querySelector(rhinoDocument, "html > head > title");
 		doReturn("Title").when(titleElement).getText();
 	}
 

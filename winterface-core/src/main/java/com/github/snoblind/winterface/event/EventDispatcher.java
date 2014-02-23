@@ -10,4 +10,5 @@ public interface EventDispatcher {
 	boolean dispatchEvent(Event event) throws EventException;
 	void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture);
 	void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture);
+	EventListener getEventListener(EventTarget target, String type, boolean useCapture);
 }

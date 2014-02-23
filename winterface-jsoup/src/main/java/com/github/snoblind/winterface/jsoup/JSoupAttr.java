@@ -52,6 +52,10 @@ public class JSoupAttr implements Attr {
 		return getName();
 	}
 
+	public String getNamespaceURI() {
+		return null;
+	}
+
 	public String getNodeValue() throws DOMException {
 		return getValue();
 	}
@@ -121,10 +125,6 @@ public class JSoupAttr implements Attr {
 	}
 
 	public boolean isSupported(String feature, String version) {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getNamespaceURI() {
 		throw new UnsupportedOperationException();
 	}
 

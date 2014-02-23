@@ -1,33 +1,46 @@
 package com.github.snoblind.winterface.jodd;
 
 import java.io.IOException;
-import jodd.lagarto.dom.Attribute;
-import jodd.lagarto.dom.Document;
-import jodd.lagarto.dom.Node;
 import jodd.lagarto.LagartoLexer.Position;
-import org.apache.commons.lang.Validate;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.NodeList;
+import jodd.lagarto.dom.Attribute;
+import jodd.lagarto.dom.Comment;
+import jodd.lagarto.dom.Document;
+import jodd.lagarto.dom.Element;
+import jodd.lagarto.dom.Node;
+import static jodd.lagarto.dom.Node.NodeType.COMMENT;
+import static org.apache.commons.lang.Validate.notNull;
 
-public class ElementAdapter extends jodd.lagarto.dom.Element {
+public class CommentAdapter extends jodd.lagarto.dom.Comment {
 
-	protected final org.w3c.dom.Element element;
-
-	public ElementAdapter(Document ownerDocument, org.w3c.dom.Element element) {
-		super(ownerDocument, element == null ? null : element.getTagName());
-		Validate.notNull(element);
-		this.element = element;
+	private final org.w3c.dom.Comment comment;
+	
+	public CommentAdapter(jodd.lagarto.dom.Document ownerDocument, org.w3c.dom.Comment comment) {
+		super(ownerDocument, comment == null ? null : comment.getData());
+		notNull(comment);
+		this.comment = comment;
 	}
 
-	public jodd.lagarto.dom.Element clone() {
+	public NodeType getNodeType() {
+		return COMMENT;
+	}
+
+	public int getChildNodesCount() {
+		return comment.getChildNodes().getLength();
+	}
+
+	public Comment clone() {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isVoidElement() {
+	public boolean isConditionalComment() {
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isSelfClosed() {
+	public boolean isDownlevelHidden() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void toHtml(Appendable appendable) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -35,12 +48,8 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeType getNodeType() {
-		return NodeType.ELEMENT;
-	}
-
 	public String getNodeName() {
-		return element.getNodeName();
+		throw new UnsupportedOperationException();
 	}
 
 	public String getNodeRawName() {
@@ -120,11 +129,11 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 	}
 
 	public boolean hasAttribute(String name) {
-		return element.hasAttribute(name);
+		throw new UnsupportedOperationException();
 	}
 
 	public String getAttribute(String name) {
-		return element.getAttribute(name);
+		throw new UnsupportedOperationException();
 	}
 
 	protected Attribute getAttributeInstance(String name) {
@@ -155,10 +164,6 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 		throw new UnsupportedOperationException();
 	}
 
-	public int getChildNodesCount() {
-		return element.getChildNodes().getLength();
-	}
-
 	public int getChildElementsCount() {
 		throw new UnsupportedOperationException();
 	}
@@ -171,32 +176,19 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element[] getChildElements() {
+	public Element[] getChildElements() {
 		throw new UnsupportedOperationException();
 	}
 
 	public Node getChild(int index) {
-		final org.w3c.dom.Node node = element.getChildNodes().item(index);
-		if (node == null) {
-			return null;
-		}
-		if (node instanceof org.w3c.dom.Text) {
-			return new TextAdapter(ownerDocument, (org.w3c.dom.Text) node);
-		}
-		if (node instanceof org.w3c.dom.Element) {
-			return new ElementAdapter(ownerDocument, (org.w3c.dom.Element) node);
-		}
-		if (node instanceof org.w3c.dom.Comment) {
-			return new CommentAdapter(ownerDocument, (org.w3c.dom.Comment) node);
-		}
-		throw new IllegalArgumentException(node.getClass().getName());
+		throw new UnsupportedOperationException();
 	}
 
 	public Node getChild(int... indexes) {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element getChildElement(int index) {
+	public Element getChildElement(int index) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -204,11 +196,11 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element getFirstChildElement() {
+	public Element getFirstChildElement() {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element getFirstChildElement(String elementName) {
+	public Element getFirstChildElement(String elementName) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -216,11 +208,11 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element getLastChildElement() {
+	public Element getLastChildElement() {
 		throw new UnsupportedOperationException();
 	}
 
-	public jodd.lagarto.dom.Element getLastChildElement(String elementName) {
+	public Element getLastChildElement(String elementName) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -261,18 +253,7 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 	}
 
 	public int getSiblingElementIndex() {
-		final NodeList nodes = element.getParentNode().getChildNodes();
-		int elementIndex = -1;
-		for (int i = 0; i < nodes.getLength(); i++) {
-			org.w3c.dom.Node node = nodes.item(i);
-			if (node instanceof org.w3c.dom.Element) {
-				elementIndex++;
-				if (node.equals(element)) {
-					return elementIndex;
-				}
-			}
-		}
-		throw new DOMException(DOMException.INVALID_STATE_ERR, "Element not found in its parent's list of children!");
+		throw new UnsupportedOperationException();
 	}
 
 	public int getSiblingNameIndex() {
@@ -308,6 +289,10 @@ public class ElementAdapter extends jodd.lagarto.dom.Element {
 	}
 
 	public void appendTextContent(Appendable appendable) {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getHtml() {
 		throw new UnsupportedOperationException();
 	}
 

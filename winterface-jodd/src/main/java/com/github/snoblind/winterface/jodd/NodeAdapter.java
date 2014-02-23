@@ -14,6 +14,8 @@ public class NodeAdapter {
 		switch (node.getNodeType()) {
 		case TEXT_NODE:
 			return NodeType.TEXT;
+		case CDATA_SECTION_NODE:
+			return NodeType.CDATA;
 		default:
 			throw new IllegalArgumentException(Short.toString(node.getNodeType()));
 		}

@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.spi.NodeAdapterFactory;
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -27,9 +28,9 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDo
 		if (node instanceof Text) {
 			return new RhinoText((Text) node, ownerDocument);
 		}
-//		if (node instanceof Comment) {
-//			return new RhinoComment((Comment) node, ownerDocument);
-//		}
+		if (node instanceof Comment) {
+			return new RhinoComment((Comment) node, ownerDocument);
+		}
 //		if (node instanceof DataNode) {
 //			return new RhinoCDATASection((DataNode) node, ownerDocument);
 //		}

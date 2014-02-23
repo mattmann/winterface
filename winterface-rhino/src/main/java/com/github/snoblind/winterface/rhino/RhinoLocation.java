@@ -2,9 +2,11 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.w3c.dom.Document;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.StringUtils.defaultString;
 import static org.apache.commons.lang.Validate.isTrue;
@@ -147,21 +149,35 @@ public class RhinoLocation implements Location {
 	}
 
 	public void assign(final String url) {
-		try {
-			final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
-			request.open("GET", url, false, null, null);
-			request.send(null);
-			isTrue(4 == request.getReadyState());
-			href = url;
+		if ("about:blank".equals(url)) {
+			final HTMLParser parser = window.getParserFactory().create();
+			final Document document = parser.parse("<html/>", url);
 			window.setDocument(RhinoDocument.builder()
-					.document(request.getResponseXML())
+					.document(document)
 					.eventDispatcher(window.getEventDispatcher())
-					.parser(window.getParserFactory().create())
+					.parser(parser)
 					.querySelector(window.getQuerySelector())
 					.build());
+			href = url;
 		}
-		catch (IOException x) {
-			throw new RuntimeException(x);
+		else {
+			try {
+				final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
+				request.open("GET", url, false, null, null);
+				request.send(null);
+				isTrue(4 == request.getReadyState());
+				href = url;
+				window.setDocument(RhinoDocument.builder()
+						.document(request.getResponseXML())
+						.eventDispatcher(window.getEventDispatcher())
+						.parser(window.getParserFactory().create())
+						.querySelector(window.getQuerySelector())
+						.build());
+				window.evalDocument();
+			}
+			catch (IOException x) {
+				throw new RuntimeException(x);
+			}
 		}
 	}
 

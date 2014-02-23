@@ -2,10 +2,7 @@ package com.github.snoblind.winterface.demo;
 
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.XMLHttpRequest;
-import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.event.EventImpl;
-import com.github.snoblind.winterface.event.MapEventDispatcher;
-import com.github.snoblind.winterface.jsoup.JSoupHTMLParser;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
@@ -25,8 +22,9 @@ import org.mozilla.javascript.Undefined;
 import org.mozilla.javascript.WrappedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static org.apache.commons.collections4.functors.InstantiateFactory.instantiateFactory;
-import static org.apache.commons.lang.Validate.notNull;
 import static org.mozilla.javascript.ScriptableObject.DONTENUM;
 import static org.mozilla.javascript.ScriptableObject.defineProperty;
 import static org.mozilla.javascript.ScriptableObject.putProperty;
@@ -41,17 +39,12 @@ public class Demo implements Callable<Void> {
 	private HttpClient httpClient;
 	private Navigator navigator;
 	private RhinoWindow window;
+	private Factory<? extends HTMLParser> parserFactory;
 
 	private Demo() {}
-	
+
 	public Void call() throws IOException {
-		final EventDispatcher eventDispatcher = new MapEventDispatcher();
         final Factory<? extends Event> eventFactory = instantiateFactory(EventImpl.class, null, null);
-		final Factory<? extends HTMLParser> parserFactory = new Factory<HTMLParser>() {
-			public HTMLParser create() {
-				return new JSoupHTMLParser(eventDispatcher);
-			}
-		};
         final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
@@ -101,12 +94,15 @@ public class Demo implements Callable<Void> {
 				}
 				catch (EcmaError x) {
 					System.err.println(x.getMessage());
+					x.printStackTrace();
 				}
 				catch (WrappedException x) {
 					System.err.println(x.getWrappedException());
+					x.printStackTrace();
 				}
 				catch (EvaluatorException x) {
 					System.err.println(x.getMessage());
+					x.printStackTrace();
 				}
 			}
 			else {
@@ -116,45 +112,85 @@ public class Demo implements Callable<Void> {
 		return null;
 	}
 
+	@Required
+	public Console getConsole() {
+		return console;
+	}
+
+	@Required
+	public HttpClient getHttpClient() {
+		return httpClient;
+	}
+
+	@Required
+	public Navigator getNavigator() {
+		return navigator;
+	}
+
+	@Required
+	public RhinoWindow getWindow() {
+		return window;
+	}
+
+	@Required
+	public Factory<? extends HTMLParser> getParserFactory() {
+		return parserFactory;
+	}
+
 	public static Builder builder() {
 		return new Builder();
 	}
 
 	public static class Builder {
 
-		private Console console;
-		private HttpClient httpClient;
-		private Navigator navigator;
-		private RhinoWindow window;
+		private Demo demo;
 		
 		private Builder() {}
 
 		public Demo build() {
-			Demo demo = new Demo();
-			notNull(demo.console = console, "Console required.");
-			notNull(demo.httpClient = httpClient, "HTTP client required.");
-			notNull(demo.navigator = navigator, "Navigator required.");
-			notNull(demo.window = window, "Window required.");
+			assertRequiredProperties(demo);
+			final Demo demo = this.demo;
+			this.demo = null;
 			return demo;
 		}
 
 		public Builder console(Console console) {
-			this.console = console;
+			if (demo == null) {
+				demo = new Demo();
+			}
+			demo.console = console;
 			return this;
 		}
 
 		public Builder httpClient(HttpClient httpClient) {
-			this.httpClient = httpClient;
+			if (demo == null) {
+				demo = new Demo();
+			}
+			demo.httpClient = httpClient;
 			return this;
 		}
 
 		public Builder navigator(Navigator navigator) {
-			this.navigator = navigator;
+			if (demo == null) {
+				demo = new Demo();
+			}
+			demo.navigator = navigator;
 			return this;
 		}
 
 		public Builder window(RhinoWindow window) {
-			this.window = window;
+			if (demo == null) {
+				demo = new Demo();
+			}
+			demo.window = window;
+			return this;
+		}
+
+		public Builder htmlParserFactory(Factory<HTMLParser> parserFactory) {
+			if (demo == null) {
+				demo = new Demo();
+			}
+			demo.parserFactory = parserFactory;
 			return this;
 		}
 	}
