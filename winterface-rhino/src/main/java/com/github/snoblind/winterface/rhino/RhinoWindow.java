@@ -48,10 +48,10 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	private static final long serialVersionUID = 6419776873162088518L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoWindow.class);
+	private static final Map<String, PropertyDescriptor> PROPERTY_DESCRIPTORS_BY_NAME = propertyDescriptorsByName(RhinoWindow.class);
 
 	protected Timer timer;
 
-	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
 	private final Map<String, Function> functionsByName;
 
 	private Console console;
@@ -221,9 +221,9 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	public Object get(String name, Scriptable start) {
 		LOGGER.debug("get({}, {})", name, start);
-		if (propertyDescriptorsByName.containsKey(name)) {
+		if (PROPERTY_DESCRIPTORS_BY_NAME.containsKey(name)) {
 			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
-			return getPropertyValue(this, propertyDescriptorsByName.get(name));
+			return getPropertyValue(this, PROPERTY_DESCRIPTORS_BY_NAME.get(name));
 		}
 		if (functionsByName.containsKey(name)) {
 			LOGGER.info("Found function named \"{}\" in Map.", name);

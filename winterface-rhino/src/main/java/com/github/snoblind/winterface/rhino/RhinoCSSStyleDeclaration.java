@@ -19,10 +19,8 @@ import static org.apache.commons.lang.Validate.notNull;
 public class RhinoCSSStyleDeclaration extends ScriptableObject implements CSSStyleDeclaration, Scriptable {
 
 	private static final long serialVersionUID = -4250115519196359134L;
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoCSSStyleDeclaration.class);
-
-	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = ReflectionUtils.propertyDescriptorsByName(this);
+	private static final Map<String, PropertyDescriptor> PROPERTY_DESCRIPTORS_BY_NAME = ReflectionUtils.propertyDescriptorsByName(RhinoCSSStyleDeclaration.class);
 
 	private final Element element;
 
@@ -90,9 +88,9 @@ public class RhinoCSSStyleDeclaration extends ScriptableObject implements CSSSty
 
 	public Object get(String name, Scriptable start) {
 		LOGGER.debug("{}.has({}, {})", getClass().getName(), name, start);
-		if (propertyDescriptorsByName.containsKey(name)) {
+		if (PROPERTY_DESCRIPTORS_BY_NAME.containsKey(name)) {
 			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
-			return ReflectionUtils.getPropertyValue(this, propertyDescriptorsByName.get(name));
+			return ReflectionUtils.getPropertyValue(this, PROPERTY_DESCRIPTORS_BY_NAME.get(name));
 		}
 		final Object result = super.get(name, start);
 		if (NOT_FOUND.equals(result)) {
@@ -103,7 +101,7 @@ public class RhinoCSSStyleDeclaration extends ScriptableObject implements CSSSty
 
 	public boolean has(String name, Scriptable start) {
 		LOGGER.debug("{}.has({}, {})", getClass().getName(), name, start);
-		return propertyDescriptorsByName.containsKey(name) || super.has(name, start);
+		return PROPERTY_DESCRIPTORS_BY_NAME.containsKey(name) || super.has(name, start);
 	}
 
 	public String getClassName() {

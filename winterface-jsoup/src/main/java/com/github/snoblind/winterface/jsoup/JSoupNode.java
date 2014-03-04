@@ -1,7 +1,7 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.HTMLCollectionAdapter;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.util.HTMLCollectionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.select.NodeVisitor;

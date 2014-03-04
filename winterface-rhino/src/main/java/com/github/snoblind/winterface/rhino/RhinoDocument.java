@@ -11,6 +11,7 @@ import com.github.snoblind.winterface.spi.CachingNodeAdapterFactory;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
+import com.github.snoblind.winterface.util.NodeListUtils;
 import java.util.Map;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -220,15 +221,6 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		throw new UnsupportedOperationException();
 	}
 
-	public RhinoDocument clone() {
-		try {
-			return (RhinoDocument) super.clone();
-		}
-		catch (CloneNotSupportedException x) {
-			throw new RuntimeException(x);
-		}
-	}
-
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -244,34 +236,32 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 			return document;
 		}
 
-		public Builder document(final Document document) {
+		private void init() {
 			if (this.document == null) {
 				this.document = new RhinoDocument();
 			}
+		}
+		
+		public Builder document(final Document document) {
+			init();
 			this.document.node = document;
 			return this;
 		}
 
 		public Builder eventDispatcher(final EventDispatcher eventDispatcher) {
-			if (this.document == null) {
-				this.document = new RhinoDocument();
-			}
+			init();
 			document.eventDispatcher = eventDispatcher;
 			return this;
 		}
 
 		public Builder parser(final HTMLParser parser) {
-			if (this.document == null) {
-				this.document = new RhinoDocument();
-			}
+			init();
 			document.parser = parser;
 			return this;
 		}
 
 		public Builder querySelector(QuerySelector querySelector) {
-			if (this.document == null) {
-				this.document = new RhinoDocument();
-			}
+			init();
 			document.querySelector = querySelector;
 			return this;
 		}
@@ -338,23 +328,23 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public HTMLCollection getImages() {
-		throw new UnsupportedOperationException();
+		return NodeListUtils.toHTMLCollection(querySelectorAll("img"));
 	}
 
 	public HTMLCollection getApplets() {
-		throw new UnsupportedOperationException();
+		return NodeListUtils.toHTMLCollection(querySelectorAll("applet"));
 	}
 
 	public HTMLCollection getLinks() {
-		throw new UnsupportedOperationException();
+		return NodeListUtils.toHTMLCollection(querySelectorAll("a[href]"));
 	}
 
 	public HTMLCollection getForms() {
-		throw new UnsupportedOperationException();
+		return NodeListUtils.toHTMLCollection(querySelectorAll("form"));
 	}
 
 	public HTMLCollection getAnchors() {
-		throw new UnsupportedOperationException();
+		return NodeListUtils.toHTMLCollection(querySelectorAll("a[name]"));
 	}
 
 	public String getCookie() {

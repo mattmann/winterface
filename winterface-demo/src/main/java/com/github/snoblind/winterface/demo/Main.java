@@ -102,7 +102,6 @@ public class Main {
 					.xmlHttpRequestFactory(xmlHttpRequestFactory)
 					.build();
 			RhinoWindow window = environment.open(INITIAL_URL, null, null, false);
-			System.out.println(INITIAL_URL);
 			try {
 				Demo.builder().console(console).htmlParserFactory(parserFactory).httpClient(httpClient).navigator(navigator).window(window).build().call();
 			}

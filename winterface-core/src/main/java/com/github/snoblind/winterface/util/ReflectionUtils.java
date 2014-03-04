@@ -29,7 +29,11 @@ public final class ReflectionUtils {
 	}
 
 	public static Map<String, PropertyDescriptor> propertyDescriptorsByName(final Object bean) {
-		final PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(bean);
+		return propertyDescriptorsByName(bean.getClass());
+	}
+
+	public static Map<String, PropertyDescriptor> propertyDescriptorsByName(final Class<?> beanClass) {
+		final PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(beanClass);
 		if (descriptors.length == 0) {
 			return emptyMap();
 		}
