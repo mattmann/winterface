@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +73,13 @@ public final class ReflectionUtils {
 		final String name = descriptor.getName();
 		final Class<?> type = descriptor.getPropertyType();
 		if (value != null && !type.isAssignableFrom(value.getClass())) {
-			throw new IllegalArgumentException(format("Cannot convert value %s (instance of %s) to type %s.", value, value.getClass(), type));
+			try {
+				value = ConvertUtils.convert(value, type);
+				LOGGER.debug("Successfully converted value of type {} to type {}.", value.getClass().getName(), type);
+			}
+			catch (ConversionException x) {
+				throw new IllegalArgumentException(format("Cannot convert value %s (instance of %s) to type %s.", value, value.getClass(), type), x);
+			}
 		}
 		LOGGER.debug("{}.setPropertyValue({}, {}, {})", bean.getClass().getName(), name, value);
 		final Method method = descriptor.getWriteMethod();

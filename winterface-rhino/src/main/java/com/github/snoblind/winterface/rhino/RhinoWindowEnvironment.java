@@ -4,7 +4,6 @@ import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.GlobalEventHandlers;
-import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
@@ -91,7 +90,7 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 				.windowEventHandlers(windowEventHandlers)
 				.xmlHttpRequestFactory(xmlHttpRequestFactory)
 				.build();
-		final Location location = new RhinoLocation(window);
+		final RhinoLocation location = new RhinoLocation(window);
 		location.setHref(url);
 		window.setLocation(location);
 		return window;

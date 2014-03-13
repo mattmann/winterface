@@ -5,6 +5,8 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
+import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
@@ -23,6 +25,26 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 		notNull(this.ownerDocument = ownerDocument);
 	}
 
+	protected String encodeURIComponent(String input) {
+		return ownerDocument.getDefaultView().encodeURIComponent(input);
+	}
+
+	protected String decodeURIComponent(String input) {
+		return ownerDocument.getDefaultView().decodeURIComponent(input);
+	}
+
+	protected XMLHttpRequest createXMLHttpRequest() {
+		return ownerDocument.getDefaultView().getXmlHttpRequestFactory().create();
+	}
+	
+	protected RhinoLocation getLocation() {
+		return ownerDocument.getDefaultView().getLocation();
+	}
+	
+	protected EventDispatcher getEventDispatcher() {
+		return ownerDocument.getEventDispatcher();
+	}
+	
 	public RhinoDocument getOwnerDocument() {
 		return ownerDocument;
 	}
@@ -127,6 +149,15 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 		throw new UnsupportedOperationException();
 	}
 
+	protected void setAttribute(String name, boolean value) {
+		if (value) {
+			setAttribute(name, name);
+		}
+		else {
+			removeAttribute(name);
+		}
+	}
+
 	public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
@@ -184,7 +215,8 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
+		event.setTarget(this);
+		return getEventDispatcher().dispatchEvent(event);
 	}
 
 	public EventListener getOnabort() {

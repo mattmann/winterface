@@ -5,7 +5,6 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
-import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.CachingNodeAdapterFactory;
 import com.github.snoblind.winterface.spi.HTMLParser;
@@ -45,7 +44,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	private EventDispatcher eventDispatcher;
 	private HTMLParser parser;
 	private QuerySelector querySelector;
-	private Window defaultView;
+	private RhinoWindow defaultView;
 
 	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
 		final Map<String, Function> map = super.functionsByName();
@@ -89,11 +88,11 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		this.eventDispatcher = eventDispatcher;
 	}
 
-	public Window getDefaultView() {
+	public RhinoWindow getDefaultView() {
 		return defaultView;
 	}
 
-	protected void setDefaultView(Window defaultView) {
+	protected void setDefaultView(RhinoWindow defaultView) {
 		this.defaultView = defaultView;
 	}
 

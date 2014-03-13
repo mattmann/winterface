@@ -2,7 +2,6 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.GlobalEventHandlers;
-import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
@@ -46,7 +45,7 @@ public class RhinoWindowTest {
 
 	@Mock private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	@Mock private GlobalEventHandlers globalEventHandlers;
-	@Mock private Location location;
+	@Mock private RhinoLocation location;
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;

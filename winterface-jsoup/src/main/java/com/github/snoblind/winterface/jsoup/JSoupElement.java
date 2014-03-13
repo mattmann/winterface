@@ -124,7 +124,7 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	public boolean hasAttributeNS(String namespaceURI, String localName) {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	protected void setBooleanAttribute(String name, boolean value) {
 		if (value) {
 			setAttribute(name, name);

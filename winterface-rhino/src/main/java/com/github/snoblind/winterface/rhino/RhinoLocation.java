@@ -148,6 +148,26 @@ public class RhinoLocation implements Location {
 		assign(href);
 	}
 
+	protected void submit(String method, String action, String data) {
+		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
+		request.open(method, action, false, null, null);
+		try {
+			request.send(data);
+		}
+		catch (IOException x) {
+			throw new RuntimeException(x);
+		}
+		isTrue(4 == request.getReadyState());
+		href = action;
+		window.setDocument(RhinoDocument.builder()
+				.document(request.getResponseXML())
+				.eventDispatcher(window.getEventDispatcher())
+				.parser(window.getParserFactory().create())
+				.querySelector(window.getQuerySelector())
+				.build());
+		window.evalDocument();
+	}
+
 	public void assign(final String url) {
 		if ("about:blank".equals(url)) {
 			final HTMLParser parser = window.getParserFactory().create();

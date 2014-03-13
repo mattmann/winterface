@@ -9,8 +9,8 @@
 		</layout>
 	</appender>
 
-	<logger name="com.github.snoblind.winterface.rhino.RhinoNavigator" additivity="true">
-		<level value="off"/>
+	<logger name="com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest" additivity="false">
+		<level value="debug"/>
 		<appender-ref ref="console"/>
 	</logger>
 

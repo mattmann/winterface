@@ -6,12 +6,14 @@ import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.Callable;
 import org.apache.commons.collections4.Factory;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +58,7 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 
 	public void send(String data) throws IOException {
 		LOGGER.debug("send({})", data);
-		if ("GET".equals(method)) {
+		if ("GET".equalsIgnoreCase(method)) {
 			if (asynchronous) {
 				asyncGet();
 			}
@@ -64,27 +66,63 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 				get();
 			}
 		}
+		else if ("POST".equalsIgnoreCase(method)) {
+			if (asynchronous) {
+				asyncPost();
+			}
+			else {
+				post();
+			}
+		}
 		else {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(method);
 		}
 	}
 
 	private void asyncGet() {
+		callAsync(new Callable<Void>() {
+			public Void call() throws Exception {
+				get();
+				return null;
+			}
+		});
+	}
+
+	private void asyncPost() {
+		callAsync(new Callable<Void>() {
+			public Void call() throws Exception {
+				post();
+				return null;
+			}
+		});
+	}
+
+	private static void callAsync(final Callable<Void> callable) {
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
-					get();
+					callable.call();
 				}
-				catch (IOException x) {
-					LOGGER.error("I/O exception when executing asynchronously.", x);
+				catch (Exception x) {
+					LOGGER.error("Exception when executing asynchronously.", x);
 				}
 			}
 		});
 		thread.start();
 	}
-
+	
+	private void post() throws IOException {
+		request = new HttpPost(url);
+		execute();
+	}
+	
 	private void get() throws IOException {
 		request = new HttpGet(url);
+		execute();
+	}
+
+	private void execute() throws IOException {
+		notNull(request);
 		setReadyState(1);
 		response = client.execute(request);
 		setReadyState(2);
@@ -106,7 +144,6 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 			IOUtils.closeQuietly(istream);
 		}
 	}
-
 	
 	public int getReadyState() {
 		return readyState;

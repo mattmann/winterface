@@ -8,7 +8,6 @@ import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.External;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.History;
-import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.Window;
@@ -20,6 +19,9 @@ import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TreeMap;
@@ -55,7 +57,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	private final Map<String, Function> functionsByName;
 
 	private Console console;
-	private Location location;
+	private RhinoLocation location;
 	private Navigator navigator;
 	private EventDispatcher eventDispatcher;
 	private Factory<HTMLParser> parserFactory;
@@ -106,6 +108,24 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		map.put("setTimeout", new SetTimeoutFunction(this));
 		map.put("stop", newMethodFunction("stop"));
 		return unmodifiableMap(map);
+	}
+
+	public String encodeURIComponent(String input) {
+		try {
+			return URLEncoder.encode(input, "UTF-8");
+		}
+		catch (UnsupportedEncodingException x) {
+			throw new RuntimeException(x);
+		}
+	}
+
+	public String decodeURIComponent(String input) {
+		try {
+			return URLDecoder.decode(input, "UTF-8");
+		}
+		catch (UnsupportedEncodingException x) {
+			throw new RuntimeException(x);
+		}
 	}
 	
 	public void moveBy(int dx, int dy) {
@@ -177,11 +197,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		return navigator;
 	}
 
-	public Location getLocation() {
+	public RhinoLocation getLocation() {
 		return location;
 	}
 
-	protected void setLocation(Location location) {
+	protected void setLocation(RhinoLocation location) {
 		this.location = location;
 	}
 	
@@ -1080,7 +1100,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 			return this;
 		}
 
-		public Builder location(Location location) {
+		public Builder location(RhinoLocation location) {
 			getWindow().setLocation(location);
 			return this;
 		}

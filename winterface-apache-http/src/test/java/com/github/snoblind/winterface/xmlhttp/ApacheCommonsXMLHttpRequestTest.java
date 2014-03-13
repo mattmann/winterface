@@ -30,6 +30,7 @@ import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
@@ -44,6 +45,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApacheCommonsXMLHttpRequestTest {
 
+	private static final String DATA = "DATA";
 	private static URL resource;
 	private static String responseText;
 
@@ -90,7 +92,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 	public void send_GET_synchronous_Exception() throws SAXException, IOException {
 		doThrow(new RuntimeException()).when(parser).parse(anyString(), anyString());
 		request.open("GET", resource.toExternalForm(), true, EMPTY, EMPTY);
-		request.send("GET");
+		request.send(DATA);
 		assertNull(request.getResponseXML());
 		verifyZeroInteractions(client);
 		verifyZeroInteractions(document);
@@ -106,7 +108,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 	public void send_GET_asynchronous_IOException() throws IllegalStateException, IOException, InterruptedException {
 		doThrow(new IOException()).when(entity).getContent();
 		request.open("GET", resource.toExternalForm(), true, EMPTY, EMPTY);
-		request.send("GET");
+		request.send(DATA);
 		Thread.sleep(100);
 		verify(client).execute(argThat(matchRequestURI(resource)));
 		verify(entity).getContent();
@@ -124,7 +126,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 		request.setOnreadystatechange(listener);
 		assertSame(listener, request.getOnreadystatechange());
 		request.open("GET", resource.toExternalForm(), true, EMPTY, EMPTY);
-		request.send("GET");
+		request.send(DATA);
 		Thread.sleep(100);
 		assertEquals(ReadyState.RESPONSE_READY.ordinal(), request.getReadyState());
 		assertEquals(200, request.getStatus());
@@ -145,7 +147,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 	@Test
 	public void send_GET_synchronous() throws IOException {
 		request.open("GET", resource.toExternalForm(), false, EMPTY, EMPTY);
-		request.send("GET");
+		request.send(DATA);
 		assertEquals(ReadyState.RESPONSE_READY.ordinal(), request.getReadyState());
 		assertEquals(200, request.getStatus());
 		assertEquals(responseText, request.getResponseText());
@@ -160,20 +162,62 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verifyZeroInteractions(listener);
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void send_POST_synchronous() throws IOException {
-		request.open("POST", resource.toExternalForm(), false, EMPTY, EMPTY);
-		request.send("POST");
-		verifyZeroInteractions(client);
-		verifyZeroInteractions(entity);
-		verifyZeroInteractions(response);
-		verifyZeroInteractions(statusLine);
+	@Test
+	public void send_POST_asynchronous() throws IOException, InterruptedException {
+		request.open("POST", resource.toExternalForm(), true, EMPTY, EMPTY);
+		request.send(DATA);
+		Thread.sleep(100);
+		assertEquals(ReadyState.RESPONSE_READY.ordinal(), request.getReadyState());
+		assertEquals(200, request.getStatus());
+		assertEquals(responseText, request.getResponseText());
+		assertSame(document, request.getResponseXML());
+		verify(client).execute(argThat(matchRequestURI(resource)));
+		verify(entity).getContent();
+		verify(response).getEntity();
+		verify(parser).parse(responseText, resource.toExternalForm());
+		verify(statusLine).getStatusCode();
+		verifyZeroInteractions(document);
 		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
-		verifyZeroInteractions(document);
-		verifyZeroInteractions(parser);
 	}
 
+	@Test
+	public void send_POST_synchronous() throws IOException {
+		request.open("POST", resource.toExternalForm(), false, EMPTY, EMPTY);
+		request.send(DATA);
+		assertEquals(ReadyState.RESPONSE_READY.ordinal(), request.getReadyState());
+		assertEquals(200, request.getStatus());
+		assertEquals(responseText, request.getResponseText());
+		assertSame(document, request.getResponseXML());
+		verify(client).execute(argThat(matchRequestURI(resource)));
+		verify(entity).getContent();
+		verify(response).getEntity();
+		verify(parser).parse(responseText, resource.toExternalForm());
+		verify(statusLine).getStatusCode();
+		verifyZeroInteractions(document);
+		verifyZeroInteractions(event);
+		verifyZeroInteractions(listener);
+	}
+
+	@Test
+	public void send_PUT_synchronous() throws IOException {
+		request.open("PUT", resource.toExternalForm(), false, EMPTY, EMPTY);
+		try {
+			request.send(DATA);
+			fail();
+		}
+		catch (UnsupportedOperationException x) {
+			verifyZeroInteractions(client);
+			verifyZeroInteractions(entity);
+			verifyZeroInteractions(response);
+			verifyZeroInteractions(statusLine);
+			verifyZeroInteractions(event);
+			verifyZeroInteractions(listener);
+			verifyZeroInteractions(document);
+			verifyZeroInteractions(parser);
+		}
+	}
+	
 	private ArgumentMatcher<HttpUriRequest> matchRequestURI(final URL url) {
 		return new ArgumentMatcher<HttpUriRequest>(HttpUriRequest.class) {
 			protected boolean argumentMatches(HttpUriRequest request) {

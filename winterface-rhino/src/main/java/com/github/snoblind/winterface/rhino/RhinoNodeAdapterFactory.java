@@ -1,6 +1,8 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.spi.NodeAdapterFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
@@ -9,6 +11,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDocument> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoNodeAdapterFactory.class);
 
 //	private static final Pattern HEADING_PATTERN = Pattern.compile("h[1-6]", Pattern.CASE_INSENSITIVE);
 
@@ -48,18 +52,18 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDo
 		if ("html".equals(tagName)) {
 			return new RhinoHtmlElement(element, ownerDocument);
 		}
-//		if ("a".equals(tagName)) {
-//			return new RhinoAnchorElement(element, ownerDocument);
-//		}
+		if ("a".equals(tagName)) {
+			return new RhinoAnchorElement(element, ownerDocument);
+		}
 //		if ("applet".equals(tagName)) {
 //			return new RhinoAppletElement(element, ownerDocument);
 //		}
 //		if ("b".equals(tagName)) {
 //			return new RhinoElement(element, ownerDocument);
 //		}
-//		if ("body".equals(tagName)) {
-//			return new RhinoBodyElement(element, ownerDocument);
-//		}
+		if ("body".equals(tagName)) {
+			return new RhinoBodyElement(element, ownerDocument);
+		}
 //		if ("br".equals(tagName)) {
 //			return new RhinoBRElement(element, ownerDocument);
 //		}
@@ -69,57 +73,57 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDo
 //		if ("font".equals(tagName)) {
 //			return new RhinoFontElement(element, ownerDocument);
 //		}
-//		if ("label".equals(tagName)) {
-//			return new RhinoLabelElement(element, ownerDocument);
-//		}
-//		if ("li".equals(tagName)) {
-//			return new RhinoLIElement(element, ownerDocument);
-//		}
-//		if ("link".equals(tagName)) {
-//			return new RhinoLinkElement(element, ownerDocument);
-//		}
-//		if ("img".equals(tagName)) {
-//			return new RhinoImageElement(element, ownerDocument);
-//		}
-//		if ("input".equals(tagName)) {
-//			return new RhinoInputElement(element, ownerDocument);
-//		}
-//		if ("form".equals(tagName)) {
-//			return new RhinoFormElement(element, ownerDocument);
-//		}
-//		if ("head".equals(tagName)) {
-//			return new RhinoHeadElement(element, ownerDocument);
-//		}
+		if ("label".equals(tagName)) {
+			return new RhinoLabelElement(element, ownerDocument);
+		}
+		if ("li".equals(tagName)) {
+			return new RhinoLIElement(element, ownerDocument);
+		}
+		if ("link".equals(tagName)) {
+			return new RhinoLinkElement(element, ownerDocument);
+		}
+		if ("img".equals(tagName)) {
+			return new RhinoImageElement(element, ownerDocument);
+		}
+		if ("input".equals(tagName)) {
+			return new RhinoInputElement(element, ownerDocument);
+		}
+		if ("form".equals(tagName)) {
+			return new RhinoFormElement(element, ownerDocument);
+		}
+		if ("head".equals(tagName)) {
+			return new RhinoHeadElement(element, ownerDocument);
+		}
 //		if ("html".equals(tagName)) {
 //			return new RhinoHtmlElement(element, ownerDocument);
 //		}
-//		if ("meta".equals(tagName)) {
-//			return new RhinoMetaElement(element, ownerDocument);
-//		}
+		if ("meta".equals(tagName)) {
+			return new RhinoMetaElement(element, ownerDocument);
+		}
 //		if ("noscript".equals(tagName)) {
 //			return new RhinoElement(element, ownerDocument);
 //		}
 //		if ("ol".equals(tagName)) {
 //			return new RhinoOLElement(element, ownerDocument);
 //		}
-//		if ("option".equals(tagName)) {
-//			return new RhinoOptionElement(element, ownerDocument);
-//		}
-//		if ("p".equals(tagName)) {
-//			return new RhinoParagraphElement(element, ownerDocument);
-//		}
-//		if ("script".equals(tagName)) {
-//			return new RhinoScriptElement(element, ownerDocument);
-//		}
-//		if ("select".equals(tagName)) {
-//			return new RhinoSelectElement(element, ownerDocument);
-//		}
-//		if ("span".equals(tagName)) {
-//			return new RhinoElement(element, ownerDocument);
-//		}
-//		if ("style".equals(tagName)) {
-//			return new RhinoStyleElement(element, ownerDocument);
-//		}
+		if ("option".equals(tagName)) {
+			return new RhinoOptionElement(element, ownerDocument);
+		}
+		if ("p".equals(tagName)) {
+			return new RhinoParagraphElement(element, ownerDocument);
+		}
+		if ("script".equals(tagName)) {
+			return new RhinoScriptElement(element, ownerDocument);
+		}
+		if ("select".equals(tagName)) {
+			return new RhinoSelectElement(element, ownerDocument);
+		}
+		if ("span".equals(tagName)) {
+			return new RhinoElement(element, ownerDocument);
+		}
+		if ("style".equals(tagName)) {
+			return new RhinoStyleElement(element, ownerDocument);
+		}
 //		if ("table".equals(tagName)) {
 //			return new RhinoTableElement(element, ownerDocument);
 //		}
@@ -129,19 +133,22 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDo
 //		if ("td".equals(tagName)) {
 //			return new RhinoTableCellElement(element, ownerDocument);
 //		}
-//		if ("title".equals(tagName)) {
-//			return new RhinoTitleElement(element, ownerDocument);
-//		}
+		if ("title".equals(tagName)) {
+			return new RhinoTitleElement(element, ownerDocument);
+		}
 //		if ("tr".equals(tagName)) {
 //			return new RhinoTableRowElement(element, ownerDocument);
 //		}
-//		if ("ul".equals(tagName)) {
-//			return new RhinoUListElement(element, ownerDocument);
-//		}
+		if ("ul".equals(tagName)) {
+			return new RhinoUListElement(element, ownerDocument);
+		}
 //		if (HEADING_PATTERN.matcher(tagName).matches()) {
 //			return new RhinoHeadingElement(element, ownerDocument);
 //		}
 //		throw new IllegalArgumentException(element.tagName());
+		if (!tagName.matches("h[0-9]")) {
+			LOGGER.warn("Using plain old {} to wrap <{}/> element (instance of {}).", RhinoElement.class, tagName, element.getClass());
+		}
 		return new RhinoElement(element, ownerDocument);
 	}
 }
