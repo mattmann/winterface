@@ -11,9 +11,13 @@ import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
-import java.util.Map;
-import org.mozilla.javascript.Function;
+import java.net.HttpCookie;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 import org.mozilla.javascript.Scriptable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -37,7 +41,7 @@ import static com.github.snoblind.winterface.required.RequiredProperties.assertR
 
 public class RhinoDocument extends RhinoNode<Document> implements Cloneable, ExtendedHTMLDocument {
 
-	private static final long serialVersionUID = -1250907067692580140L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoDocument.class);
 
 	private final NodeAdapterFactory<Node, RhinoDocument> nodeAdapterFactory = new CachingNodeAdapterFactory<Node, RhinoDocument>(new RhinoNodeAdapterFactory());
 
@@ -46,14 +50,41 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	private QuerySelector querySelector;
 	private RhinoWindow defaultView;
 
-	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
-		final Map<String, Function> map = super.functionsByName();
-		map.put("createDocumentFragment", newMethodFunction("createDocumentFragment"));
-		map.put("createElement", newMethodFunction("createElement", String.class));
-		map.put("addEventListener", newMethodFunction("addEventListener", String.class, EventListener.class, boolean.class));
-		map.put("removeEventListener", newMethodFunction("removeEventListener", String.class, EventListener.class, boolean.class));
-		map.put("getElementById", newMethodFunction("getElementById", String.class));
-		return map;
+	protected RhinoDocument(Document node) {
+		super(node, ExtendedHTMLDocument.class);
+	}
+
+	public String getCookie() {
+		final URI uri = getURI();
+		final List<HttpCookie> cookies = defaultView.getCookieStore().get(uri);
+		final StringBuilder builder = new StringBuilder();
+		for (HttpCookie cookie: cookies) {
+			if (builder.length() > 0) {
+				builder.append("; ");
+			}
+			builder.append(cookie.getName()).append("=").append(cookie.getValue());
+		}
+		final String returnValue = builder.toString();
+		LOGGER.debug("getCookie() => \"{}\"", returnValue);
+		return returnValue;
+	}
+
+	public void setCookie(String cookieString) {
+		LOGGER.warn("setCookie({})", cookieString);
+		final URI uri = getURI();
+		final List<HttpCookie> cookies = HttpCookie.parse(cookieString);
+		for (HttpCookie cookie: cookies) {
+			defaultView.getCookieStore().add(uri, cookie);
+		}
+	}
+
+	private URI getURI() {
+		try {
+			return new URI(defaultView.getLocation().getHref());
+		}
+		catch (URISyntaxException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public Object get(String name, Scriptable start) {
@@ -225,43 +256,38 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public static class Builder {
-		
-		private RhinoDocument document;
+
+		private Document document;
+		private EventDispatcher eventDispatcher;
+		private HTMLParser parser;
+		private QuerySelector querySelector;
 
 		public RhinoDocument build() {
-			assertRequiredProperties(document);
-			final RhinoDocument document = this.document;
-			this.document = null;
-			return document;
-		}
-
-		private void init() {
-			if (this.document == null) {
-				this.document = new RhinoDocument();
-			}
+			final RhinoDocument rhinoDocument = new RhinoDocument(document);
+			rhinoDocument.eventDispatcher = eventDispatcher;
+			rhinoDocument.parser = parser;
+			rhinoDocument.querySelector = querySelector;
+			assertRequiredProperties(rhinoDocument);
+			return rhinoDocument;
 		}
 		
 		public Builder document(final Document document) {
-			init();
-			this.document.node = document;
+			this.document = document;
 			return this;
 		}
 
 		public Builder eventDispatcher(final EventDispatcher eventDispatcher) {
-			init();
-			document.eventDispatcher = eventDispatcher;
+			this.eventDispatcher = eventDispatcher;
 			return this;
 		}
 
 		public Builder parser(final HTMLParser parser) {
-			init();
-			document.parser = parser;
+			this.parser = parser;
 			return this;
 		}
 
 		public Builder querySelector(QuerySelector querySelector) {
-			init();
-			document.querySelector = querySelector;
+			this.querySelector = querySelector;
 			return this;
 		}
 	}
@@ -344,14 +370,6 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 
 	public HTMLCollection getAnchors() {
 		return NodeListUtils.toHTMLCollection(querySelectorAll("a[name]"));
-	}
-
-	public String getCookie() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setCookie(String cookie) {
-		throw new UnsupportedOperationException();
 	}
 
 	public void open() {

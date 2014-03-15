@@ -18,10 +18,13 @@ import com.github.snoblind.winterface.rhino.RhinoWindowEnvironment;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
+import com.github.snoblind.winterface.xmlhttp.CookieStoreAdapter;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.HttpClients;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -55,11 +58,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		final Timer timer = new Timer();
-		final HttpClient httpClient = new DefaultHttpClient();
+		final CookieStore cookieStore = new BasicCookieStore();
+		final HttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
 		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
 		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER);
 		final QuerySelector querySelector = new JoddQuerySelector();
-		final HttpClient client = new DefaultHttpClient();
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final Factory<Event> eventFactory = new Factory<Event>() {
 			public Event create() {
@@ -74,7 +77,7 @@ public class Main {
 		final Factory<XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
-						.client(client)
+						.client(httpClient)
 						.eventFactory(eventFactory)
 						.parserFactory(parserFactory)
 						.build();
@@ -92,6 +95,7 @@ public class Main {
 		try {
 			RhinoWindowEnvironment environment = RhinoWindowEnvironment.builder()
 					.console(console)
+					.cookieStore(new CookieStoreAdapter(cookieStore))
 					.eventDispatcher(eventDispatcher)
 					.globalEventHandlers(globalEventHandlers)
 					.navigator(navigator)
@@ -133,6 +137,7 @@ public class Main {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void shutdown(HttpClient httpClient) {
 		try {
 			LOGGER.debug("Shutting down HTTP connection manager.");

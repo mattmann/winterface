@@ -11,6 +11,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -730,6 +731,10 @@ public class JSoupElement extends JSoupNode<Element> implements ExtendedHTMLElem
 	}
 
 	public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
+		throw new UnsupportedOperationException();
+	}
+
+	public CSSStyleDeclaration getStyle() {
 		throw new UnsupportedOperationException();
 	}
 }

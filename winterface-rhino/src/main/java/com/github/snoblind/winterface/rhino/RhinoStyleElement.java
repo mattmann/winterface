@@ -5,10 +5,8 @@ import org.w3c.dom.Element;
 
 public class RhinoStyleElement extends RhinoElement implements ExtendedHTMLScriptElement {
 
-	private static final long serialVersionUID = 2744279786136089727L;
-
 	public RhinoStyleElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLScriptElement.class);
 	}
 
 	public String getText() {

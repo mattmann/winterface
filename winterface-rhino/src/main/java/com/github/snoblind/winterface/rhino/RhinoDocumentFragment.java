@@ -5,12 +5,10 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoDocumentFragment extends RhinoNode<DocumentFragment> implements DocumentFragment {
 
-	private static final long serialVersionUID = 6420675759659497347L;
-
 	private final RhinoDocument ownerDocument;
 	
 	public RhinoDocumentFragment(DocumentFragment documentFragment, RhinoDocument ownerDocument) {
-		super(documentFragment);
+		super(documentFragment, DocumentFragment.class);
 		notNull(this.ownerDocument = ownerDocument);
 	}
 

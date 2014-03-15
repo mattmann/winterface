@@ -16,13 +16,15 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElement {
 
-	private static final long serialVersionUID = 207282257322677408L;
-
 	private final RhinoDocument ownerDocument;
 	
-	public RhinoElement(Element element, RhinoDocument ownerDocument) {
-		super(element);
+	public RhinoElement(final Element element, final RhinoDocument ownerDocument, final Class<?>... interfaces) {
+		super(element, interfaces);
 		notNull(this.ownerDocument = ownerDocument);
+	}
+
+	public RhinoElement(Element element, RhinoDocument ownerDocument) {
+		this(element, ownerDocument, ExtendedHTMLElement.class);
 	}
 
 	protected String encodeURIComponent(String input) {

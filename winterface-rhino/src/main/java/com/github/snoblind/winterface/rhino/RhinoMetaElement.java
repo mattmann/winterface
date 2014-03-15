@@ -5,10 +5,8 @@ import org.w3c.dom.Element;
 
 public class RhinoMetaElement extends RhinoElement implements ExtendedHTMLMetaElement {
 
-	private static final long serialVersionUID = -9154447520953327183L;
-
 	public RhinoMetaElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLMetaElement.class);
 	}
 
 	public String getContent() {

@@ -5,10 +5,8 @@ import org.w3c.dom.Element;
 
 public class RhinoAnchorElement extends RhinoElement implements ExtendedHTMLAnchorElement {
 
-	private static final long serialVersionUID = 3427042059277547777L;
-
 	public RhinoAnchorElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLAnchorElement.class);
 	}
 
 	public String getAccessKey() {

@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface.util;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,11 +9,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static java.lang.Character.isUpperCase;
+import static java.lang.Character.toLowerCase;
 import static java.lang.String.format;
-import static java.util.Collections.emptyMap;
 import static org.apache.commons.lang.Validate.notNull;
 
 public final class ReflectionUtils {
@@ -30,25 +31,62 @@ public final class ReflectionUtils {
 		throw new NoSuchMethodException(format("Class %s has no method named \"%s\".", objectClass.getName(), name));
 	}
 
-	public static Map<String, PropertyDescriptor> propertyDescriptorsByName(final Object bean) {
-		return propertyDescriptorsByName(bean.getClass());
-	}
-
 	public static Map<String, PropertyDescriptor> propertyDescriptorsByName(final Class<?> beanClass) {
-		final PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(beanClass);
-		if (descriptors.length == 0) {
-			return emptyMap();
-		}
 		final Map<String, PropertyDescriptor> map = new TreeMap<String, PropertyDescriptor>();
-		for (PropertyDescriptor descriptor: descriptors) {
-			final String name = descriptor.getName();
-			if (!"class".equals(name)) {
-				map.put(name, descriptor);
+		for (Method method: beanClass.getMethods()) {
+			final boolean readMethod = isReadMethod(method);
+			final boolean writeMethod = !readMethod && isWriteMethod(method);
+//			LOGGER.debug("isReadMethod({}) => {}", method, readMethod);
+//			LOGGER.debug("isWriteMethod({}) => {}", method, writeMethod);
+			if (!(readMethod || writeMethod)) {
+				continue;
+			}
+			final String name = propertyName(method);
+			LOGGER.debug("{} => {}", method, name);
+			try {
+				PropertyDescriptor descriptor = map.get(name);
+				if (descriptor == null) {
+					map.put(name, descriptor = new PropertyDescriptor(name, beanClass, null, null));
+				}
+				if (readMethod) {
+					descriptor.setReadMethod(method);
+				}
+				else {
+					descriptor.setWriteMethod(method);
+				}
+			}
+			catch (IntrospectionException x) {
+				throw new RuntimeException(x);
 			}
 		}
 		return Collections.unmodifiableMap(map);
 	}
 
+	public static boolean isReadMethod(final Method method) {
+		notNull(method);
+		return (method.getName().length() > 3 && method.getName().startsWith("get")
+					|| method.getName().length() > 2 && method.getName().startsWith("is"))
+				&& 0 == method.getParameterTypes().length;
+	}
+
+	public static boolean isWriteMethod(final Method method) {
+		notNull(method);
+		return method.getName().length() > 3
+				&& method.getName().startsWith("set")
+				&& 1 == method.getParameterTypes().length;
+	}
+
+	public static String propertyName(final Method method) {
+		final String property = method.getName().substring(method.getName().startsWith("is") ? 2 : 3);
+		if (1 == property.length()) {
+			return property.toLowerCase();
+		}
+		if (isUpperCase(property.charAt(0)) && isUpperCase(property.charAt(1))) {
+			return property;
+		}
+		return new StringBuilder().append(toLowerCase(property.charAt(0))).append(property.substring(1)).toString();
+	}
+	
 	public static Object getPropertyValue(final Object bean, final PropertyDescriptor descriptor) {
 		notNull(bean);
 		notNull(descriptor);

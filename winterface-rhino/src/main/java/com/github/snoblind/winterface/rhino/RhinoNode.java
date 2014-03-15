@@ -1,49 +1,28 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.Wrapper;
-import java.beans.PropertyDescriptor;
-import java.util.HashMap;
-import java.util.Map;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
-import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
-import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
-import static com.github.snoblind.winterface.util.ReflectionUtils.setPropertyValue;
-import static java.util.Collections.unmodifiableMap;
 
-public abstract class RhinoNode<N extends Node> extends ScriptableObject implements Node, Wrapper {
+public abstract class RhinoNode<N extends Node> extends DelegatingScriptable implements Node, Scriptable, Wrapper {
 
-	private static final long serialVersionUID = 7612349807292023689L;
+	protected final N node;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RhinoNode.class);
-
-	private final Map<String, PropertyDescriptor> propertyDescriptorsByName = propertyDescriptorsByName(this);
-	private final Map<String, Function> functionsByName;
-
-	protected N node;
-
-	protected RhinoNode(N node) {
+	protected RhinoNode(final N node, final Scriptable scriptable) {
+		super(scriptable);
 		this.node = node;
-		try {
-			functionsByName = unmodifiableMap(functionsByName());
-		}
-		catch (NoSuchMethodException x) {
-			throw new RuntimeException(x);
-		}
+	}
+	
+	protected RhinoNode(final N node, final Class<?>... interfaces) {
+		this.node = node;
+		this.scriptable = new ReflectingScriptableObject(this, interfaces);
 	}
 
-	protected RhinoNode() {
-		this(null);
-	}
+	public abstract RhinoDocument getOwnerDocument();
 
 	public boolean isWrapperFor(Class<?> type) {
 		return type.isAssignableFrom(node.getClass());
@@ -57,20 +36,6 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 	public String getClassName() {
 		throw new UnsupportedOperationException();
 	}
-
-	protected MethodFunction newMethodFunction(String name, Class<?>... parameterTypes) throws NoSuchMethodException {
-		return new MethodFunction(this, getClass().getMethod(name, parameterTypes));
-	}
-
-	protected Map<String, Function> functionsByName() throws NoSuchMethodException {
-		final Map<String, Function> map = new HashMap<String, Function>();
-		map.put("appendChild", newMethodFunction("appendChild", Node.class));
-		map.put("cloneNode", newMethodFunction("cloneNode", boolean.class));
-		map.put("removeChild", newMethodFunction("removeChild", Node.class));
-		return map;
-	}
-
-	public abstract RhinoDocument getOwnerDocument();
 
 	public String getInnerText() {
 		return getOwnerDocument().getParser().getInnerText(this);
@@ -177,7 +142,6 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 	public String lookupNamespaceURI(String prefix) {
 		return node.lookupNamespaceURI(prefix);
 	}
-
 	
 	public String getPrefix() {
 		return node.getPrefix();
@@ -243,42 +207,5 @@ public abstract class RhinoNode<N extends Node> extends ScriptableObject impleme
 
 	public boolean isEqualNode(Node arg) {
 		throw new UnsupportedOperationException();
-	}
-
-	public Object get(String name, Scriptable start) {
-		LOGGER.debug("get({}, {})", name, start);
-		if (propertyDescriptorsByName.containsKey(name)) {
-			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
-			return getPropertyValue(this, propertyDescriptorsByName.get(name));
-		}
-		if (functionsByName.containsKey(name)) {
-			LOGGER.info("Found function named \"{}\" in Map.", name);
-			return functionsByName.get(name);
-		}
-		final Object result = super.get(name, start);
-		if (NOT_FOUND.equals(result)) {
-			LOGGER.warn("Node {} has no such member \"{}\".", this, name);
-		}
-		return result;
-	}
-
-	public void put(String name, Scriptable start, Object value) {
-		LOGGER.debug("{}.put({}, {}, {})", getClass().getName(), name, start, value);
-		if (propertyDescriptorsByName.containsKey(name)) {
-			LOGGER.info("Instances of {} have a property named \"{}\".", getClass(), name);
-			final PropertyDescriptor descriptor = propertyDescriptorsByName.get(name);
-			final Class<?> type = descriptor.getPropertyType();
-			setPropertyValue(this, descriptor, RhinoTypeConverter.getInstance().convert(Context.getCurrentContext(), start, start, value, type));
-		}
-		else {
-			super.put(name, start, value);
-		}
-	}
-
-	public Object getDefaultValue(Class<?> type) {
-		if (String.class.equals(type)) {
-			return toString();
-		}
-		return super.getDefaultValue(type);
 	}
 }

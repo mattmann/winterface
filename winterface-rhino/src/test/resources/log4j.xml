@@ -9,8 +9,8 @@
 		</layout>
 	</appender>
 
-	<logger name="com.github.snoblind.winterface.event" additivity="true">
-		<level value="off"/>
+	<logger name="com.github.snoblind.winterface.rhino.ReflectingScriptableObject" additivity="false">
+		<level value="warn"/>
 		<appender-ref ref="console"/>
 	</logger>
 

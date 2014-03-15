@@ -1,15 +1,14 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLOptionElement;
 
 public class RhinoOptionElement extends RhinoElement implements HTMLOptionElement {
 
-	private static final long serialVersionUID = -5338213538973695138L;
-
 	public RhinoOptionElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLOptionElement.class, ExtendedHTMLElement.class);
 	}
 
 	public HTMLFormElement getForm() {

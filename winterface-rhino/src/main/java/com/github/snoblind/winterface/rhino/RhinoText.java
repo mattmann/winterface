@@ -6,12 +6,10 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoText extends RhinoNode<Text> implements Text {
 
-	private static final long serialVersionUID = 1900789236571971113L;
-
 	private final RhinoDocument ownerDocument;
 
 	public RhinoText(Text node, RhinoDocument ownerDocument) {
-		super(node);
+		super(node, Text.class);
 		notNull(this.ownerDocument = ownerDocument);
 	}
 

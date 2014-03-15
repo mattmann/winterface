@@ -1,14 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLBodyElement;
 
 public class RhinoBodyElement extends RhinoElement implements HTMLBodyElement {
 
-	private static final long serialVersionUID = 1525438149388688203L;
-
 	public RhinoBodyElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLBodyElement.class, ExtendedHTMLElement.class);
 	}
 
 	public String getALink() {

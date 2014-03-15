@@ -9,6 +9,7 @@ import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import java.io.IOException;
+import java.net.CookieStore;
 import java.util.Timer;
 import org.apache.commons.collections4.Factory;
 import org.springframework.beans.factory.annotation.Required;
@@ -19,6 +20,7 @@ import static org.apache.commons.lang.Validate.notNull;
 public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 
 	private Console console;
+	private CookieStore cookieStore;
 	private Factory<HTMLParser> parserFactory;
 	private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	private GlobalEventHandlers globalEventHandlers;
@@ -29,6 +31,11 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 	private Navigator navigator;
 
 	private RhinoWindowEnvironment() {
+	}
+
+	@Required
+	public CookieStore getCookieStore() {
+		return cookieStore;
 	}
 
 	@Required
@@ -81,6 +88,7 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 		isTrue(target == null && features == null && replace == false);
 		final RhinoWindow window  = RhinoWindow.builder()
 				.console(console)
+				.cookieStore(cookieStore)
 				.eventDispatcher(eventDispatcher)
 				.globalEventHandlers(globalEventHandlers)
 				.navigator(navigator)
@@ -163,6 +171,11 @@ public class RhinoWindowEnvironment implements Cloneable, WindowEnvironment {
 
 		public Builder eventDispatcher(EventDispatcher eventDispatcher) {
 			getEnvironment().eventDispatcher = eventDispatcher;
+			return this;
+		}
+
+		public Builder cookieStore(CookieStore cookieStore) {
+			getEnvironment().cookieStore = cookieStore;
 			return this;
 		}
 	}

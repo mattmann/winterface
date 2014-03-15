@@ -13,6 +13,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.css.CSSStyleDeclaration;
 
 public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLElement {
 
@@ -685,6 +686,10 @@ public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLEle
 	}
 
 	public void setOntouchcancel(EventListener handler) {
+		throw new UnsupportedOperationException();
+	}
+
+	public CSSStyleDeclaration getStyle() {
 		throw new UnsupportedOperationException();
 	}
 }

@@ -5,10 +5,8 @@ import org.w3c.dom.Element;
 
 public class RhinoScriptElement extends RhinoElement implements ExtendedHTMLScriptElement {
 
-	private static final long serialVersionUID = -2323515815473032800L;
-
 	public RhinoScriptElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLScriptElement.class);
 	}
 
 	public String getCharset() {

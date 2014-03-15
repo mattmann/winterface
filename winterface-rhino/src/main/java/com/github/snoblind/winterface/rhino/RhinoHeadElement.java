@@ -1,14 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLHeadElement;
 
 public class RhinoHeadElement extends RhinoElement implements HTMLHeadElement {
 
-	private static final long serialVersionUID = 3716326119232332144L;
-
 	public RhinoHeadElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLHeadElement.class, ExtendedHTMLElement.class);
 	}
 
 	public String getProfile() {

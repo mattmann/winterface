@@ -8,6 +8,7 @@ import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
+import java.net.CookieStore;
 import java.util.Timer;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,7 @@ public class RhinoWindowEnvironmentTest {
 	private RhinoWindowEnvironment environment;
 
 	@Mock private Console console;
+	@Mock private CookieStore cookieStore;
 	@Mock private Document responseXML;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private GlobalEventHandlers globalEventHandlers;
@@ -43,6 +45,7 @@ public class RhinoWindowEnvironmentTest {
 		initMocks(this);
 		environment = RhinoWindowEnvironment.builder()
 				.console(console)
+				.cookieStore(cookieStore)
 				.eventDispatcher(eventDispatcher)
 				.globalEventHandlers(globalEventHandlers)
 				.navigator(navigator)

@@ -1,14 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLLIElement;
 
 public class RhinoLIElement extends RhinoElement implements HTMLLIElement {
 
-	private static final long serialVersionUID = 5414591283591733909L;
-
 	public RhinoLIElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLLIElement.class, ExtendedHTMLElement.class);
 	}
 
 	public String getType() {

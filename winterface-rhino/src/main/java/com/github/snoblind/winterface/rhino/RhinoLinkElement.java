@@ -1,14 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLLinkElement;
 
 public class RhinoLinkElement extends RhinoElement implements HTMLLinkElement {
 
-	private static final long serialVersionUID = -3284600669700802908L;
-
 	public RhinoLinkElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLLinkElement.class, ExtendedHTMLElement.class);
 	}
 
 	public boolean getDisabled() {

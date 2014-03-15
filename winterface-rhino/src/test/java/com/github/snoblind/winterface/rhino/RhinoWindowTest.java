@@ -12,6 +12,7 @@ import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.JAXPHTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
+import java.net.CookieStore;
 import java.net.URL;
 import java.util.Timer;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,13 +44,14 @@ public class RhinoWindowTest {
 	private HTMLParser parser;
 	private EventDispatcher eventDispatcher;
 
+	@Mock private CookieStore cookieStore;
 	@Mock private Factory<XMLHttpRequest> xmlHttpRequestFactory;
 	@Mock private GlobalEventHandlers globalEventHandlers;
+	@Mock private Navigator navigator;
 	@Mock private RhinoLocation location;
 	@Mock private QuerySelector querySelector;
 	@Mock private Timer timer;
 	@Mock private WindowEventHandlers windowEventHandlers;
-	@Mock private Navigator navigator;
 
 	@Before
 	public void setUp() throws IOException, ParserConfigurationException, TransformerException {
@@ -66,6 +68,7 @@ public class RhinoWindowTest {
 				.build();
 		window = RhinoWindow.builder()
 				.console(console)
+				.cookieStore(cookieStore)
 				.document(document)
 				.eventDispatcher(eventDispatcher)
 				.globalEventHandlers(globalEventHandlers)

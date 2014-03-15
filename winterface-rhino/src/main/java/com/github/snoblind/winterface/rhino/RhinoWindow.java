@@ -20,6 +20,7 @@ import com.github.snoblind.winterface.util.NodeListUtils;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.CookieStore;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	private final Map<String, Function> functionsByName;
 
 	private Console console;
+	private CookieStore cookieStore;
 	private RhinoLocation location;
 	private Navigator navigator;
 	private EventDispatcher eventDispatcher;
@@ -150,6 +152,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 	public void scrollTo(int x, int y) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Required
+	public CookieStore getCookieStore() {
+		return cookieStore;
 	}
 
 	@Required
@@ -286,6 +293,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public Object eval(String source) {
+		LOGGER.info("eval({})", source);
 		final Context context = Context.getCurrentContext();
 		notNull(context);
 		return context.evaluateString(this, source, null, 0, null);
@@ -1117,6 +1125,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 
 		public Builder xmlHttpRequestFactory(Factory<XMLHttpRequest> xmlHttpRequestFactory) {
 			getWindow().xmlHttpRequestFactory = xmlHttpRequestFactory;
+			return this;
+		}
+
+		public Builder cookieStore(CookieStore cookieStore) {
+			getWindow().cookieStore = cookieStore;
 			return this;
 		}
 	}

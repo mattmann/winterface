@@ -6,12 +6,10 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoComment extends RhinoNode<Comment> implements Comment {
 
-	private static final long serialVersionUID = -1818831899075684175L;
-
 	private final RhinoDocument ownerDocument;
 
 	public RhinoComment(final Comment node, final RhinoDocument ownerDocument) {
-		super(node);
+		super(node, Comment.class);
 		notNull(this.ownerDocument = ownerDocument);
 	}
 

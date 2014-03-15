@@ -5,10 +5,8 @@ import org.w3c.dom.Element;
 
 public class RhinoImageElement extends RhinoElement implements ExtendedHTMLImageElement {
 
-	private static final long serialVersionUID = -1200825129419566174L;
-
 	public RhinoImageElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLImageElement.class);
 	}
 
 	public String getLowSrc() {

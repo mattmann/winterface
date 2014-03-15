@@ -1,16 +1,14 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
+import com.github.snoblind.winterface.ExtendedHTMLInputElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.html.HTMLInputElement;
 
-public class RhinoInputElement extends RhinoElement implements HTMLInputElement {
-
-	private static final long serialVersionUID = 4013871350220277114L;
+public class RhinoInputElement extends RhinoElement implements ExtendedHTMLInputElement {
 
 	public RhinoInputElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, ExtendedHTMLInputElement.class);
 	}
 
 	public String getType() {

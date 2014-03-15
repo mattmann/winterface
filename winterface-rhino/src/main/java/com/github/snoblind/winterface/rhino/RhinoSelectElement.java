@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLElement;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLCollection;
@@ -12,10 +13,8 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 public class RhinoSelectElement extends RhinoElement implements HTMLSelectElement {
 
-	private static final long serialVersionUID = 5576338829226683160L;
-
 	public RhinoSelectElement(Element element, RhinoDocument ownerDocument) {
-		super(element, ownerDocument);
+		super(element, ownerDocument, HTMLSelectElement.class, ExtendedHTMLElement.class);
 	}
 
 	public int getSelectedIndex() {
