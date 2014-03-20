@@ -26,11 +26,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.mozilla.javascript.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static com.github.snoblind.winterface.mock.Answers.ANSWER_UNSUPPORTED;
 
 public class Main {
 
@@ -38,30 +37,12 @@ public class Main {
 
 	private static final String INITIAL_URL = "about:blank";
 
-	private static final Answer<Object> ANSWER = new Answer<Object>() {
-		public Object answer(InvocationOnMock invocation) throws Throwable {
-			final java.lang.reflect.Method method = invocation.getMethod();
-			final Object[] arguments = invocation.getArguments();
-			if (arguments.length == 0) {
-				if (method.getName().equals("finalize")) {
-					return null;
-				}
-				if (method.getName().equals("toString")) {
-					return invocation.getMock().getClass().getName();
-				}
-			}
-			System.err.println(method);
-			System.err.println(java.util.Arrays.toString(arguments));
-			throw new UnsupportedOperationException(method.toString());
-		}
-	};
-	
 	public static void main(String[] args) {
 		final Timer timer = new Timer();
 		final CookieStore cookieStore = new BasicCookieStore();
 		final HttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER);
-		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER);
+		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER_UNSUPPORTED);
+		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER_UNSUPPORTED);
 		final QuerySelector querySelector = new JoddQuerySelector();
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final Factory<Event> eventFactory = new Factory<Event>() {
