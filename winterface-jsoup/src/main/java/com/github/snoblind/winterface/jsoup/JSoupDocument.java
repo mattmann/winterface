@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.jsoup;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.Window;
@@ -76,7 +77,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return querySelector.querySelector(this, query);
 	}
 
-	public NodeList querySelectorAll(String query) {
+	public ExtendedHTMLCollection querySelectorAll(String query) {
 		return querySelector.querySelectorAll(this, query);
 	}
 
@@ -236,7 +237,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 		return querySelector(String.format("#%s", elementId));
 	}
 
-	public NodeList getElementsByName(String elementName) {
+	public ExtendedHTMLCollection getElementsByName(String elementName) {
 		throw new UnsupportedOperationException();
 	}
 

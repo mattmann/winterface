@@ -29,7 +29,6 @@ import org.mockito.Mockito;
 import org.mozilla.javascript.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.github.snoblind.winterface.mock.Answers.ANSWER_UNSUPPORTED;
 
 public class Main {
 
@@ -41,8 +40,8 @@ public class Main {
 		final Timer timer = new Timer();
 		final CookieStore cookieStore = new BasicCookieStore();
 		final HttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class, ANSWER_UNSUPPORTED);
-		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class, ANSWER_UNSUPPORTED);
+		final GlobalEventHandlers globalEventHandlers = Mockito.mock(GlobalEventHandlers.class);
+		final WindowEventHandlers windowEventHandlers = Mockito.mock(WindowEventHandlers.class);
 		final QuerySelector querySelector = new JoddQuerySelector();
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final Factory<Event> eventFactory = new Factory<Event>() {

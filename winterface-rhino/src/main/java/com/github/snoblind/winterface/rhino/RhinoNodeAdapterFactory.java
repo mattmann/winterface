@@ -9,6 +9,7 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.w3c.dom.html.HTMLFormElement;
 
 public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDocument> {
 
@@ -89,7 +90,7 @@ public class RhinoNodeAdapterFactory implements NodeAdapterFactory<Node, RhinoDo
 			return new RhinoInputElement(element, ownerDocument);
 		}
 		if ("form".equals(tagName)) {
-			return new RhinoFormElement(element, ownerDocument);
+			return new RhinoFormElement((HTMLFormElement) element, ownerDocument);
 		}
 		if ("head".equals(tagName)) {
 			return new RhinoHeadElement(element, ownerDocument);

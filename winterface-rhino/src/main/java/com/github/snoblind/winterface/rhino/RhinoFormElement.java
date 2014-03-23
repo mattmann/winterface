@@ -3,18 +3,18 @@ package com.github.snoblind.winterface.rhino;
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import org.apache.commons.lang.StringUtils;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLInputElement;
 
 public class RhinoFormElement extends RhinoElement implements ExtendedHTMLFormElement {
 
 	private static final String ELEMENTS = "button, datalist, input, keygen, select, output, textarea";
 
-	public RhinoFormElement(Element element, RhinoDocument ownerDocument) {
+	public RhinoFormElement(HTMLFormElement element, RhinoDocument ownerDocument) {
 		super(element, ownerDocument, ExtendedHTMLFormElement.class);
 	}
 

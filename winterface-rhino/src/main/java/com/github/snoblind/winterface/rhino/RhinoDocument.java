@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.rhino;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.event.EventDispatcher;
@@ -10,7 +11,6 @@ import com.github.snoblind.winterface.spi.CachingNodeAdapterFactory;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.NodeAdapterFactory;
 import com.github.snoblind.winterface.spi.QuerySelector;
-import com.github.snoblind.winterface.util.NodeListUtils;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -34,7 +34,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
-import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLTitleElement;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
@@ -308,11 +307,11 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		return querySelector.querySelector(this, selectors);
 	}
 
-	public NodeList querySelectorAll(String selectors) {
+	public ExtendedHTMLCollection querySelectorAll(String selectors) {
 		return querySelector.querySelectorAll(this, selectors);
 	}
 
-	public NodeList getElementsByName(final String name) {
+	public ExtendedHTMLCollection getElementsByName(final String name) {
 		return querySelectorAll(name);
 	}
 
@@ -352,24 +351,24 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 		throw new UnsupportedOperationException();
 	}
 
-	public HTMLCollection getImages() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll("img"));
+	public ExtendedHTMLCollection getImages() {
+		return querySelectorAll("img");
 	}
 
-	public HTMLCollection getApplets() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll("applet"));
+	public ExtendedHTMLCollection getApplets() {
+		return querySelectorAll("applet");
 	}
 
-	public HTMLCollection getLinks() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll("a[href]"));
+	public ExtendedHTMLCollection getLinks() {
+		return querySelectorAll("a[href]");
 	}
 
-	public HTMLCollection getForms() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll("form"));
+	public ExtendedHTMLCollection getForms() {
+		return querySelectorAll("form");
 	}
 
-	public HTMLCollection getAnchors() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll("a[name]"));
+	public ExtendedHTMLCollection getAnchors() {
+		return querySelectorAll("a[name]");
 	}
 
 	public void open() {

@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface.util;
 
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.NodeListIterable;
 import com.github.snoblind.winterface.NodeListIterator;
 import java.util.Iterator;
@@ -16,6 +17,23 @@ public final class NodeListUtils {
 	private NodeListUtils() {
 	}
 
+	public static ExtendedHTMLCollection toHTMLCollection(final List<Node> nodes) {
+		return new ExtendedHTMLCollection() {
+
+			public int getLength() {
+				return nodes.size();
+			}
+
+			public Node item(int index) {
+				return nodes.get(index);
+			}
+
+			public Node namedItem(String name) {
+				throw new UnsupportedOperationException(String.format("namedItem(\"%s\")", name));
+			}
+		};
+	}
+	
 	public static NodeList fromList(final List<? extends Node> list) {
 		return new NodeList() {
 

@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.jodd;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.Window;
 import org.w3c.dom.Attr;
@@ -391,11 +392,11 @@ public class LagartoDocument implements ExtendedHTMLDocument {
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeList querySelectorAll(String selectors) {
+	public ExtendedHTMLCollection querySelectorAll(String selectors) {
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeList getElementsByName(String elementName) {
+	public ExtendedHTMLCollection getElementsByName(String elementName) {
 		throw new UnsupportedOperationException();
 	}
 
