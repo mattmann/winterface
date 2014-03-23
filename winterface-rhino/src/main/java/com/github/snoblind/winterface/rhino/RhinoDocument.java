@@ -308,7 +308,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public ExtendedHTMLCollection querySelectorAll(String selectors) {
-		return querySelector.querySelectorAll(this, selectors);
+		return new RhinoHTMLCollection(querySelector.querySelectorAll(this, selectors), this);
 	}
 
 	public ExtendedHTMLCollection getElementsByName(final String name) {

@@ -41,7 +41,12 @@ public class JoddQuerySelector extends AbstractQuerySelector {
 			}
 
 			public org.w3c.dom.Node namedItem(String name) {
-				throw new UnsupportedOperationException();
+				for (Node node: nodes) {
+					if (node.getAttribute("id").equals(name) || node.getAttribute("name").equals(name)) {
+						return NodeAdapter.unwrap(node);
+					}
+				}
+				return null;
 			}
 		};
 	}

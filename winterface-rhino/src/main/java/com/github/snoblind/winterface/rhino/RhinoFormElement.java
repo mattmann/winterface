@@ -1,11 +1,11 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -53,8 +53,8 @@ public class RhinoFormElement extends RhinoElement implements ExtendedHTMLFormEl
 		throw new IllegalArgumentException(element.getClass().getName());
 	}
 	
-	public HTMLCollection getElements() {
-		return NodeListUtils.toHTMLCollection(querySelectorAll(ELEMENTS));
+	public ExtendedHTMLCollection getElements() {
+		return new RhinoHTMLCollection(querySelectorAll(ELEMENTS), getOwnerDocument());
 	}
 
 	public String getMethod() {

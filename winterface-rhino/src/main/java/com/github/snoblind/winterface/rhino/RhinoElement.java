@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.rhino;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.XMLHttpRequest;
@@ -115,7 +116,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 		return ownerDocument.getQuerySelector().querySelector(this, query);
 	}
 
-	public NodeList querySelectorAll(String query) {
+	public ExtendedHTMLCollection querySelectorAll(String query) {
 		return ownerDocument.getQuerySelector().querySelectorAll(this, query);
 	}
 
