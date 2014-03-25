@@ -22,9 +22,9 @@ public final class Answers {
 					return invocation.getMock().getClass().getName();
 				}
 			}
-			System.err.println(invocation.getMethod());
-			System.err.println(Arrays.toString(invocation.getArguments()));
-			throw new UnsupportedOperationException(invocation.getMethod().toString());
+			System.err.println(method);
+			System.err.println(Arrays.toString(arguments));
+			throw new UnsupportedOperationException(method.toString());
 		}
 	};
 }

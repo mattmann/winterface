@@ -1,15 +1,21 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
+import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.Attr;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
+import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
 
 	private final HTMLCollection collection;
 	private final RhinoDocument document;
+	private Scriptable prototype;
+	private Scriptable parentScope;
 
 	public RhinoHTMLCollection(final HTMLCollection collection, final RhinoDocument document) {
 		notNull(collection);
@@ -38,6 +44,47 @@ public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
 		return document.adapt(node);
 	}
 
+	/**
+     * Returns an array of ids for the properties of the object.
+     *
+     * @return an array of java.lang.Objects with an entry for every
+     * listed property. Properties accessed via an integer index will
+     * have a corresponding
+     * Integer entry in the returned array. Properties accessed by
+     * a String will have a String entry in the returned array.
+     */
+	public Object[] getIds() {
+		final Object[] ids = new Object[2 * collection.getLength()];
+		for (int i = 0; i < collection.getLength(); i += 2) {
+			final Node node = collection.item(i);
+			ids[i] = i;
+			ids[i + 1] = resolveId(node);
+		}
+		return ids;
+	}
+
+	private String resolveId(Node node) {
+		final NamedNodeMap attributes = node.getAttributes();
+		if (attributes == null) {
+			return EMPTY;
+		}
+		Node attribute = attributes.getNamedItem("id");
+		if (attribute == null) {
+			attribute = attributes.getNamedItem("name");
+			if (attribute == null) {
+				return EMPTY;
+			}
+		}
+		return ((Attr) attribute).getValue();
+	}
+
+	public Object getDefaultValue(Class<?> hint) {
+		if (ScriptRuntime.StringClass.equals(hint)) {
+			return toString();
+		}
+		throw new IllegalArgumentException(String.valueOf(hint));
+	}
+
 	public String getClassName() {
 		return getClass().getName();
 	}
@@ -48,14 +95,6 @@ public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
 
 	public Object get(int index, Scriptable start) {
 		return item(index);
-	}
-
-	public boolean has(String name, Scriptable start) {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean has(int index, Scriptable start) {
-		throw new UnsupportedOperationException();
 	}
 
 	public void put(String name, Scriptable start, Object value) {
@@ -74,31 +113,31 @@ public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
 		throw new UnsupportedOperationException();
 	}
 
+	public boolean has(String name, Scriptable start) {
+		return null != collection.namedItem(name);
+	}
+
+	public boolean has(int index, Scriptable start) {
+		return null != collection.item(index);
+	}
+
+    public boolean hasInstance(Scriptable instance) {
+        return ScriptRuntime.jsDelegatesTo(instance, this);
+    }	
+
 	public Scriptable getPrototype() {
-		throw new UnsupportedOperationException();
+		return prototype;
 	}
 
 	public void setPrototype(Scriptable prototype) {
-		throw new UnsupportedOperationException();
+		this.prototype = prototype;
 	}
 
 	public Scriptable getParentScope() {
-		throw new UnsupportedOperationException();
+		return parentScope;
 	}
 
-	public void setParentScope(Scriptable parent) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Object[] getIds() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Object getDefaultValue(Class<?> hint) {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean hasInstance(Scriptable instance) {
-		throw new UnsupportedOperationException();
+	public void setParentScope(Scriptable parentScope) {
+		this.parentScope = parentScope;
 	}
 }

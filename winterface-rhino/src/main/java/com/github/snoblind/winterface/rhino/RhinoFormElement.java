@@ -12,7 +12,7 @@ import org.w3c.dom.html.HTMLInputElement;
 
 public class RhinoFormElement extends RhinoElement implements ExtendedHTMLFormElement {
 
-	private static final String ELEMENTS = "button, datalist, input, keygen, select, output, textarea";
+	protected static final String ELEMENTS_QUERY = "button, datalist, input, keygen, select, output, textarea";
 
 	public RhinoFormElement(HTMLFormElement element, RhinoDocument ownerDocument) {
 		super(element, ownerDocument, ExtendedHTMLFormElement.class);
@@ -23,7 +23,7 @@ public class RhinoFormElement extends RhinoElement implements ExtendedHTMLFormEl
 	}
 
 	private String getData() {
-		final NodeList elements = querySelectorAll(ELEMENTS);
+		final NodeList elements = querySelectorAll(ELEMENTS_QUERY);
 		if (0 == elements.getLength()) {
 			return StringUtils.EMPTY;
 		}
@@ -54,7 +54,7 @@ public class RhinoFormElement extends RhinoElement implements ExtendedHTMLFormEl
 	}
 	
 	public ExtendedHTMLCollection getElements() {
-		return new RhinoHTMLCollection(querySelectorAll(ELEMENTS), getOwnerDocument());
+		return new RhinoHTMLCollection(querySelectorAll(ELEMENTS_QUERY), getOwnerDocument());
 	}
 
 	public String getMethod() {

@@ -1,7 +1,6 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
-import com.github.snoblind.winterface.mock.Answers;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.net.URLEncoder;
 import org.junit.Before;
@@ -9,9 +8,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLButtonElement;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLInputElement;
+import org.w3c.dom.html.HTMLSelectElement;
+import org.w3c.dom.html.HTMLTextAreaElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
@@ -21,7 +24,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static com.github.snoblind.winterface.mock.Answers.ANSWER_UNSUPPORTED;
 import static com.github.snoblind.winterface.mock.MockitoAnnotations.initMocks;
+import static com.github.snoblind.winterface.rhino.RhinoFormElement.ELEMENTS_QUERY;;
 
 public class RhinoFormElementTest {
 
@@ -33,15 +38,15 @@ public class RhinoFormElementTest {
 	@Mock private RhinoDocument document;
 	@Mock private RhinoLocation location;
 	@Mock private RhinoWindow window;
-	
+
 	@Before
 	public void setUp() {
-		initMocks(this, Answers.ANSWER_UNSUPPORTED);
+		initMocks(this, ANSWER_UNSUPPORTED);
 		form = new RhinoFormElement(domElement, document);
 		doReturn(location).when(window).getLocation();
 		doReturn(window).when(document).getDefaultView();
 		doReturn(querySelector).when(document).getQuerySelector();
-		doReturn(elements).when(querySelector).querySelectorAll(form, "button, datalist, input, keygen, select, output, textarea");
+		doReturn(elements).when(querySelector).querySelectorAll(form, ELEMENTS_QUERY);
 		doReturn("POST").when(domElement).getAttribute("method");
 		doReturn("https://host.domain.com/path").when(domElement).getAttribute("action");
 		doAnswer(new Answer<String>() {
@@ -68,18 +73,26 @@ public class RhinoFormElementTest {
 	
 	@Test
 	public void getElements() {
-		final HTMLInputElement inputElement = mockInputElement("name", "value");
-		doReturn(1).when(elements).getLength();
-		doReturn(inputElement).when(elements).item(0);
+		final HTMLButtonElement button = mock(HTMLButtonElement.class, ANSWER_UNSUPPORTED);
+		final HTMLSelectElement select = mock(HTMLSelectElement.class, ANSWER_UNSUPPORTED);
+		final HTMLTextAreaElement textArea = mock(HTMLTextAreaElement.class, ANSWER_UNSUPPORTED);
+		final HTMLInputElement input = mockInputElement("name", "value");
+		doReturn(4).when(elements).getLength();
+		doReturn(button).when(elements).item(0);
+		doReturn(select).when(elements).item(1);
+		doReturn(textArea).when(elements).item(2);
+		doReturn(input).when(elements).item(3);
 		final ExtendedHTMLCollection elements = form.getElements();
-		assertEquals(1, elements.getLength());
-		assertSame(inputElement, elements.item(0));
-		verify(querySelector).querySelectorAll(form, "button, datalist, input, keygen, select, output, textarea");
-		
+		assertEquals(4, elements.getLength());
+		assertSame(button, elements.item(0));
+		assertSame(select, elements.item(1));
+		assertSame(textArea, elements.item(2));
+		assertSame(input, elements.item(3));
+		verify(querySelector).querySelectorAll(form, ELEMENTS_QUERY);
 	}
 
 	private HTMLInputElement mockInputElement(String name, String value) {
-		final HTMLInputElement inputElement = mock(HTMLInputElement.class, Answers.ANSWER_UNSUPPORTED);
+		final HTMLInputElement inputElement = mock(HTMLInputElement.class, ANSWER_UNSUPPORTED);
 		doReturn(name).when(inputElement).getName();
 		doReturn(value).when(inputElement).getValue();		
 		return inputElement;
