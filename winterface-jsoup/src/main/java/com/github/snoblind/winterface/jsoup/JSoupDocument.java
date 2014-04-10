@@ -94,7 +94,7 @@ public class JSoupDocument extends JSoupNode<org.jsoup.nodes.Document> implement
 	}
 
 	public Comment createComment(String data) {
-		throw new UnsupportedOperationException();
+		return new JSoupComment(new org.jsoup.nodes.Comment(data, ""), this);
 	}
 
 	public DocumentFragment createDocumentFragment() {

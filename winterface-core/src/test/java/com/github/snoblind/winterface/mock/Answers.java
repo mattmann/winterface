@@ -10,7 +10,7 @@ public final class Answers {
 	private Answers() {
 	}
 	
-	public static final Answer<Object> ANSWER_UNSUPPORTED = new Answer<Object>() {
+	public static final Answer<Object> UNSUPPORTED = new Answer<Object>() {
 		public Object answer(InvocationOnMock invocation) throws Throwable {
 			final Method method = invocation.getMethod();
 			final Object[] arguments = invocation.getArguments();

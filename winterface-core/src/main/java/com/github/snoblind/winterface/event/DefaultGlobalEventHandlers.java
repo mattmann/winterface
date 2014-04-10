@@ -3,7 +3,7 @@ package com.github.snoblind.winterface.event;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 
-public abstract class AbstractGlobalEventHandlers extends AbstractNodeEventHandlers implements GlobalEventHandlers {
+public class DefaultGlobalEventHandlers extends DefaultNodeEventHandlers implements GlobalEventHandlers {
 
 	private EventListener onabort;
 	private EventListener oncancel;

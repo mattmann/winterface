@@ -5,7 +5,7 @@ import com.github.snoblind.winterface.EventTarget;
 import static org.apache.commons.lang.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-public class EventImpl implements Event {
+public class DefaultEvent implements Event {
 
 	public void initEvent(String eventType, boolean canBubble, boolean cancelableArg) {
 		setType(eventType);

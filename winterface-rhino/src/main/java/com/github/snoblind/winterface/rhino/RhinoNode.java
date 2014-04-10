@@ -172,7 +172,13 @@ public abstract class RhinoNode<N extends Node> extends DelegatingScriptable imp
 	}
 
 	public Node insertBefore(Node newChild, Node refChild) throws DOMException {
-		throw new UnsupportedOperationException();
+		if (newChild instanceof Wrapper) {
+			newChild = ((Wrapper) newChild).unwrap(Node.class);
+		}
+		if (refChild instanceof Wrapper) {
+			refChild = ((Wrapper) refChild).unwrap(Node.class);
+		}
+		return adapt(node.insertBefore(newChild, refChild));
 	}
 
 	public Node replaceChild(Node newChild, Node oldChild) throws DOMException {

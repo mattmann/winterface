@@ -1,10 +1,13 @@
 package com.github.snoblind.winterface.rhino;
 
+import com.github.snoblind.winterface.Event;
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.mock.Answers;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import java.io.IOException;
@@ -18,9 +21,12 @@ import static org.apache.commons.collections4.functors.ConstantFactory.constantF
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static com.github.snoblind.winterface.mock.MockitoAnnotations.initMocks;
 
 public class RhinoWindowEnvironmentTest {
 
@@ -31,7 +37,9 @@ public class RhinoWindowEnvironmentTest {
 	@Mock private Console console;
 	@Mock private CookieStore cookieStore;
 	@Mock private Document responseXML;
+	@Mock private Event event;
 	@Mock private EventDispatcher eventDispatcher;
+	@Mock private ExtendedHTMLCollection collection;
 	@Mock private GlobalEventHandlers globalEventHandlers;
 	@Mock private HTMLParser parser;
 	@Mock private QuerySelector querySelector;
@@ -42,7 +50,7 @@ public class RhinoWindowEnvironmentTest {
 
 	@Before
 	public void setUp() throws IOException {
-		initMocks(this);
+		initMocks(this, Answers.UNSUPPORTED);
 		environment = RhinoWindowEnvironment.builder()
 				.console(console)
 				.cookieStore(cookieStore)
@@ -57,6 +65,14 @@ public class RhinoWindowEnvironmentTest {
 				.build();
 		doReturn(responseXML).when(xmlHttpRequest).getResponseXML();
 		doReturn(4).when(xmlHttpRequest).getReadyState();
+		doNothing().when(xmlHttpRequest).open("GET", URL, false, null, null);
+		doNothing().when(xmlHttpRequest).send(null);
+		doReturn(event).when(eventDispatcher).createEvent("Event");
+		doNothing().when(event).setTarget(any(RhinoWindow.class));
+		doNothing().when(event).initEvent("load", true, true);
+		doReturn(true).when(eventDispatcher).dispatchEvent(event);
+		doReturn(collection).when(querySelector).querySelectorAll(any(RhinoDocument.class), eq("script"));
+		doReturn(0).when(collection).getLength();
 	}
 
 	@Test

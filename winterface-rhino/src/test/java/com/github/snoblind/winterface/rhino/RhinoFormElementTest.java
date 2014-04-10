@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLButtonElement;
 import org.w3c.dom.html.HTMLFormElement;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static com.github.snoblind.winterface.mock.Answers.ANSWER_UNSUPPORTED;
+import static com.github.snoblind.winterface.mock.Answers.UNSUPPORTED;
 import static com.github.snoblind.winterface.mock.MockitoAnnotations.initMocks;
 import static com.github.snoblind.winterface.rhino.RhinoFormElement.ELEMENTS_QUERY;;
 
@@ -41,7 +40,7 @@ public class RhinoFormElementTest {
 
 	@Before
 	public void setUp() {
-		initMocks(this, ANSWER_UNSUPPORTED);
+		initMocks(this, UNSUPPORTED);
 		form = new RhinoFormElement(domElement, document);
 		doReturn(location).when(window).getLocation();
 		doReturn(window).when(document).getDefaultView();
@@ -73,9 +72,9 @@ public class RhinoFormElementTest {
 	
 	@Test
 	public void getElements() {
-		final HTMLButtonElement button = mock(HTMLButtonElement.class, ANSWER_UNSUPPORTED);
-		final HTMLSelectElement select = mock(HTMLSelectElement.class, ANSWER_UNSUPPORTED);
-		final HTMLTextAreaElement textArea = mock(HTMLTextAreaElement.class, ANSWER_UNSUPPORTED);
+		final HTMLButtonElement button = mock(HTMLButtonElement.class, UNSUPPORTED);
+		final HTMLSelectElement select = mock(HTMLSelectElement.class, UNSUPPORTED);
+		final HTMLTextAreaElement textArea = mock(HTMLTextAreaElement.class, UNSUPPORTED);
 		final HTMLInputElement input = mockInputElement("name", "value");
 		doReturn(4).when(elements).getLength();
 		doReturn(button).when(elements).item(0);
@@ -92,7 +91,7 @@ public class RhinoFormElementTest {
 	}
 
 	private HTMLInputElement mockInputElement(String name, String value) {
-		final HTMLInputElement inputElement = mock(HTMLInputElement.class, ANSWER_UNSUPPORTED);
+		final HTMLInputElement inputElement = mock(HTMLInputElement.class, UNSUPPORTED);
 		doReturn(name).when(inputElement).getName();
 		doReturn(value).when(inputElement).getValue();		
 		return inputElement;

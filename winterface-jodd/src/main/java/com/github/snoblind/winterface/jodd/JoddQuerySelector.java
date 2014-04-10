@@ -37,7 +37,12 @@ public class JoddQuerySelector extends AbstractQuerySelector {
 			}
 
 			public org.w3c.dom.Node item(int index) {
-				return NodeAdapter.unwrap(nodes.get(index));
+				try {
+					return NodeAdapter.unwrap(nodes.get(index));
+				}
+				catch (IndexOutOfBoundsException x) {
+					return null;
+				}
 			}
 
 			public org.w3c.dom.Node namedItem(String name) {

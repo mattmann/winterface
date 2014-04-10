@@ -6,7 +6,7 @@ import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.jodd.JoddQuerySelector;
 import com.github.snoblind.winterface.jsoup.JSoupHTMLParser;
@@ -46,7 +46,7 @@ public class Main {
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final Factory<Event> eventFactory = new Factory<Event>() {
 			public Event create() {
-				return new EventImpl();
+				return new DefaultEvent();
 			}
 		};
 		final Factory<HTMLParser> parserFactory = new Factory<HTMLParser>() {

@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
-import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +34,7 @@ public class MapEventDispatcherTest {
 		final boolean useCapture = false;
 		eventDispatcher.addEventListener(target, "click", listener, useCapture);
 		assertEquals(1, eventDispatcher.getEventListeners(target, type, useCapture).size());
-		EventImpl event = (EventImpl)eventDispatcher.createEvent("Event");
+		DefaultEvent event = (DefaultEvent)eventDispatcher.createEvent("Event");
 		event.initEvent(type, true, true);
 		event.setTarget(target);
 		eventDispatcher.dispatchEvent(event);

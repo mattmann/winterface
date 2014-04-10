@@ -17,6 +17,7 @@ import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElement {
 
+	private EventListener onload;
 	private final RhinoDocument ownerDocument;
 	
 	public RhinoElement(final Element element, final RhinoDocument ownerDocument, final Class<?>... interfaces) {
@@ -117,7 +118,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public ExtendedHTMLCollection querySelectorAll(String query) {
-		return ownerDocument.getQuerySelector().querySelectorAll(this, query);
+		return new RhinoHTMLCollection(ownerDocument.getQuerySelector().querySelectorAll(this, query), ownerDocument);
 	}
 
 	public RhinoCSSStyleDeclaration getStyle() {
@@ -149,7 +150,7 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public NodeList getElementsByTagName(String name) {
-		throw new UnsupportedOperationException();
+		return querySelectorAll(name);
 	}
 
 	protected void setAttribute(String name, boolean value) {
@@ -447,11 +448,11 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public EventListener getOnload() {
-		throw new UnsupportedOperationException();
+		return onload;
 	}
 
-	public void setOnload(EventListener handler) {
-		throw new UnsupportedOperationException();
+	public void setOnload(EventListener onload) {
+		this.onload = onload;
 	}
 
 	public EventListener getOnloadeddata() {

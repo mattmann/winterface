@@ -99,7 +99,15 @@ public final class ReflectionUtils {
 		try {
 			return method.invoke(bean);
 		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException x) {
+		catch (IllegalAccessException x) {
+			LOGGER.error(String.format("An exception was thrown while attempting to get property %s of an instance of %s.", name, bean.getClass()), x);
+			throw new RuntimeException(x);
+		}
+		catch (IllegalArgumentException x) {
+			LOGGER.error(String.format("An exception was thrown while attempting to get property %s of an instance of %s.", name, bean.getClass()), x);
+			throw new RuntimeException(x);
+		}
+		catch (InvocationTargetException x) {
 			LOGGER.error(String.format("An exception was thrown while attempting to get property %s of an instance of %s.", name, bean.getClass()), x);
 			throw new RuntimeException(x);
 		}
@@ -127,7 +135,15 @@ public final class ReflectionUtils {
 		try {
 			method.invoke(bean, value);
 		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException x) {
+		catch (IllegalAccessException x) {
+			LOGGER.error(String.format("An exception was thrown while attempting to set property %s to value %s of an instance of %s.", name, value, bean.getClass()), x);
+			throw new RuntimeException(x);
+		}
+		catch (IllegalArgumentException x) {
+			LOGGER.error(String.format("An exception was thrown while attempting to set property %s to value %s of an instance of %s.", name, value, bean.getClass()), x);
+			throw new RuntimeException(x);
+		}
+		catch (InvocationTargetException x) {
 			LOGGER.error(String.format("An exception was thrown while attempting to set property %s to value %s of an instance of %s.", name, value, bean.getClass()), x);
 			throw new RuntimeException(x);
 		}

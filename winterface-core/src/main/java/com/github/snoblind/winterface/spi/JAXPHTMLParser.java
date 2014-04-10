@@ -62,7 +62,10 @@ public class JAXPHTMLParser implements HTMLParser {
 		try {
 			return documentBuilder.parse(new InputSource(new StringReader(html)));
 		}
-		catch (SAXException | IOException x) {
+		catch (SAXException x) {
+			throw new RuntimeException(x);
+		}
+		catch (IOException x) {
 			throw new RuntimeException(x);
 		}
 	}

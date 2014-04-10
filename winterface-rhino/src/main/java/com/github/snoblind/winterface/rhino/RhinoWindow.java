@@ -216,13 +216,26 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		return document;
 	}
 
+	public boolean dispatchEvent(Event event) throws EventException {
+		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public boolean dispatchEvent(final String eventType, final boolean canBubble, final boolean cancelableArg) throws EventException {
+		final Event event = eventDispatcher.createEvent("Event");
+		event.setTarget(this);
+		event.initEvent(eventType, canBubble, cancelableArg);
+		return dispatchEvent(event);
+	}
+
 	protected void setDocument(final RhinoDocument document) {
 		notNull(document);
 		if (this.document != null) {
 			this.document.setDefaultView(null);
+			dispatchEvent("unload", true, true);
 		}
 		this.document = document;
 		this.document.setDefaultView(this);
+		dispatchEvent("load", true, true);
 	}
 
 	protected void evalDocument() {
@@ -233,12 +246,26 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	private void evalScriptElement(RhinoElement scriptElement) {
-		String text = scriptElement.getInnerText().trim();
-		if (text.startsWith("<!--") && text.endsWith("-->")) {
-			text = text.substring(4, text.length() - 3).trim();
+		if (scriptElement.hasAttribute("src")) {
+			final String url = scriptElement.getAttribute("src");
+			final XMLHttpRequest request = xmlHttpRequestFactory.create();
+			request.open("GET", url, false, null, null);
+			try {
+				request.send(null);
+			}
+			catch (IOException x) {
+				throw new RuntimeException(x);
+			}
+			eval(request.getResponseText());
 		}
-		LOGGER.debug(text);
-		eval(text);
+		else {
+			String text = scriptElement.getInnerText().trim();
+			if (text.startsWith("<!--") && text.endsWith("-->")) {
+				text = text.substring(4, text.length() - 3).trim();
+			}
+			LOGGER.debug(text);
+			eval(text);
+		}
 	}
 	
 	public boolean has(String name, Scriptable start) {
@@ -288,13 +315,9 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 		eventDispatcher.removeEventListener(this, type, listener, useCapture);
 	}
 
-	public boolean dispatchEvent(Event event) throws EventException {
-		return eventDispatcher.dispatchEvent(event);
-	}
-
-	public Object eval(String source) {
+	public Object eval(final String source) {
 		LOGGER.info("eval({})", source);
-		final Context context = Context.getCurrentContext();
+		Context context = Context.getCurrentContext();
 		notNull(context);
 		return context.evaluateString(this, source, null, 0, null);
 	}
@@ -557,11 +580,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public EventListener getOnload() {
-		throw new UnsupportedOperationException();
+		return globalEventHandlers.getOnload();
 	}
 
 	public void setOnload(EventListener handler) {
-		throw new UnsupportedOperationException();
+		globalEventHandlers.setOnload(handler);
 	}
 
 	public EventListener getOnloadeddata() {
@@ -909,11 +932,11 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public EventListener getOnunload() {
-		throw new UnsupportedOperationException();
+		return windowEventHandlers.getOnunload();
 	}
 
 	public void setOnunload(EventListener handler) {
-		throw new UnsupportedOperationException();
+		windowEventHandlers.setOnunload(handler);
 	}
 
 	public ApplicationCache getApplicationCache() {

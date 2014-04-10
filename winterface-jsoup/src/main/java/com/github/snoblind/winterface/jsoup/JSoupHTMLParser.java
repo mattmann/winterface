@@ -49,6 +49,9 @@ public class JSoupHTMLParser implements HTMLParser {
 	}
 
 	public void setInnerHTML(Element element, String html) {
+		if (element instanceof Wrapper) {
+			element = ((Wrapper) element).unwrap(JSoupElement.class);
+		}
 		((JSoupElement) element).node.html(html);
 	}
 

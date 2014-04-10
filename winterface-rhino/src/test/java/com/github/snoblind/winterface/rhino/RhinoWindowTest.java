@@ -6,7 +6,7 @@ import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.JAXPHTMLParser;
@@ -69,8 +69,8 @@ public class RhinoWindowTest {
 		window = RhinoWindow.builder()
 				.console(console)
 				.cookieStore(cookieStore)
-				.document(document)
 				.eventDispatcher(eventDispatcher)
+				.document(document)
 				.globalEventHandlers(globalEventHandlers)
 				.location(location)
 				.navigator(navigator)
@@ -101,7 +101,7 @@ public class RhinoWindowTest {
 		assertEquals(Undefined.instance, window.eval(JQUERY));
 		assertEquals(0.0, window.eval(JAVASCRIPT));
 		assertEquals("abcdefghijklmnopqrstuvwxyz", window.get("alphabet", null));
-		final Event event = new EventImpl();
+		final Event event = new DefaultEvent();
 		event.setTarget(document);
 		event.initEvent("DOMContentLoaded", false, false);
 		document.dispatchEvent(event);

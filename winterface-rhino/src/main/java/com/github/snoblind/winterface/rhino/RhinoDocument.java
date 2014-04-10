@@ -151,7 +151,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public Comment createComment(String data) {
-		throw new UnsupportedOperationException();
+		return (Comment) adapt(node.createComment(data));
 	}
 
 	public CDATASection createCDATASection(String data) throws DOMException {
@@ -171,7 +171,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public NodeList getElementsByTagName(String tagname) {
-		throw new UnsupportedOperationException();
+		return querySelectorAll(tagname);
 	}
 
 	public Node importNode(Node importedNode, boolean deep) throws DOMException {
@@ -191,7 +191,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public Element getElementById(final String id) {
-		return querySelector.querySelector(this, String.format("#%s", id));
+		return querySelector(String.format("#%s", id));
 	}
 
 	public String getInputEncoding() {
@@ -380,7 +380,7 @@ public class RhinoDocument extends RhinoNode<Document> implements Cloneable, Ext
 	}
 
 	public void write(String text) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException(String.format("write(\"%s\")", text));
 	}
 
 	public void writeln(String text) {

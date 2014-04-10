@@ -4,7 +4,7 @@ import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.NodeEventHandlers;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 
-public abstract class AbstractNodeEventHandlers implements NodeEventHandlers {
+public class DefaultNodeEventHandlers implements NodeEventHandlers {
 	
 	private EventListener onblur;
 	private OnErrorEventHandler onerror;

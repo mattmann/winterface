@@ -41,7 +41,7 @@ public class MapEventDispatcher extends AbstractEventDispatcher {
 
 	public Event createEvent(String eventInterface) {
 		if ("Event".equals(eventInterface)) {
-			return new EventImpl();
+			return new DefaultEvent();
 		}
 		throw new IllegalArgumentException(String.valueOf(eventInterface));
 	}

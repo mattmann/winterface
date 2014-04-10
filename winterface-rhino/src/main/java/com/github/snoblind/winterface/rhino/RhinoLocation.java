@@ -4,8 +4,10 @@ import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import org.w3c.dom.Document;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.StringUtils.defaultString;
@@ -168,6 +170,33 @@ public class RhinoLocation implements Location {
 		window.evalDocument();
 	}
 
+	private void assign(final URL url) throws IOException {
+		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
+		request.open("GET", url.toString(), false, null, null);
+		request.send(null);
+		isTrue(4 == request.getReadyState());
+		href = url.toString();
+		window.setDocument(RhinoDocument.builder()
+				.document(request.getResponseXML())
+				.eventDispatcher(window.getEventDispatcher())
+				.parser(window.getParserFactory().create())
+				.querySelector(window.getQuerySelector())
+				.build());
+		window.evalDocument();
+	}
+
+	private URL toURL(final String url) throws MalformedURLException {
+		try {
+			return new URL(url);
+		}
+		catch (MalformedURLException x) {
+			if (x.getMessage().startsWith("no protocol: ")) {
+				return new URL(String.format("http://%s", url));
+			}
+			throw x;
+		}
+	}
+	
 	public void assign(final String url) {
 		if ("about:blank".equals(url)) {
 			final HTMLParser parser = window.getParserFactory().create();
@@ -182,18 +211,7 @@ public class RhinoLocation implements Location {
 		}
 		else {
 			try {
-				final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
-				request.open("GET", url, false, null, null);
-				request.send(null);
-				isTrue(4 == request.getReadyState());
-				href = url;
-				window.setDocument(RhinoDocument.builder()
-						.document(request.getResponseXML())
-						.eventDispatcher(window.getEventDispatcher())
-						.parser(window.getParserFactory().create())
-						.querySelector(window.getQuerySelector())
-						.build());
-				window.evalDocument();
+				assign(toURL(url));
 			}
 			catch (IOException x) {
 				throw new RuntimeException(x);

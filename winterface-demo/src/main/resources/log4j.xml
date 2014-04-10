@@ -9,6 +9,11 @@
 		</layout>
 	</appender>
 
+	<logger name="com.github.snoblind.winterface.event.AbstractEventDispatcher" additivity="false">
+		<level value="debug"/>
+		<appender-ref ref="console"/>
+	</logger>
+
 	<logger name="com.github.snoblind.winterface.rhino.RhinoWindow" additivity="false">
 		<level value="info"/>
 		<appender-ref ref="console"/>

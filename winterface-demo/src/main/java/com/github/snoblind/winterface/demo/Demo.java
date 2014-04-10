@@ -2,7 +2,7 @@ package com.github.snoblind.winterface.demo;
 
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.XMLHttpRequest;
-import com.github.snoblind.winterface.event.EventImpl;
+import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
@@ -44,7 +44,7 @@ public class Demo implements Callable<Void> {
 	private Demo() {}
 
 	public Void call() throws IOException {
-        final Factory<? extends Event> eventFactory = instantiateFactory(EventImpl.class, null, null);
+        final Factory<? extends Event> eventFactory = instantiateFactory(DefaultEvent.class, null, null);
         final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()

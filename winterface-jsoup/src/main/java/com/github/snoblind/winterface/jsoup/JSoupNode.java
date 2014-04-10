@@ -129,7 +129,11 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public Node insertBefore(Node newChild, Node refChild) throws DOMException {
-		throw new UnsupportedOperationException();
+		return adapt(insertBefore(((JSoupNode<?>) newChild).node, ((JSoupNode<?>) refChild).node));
+	}
+
+	private org.jsoup.nodes.Node insertBefore(org.jsoup.nodes.Node newChild, org.jsoup.nodes.Node refChild) {
+		return refChild.before(newChild);
 	}
 
 	public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
@@ -137,11 +141,16 @@ public abstract class JSoupNode<T extends org.jsoup.nodes.Node> implements Node 
 	}
 
 	public Node removeChild(Node oldChild) throws DOMException {
-		throw new UnsupportedOperationException();
+		((JSoupNode<?>) oldChild).node.remove();
+		return oldChild;
+	}
+
+	private org.jsoup.nodes.Element appendChild(org.jsoup.nodes.Node newChild) throws DOMException {
+		return ((org.jsoup.nodes.Element) node).appendChild(newChild);
 	}
 
 	public Node appendChild(Node newChild) throws DOMException {
-		throw new UnsupportedOperationException();
+		return adapt(appendChild(((JSoupNode<?>) newChild).node));
 	}
 
 	public boolean hasChildNodes() {

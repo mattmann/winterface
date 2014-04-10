@@ -13,7 +13,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
-import static com.github.snoblind.winterface.mock.Answers.ANSWER_UNSUPPORTED;
+import static com.github.snoblind.winterface.mock.Answers.UNSUPPORTED;
 import static com.github.snoblind.winterface.mock.MockitoAnnotations.initMocks;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -39,7 +39,7 @@ public class RhinoHTMLCollectionTest {
 	
 	@Before
 	public void setUp() {
-		initMocks(this, ANSWER_UNSUPPORTED);
+		initMocks(this, UNSUPPORTED);
 		rhinoCollection = new RhinoHTMLCollection(collection, document);
 		doReturn(node).when(collection).namedItem("name");
 		doReturn(null).when(collection).namedItem(neq("name"));
