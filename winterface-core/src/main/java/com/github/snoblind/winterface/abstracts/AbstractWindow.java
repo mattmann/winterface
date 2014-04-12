@@ -6,82 +6,767 @@ import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.External;
-import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.History;
 import com.github.snoblind.winterface.Location;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.WindowEnvironment;
-import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import java.io.IOException;
+import java.util.AbstractMap;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-public abstract class AbstractWindow implements Window {
+public abstract class AbstractWindow extends AbstractMap<String, Object> implements Window {
 
-	protected ApplicationCache applicationCache;
-	protected Document document;
-	protected EventDispatcher eventDispatcher;
-	protected External external;
-	protected GlobalEventHandlers globalEventHandlers;
-	protected History history;
-	protected Location location;
-	protected Navigator navigator;
-	protected WindowEnvironment windowEnvironment;
-	protected WindowEventHandlers windowEventHandlers;
+	private BarProp locationbar;
+	private BarProp menubar;
+	private BarProp personalbar;
+	private BarProp scrollbars;
+	private BarProp statusbar;
+	private BarProp toolbar;
+ 	private ApplicationCache applicationCache;
+ 	private EventDispatcher eventDispatcher;
+ 	private External external;
+	private EventListener onabort;
+	private EventListener onafterprint;
+	private EventListener onbeforeprint;
+	private EventListener onbeforeunload;
+	private EventListener onblur;
+	private EventListener oncancel;
+	private EventListener oncanplay;
+	private EventListener oncanplaythrough;
+	private EventListener onchange;
+	private EventListener onclick;
+	private EventListener onclose;
+	private EventListener oncontextmenu;
+	private EventListener oncuechange;
+	private EventListener ondblclick;
+	private EventListener ondrag;
+	private EventListener ondragend;
+	private EventListener ondragenter;
+	private EventListener ondragleave;
+	private EventListener ondragover;
+	private EventListener ondragstart;
+	private EventListener ondrop;
+	private EventListener ondurationchange;
+	private EventListener onemptied;
+	private EventListener onended;
+	private EventListener onfocus;
+	private EventListener onfullscreenchange;
+	private EventListener onfullscreenerror;
+	private EventListener onhashchange;
+	private EventListener oninput;
+	private EventListener oninvalid;
+	private EventListener onkeydown;
+	private EventListener onkeypress;
+	private EventListener onkeyup;
+	private EventListener onload;
+	private EventListener onloadeddata;
+	private EventListener onloadedmetadata;
+	private EventListener onloadstart;
+	private EventListener onmessage;
+	private EventListener onmousedown;
+	private EventListener onmouseenter;
+	private EventListener onmouseleave;
+	private EventListener onmousemove;
+	private EventListener onmouseout;
+	private EventListener onmouseover;
+	private EventListener onmouseup;
+	private EventListener onmousewheel;
+	private EventListener onoffline;
+	private EventListener ononline;
+	private EventListener onpagehide;
+	private EventListener onpageshow;
+	private EventListener onpause;
+	private EventListener onplay;
+	private EventListener onplaying;
+	private EventListener onpopstate;
+	private EventListener onprogress;
+	private EventListener onratechange;
+	private EventListener onreset;
+	private EventListener onresize;
+	private EventListener onscroll;
+	private EventListener onseeked;
+	private EventListener onseeking;
+	private EventListener onselect;
+	private EventListener onshow;
+	private EventListener onsort;
+	private EventListener onstalled;
+	private EventListener onstorage;
+	private EventListener onsubmit;
+	private EventListener onsuspend;
+	private EventListener ontimeupdate;
+	private EventListener onunload;
+	private EventListener onvolumechange;
+	private EventListener onwaiting;
+ 	private History history;
+ 	private Location location;
+ 	private Navigator navigator;
+	private OnErrorEventHandler onerror;
+	private Window opener;
+	private Window parent;
+	private Window top;
+ 	private WindowEnvironment windowEnvironment;
 
-	public ApplicationCache getApplicationCache() {
-		return applicationCache;
+	public Window getOpener() {
+		return opener;
+	}
+
+	public void setOpener(Window opener) {
+		this.opener = opener;
+	}
+
+	public Window getParent() {
+		return parent;
+	}
+
+	public void setParent(Window parent) {
+		this.parent = parent;
+	}
+
+	public Window getTop() {
+		return top;
+	}
+
+	public void setTop(Window top) {
+		this.top = top;
 	}
 
 	public BarProp getLocationbar() {
-		throw new UnsupportedOperationException();
+		return locationbar;
+	}
+
+	public void setLocationbar(BarProp locationbar) {
+		this.locationbar = locationbar;
 	}
 
 	public BarProp getMenubar() {
-		throw new UnsupportedOperationException();
+		return menubar;
+	}
+
+	public void setMenubar(BarProp menubar) {
+		this.menubar = menubar;
 	}
 
 	public BarProp getPersonalbar() {
-		throw new UnsupportedOperationException();
+		return personalbar;
+	}
+
+	public void setPersonalbar(BarProp personalbar) {
+		this.personalbar = personalbar;
 	}
 
 	public BarProp getScrollbars() {
-		throw new UnsupportedOperationException();
+		return scrollbars;
+	}
+
+	public void setScrollbars(BarProp scrollbars) {
+		this.scrollbars = scrollbars;
 	}
 
 	public BarProp getStatusbar() {
-		throw new UnsupportedOperationException();
+		return statusbar;
+	}
+
+	public void setStatusbar(BarProp statusbar) {
+		this.statusbar = statusbar;
 	}
 
 	public BarProp getToolbar() {
-		throw new UnsupportedOperationException();
+		return toolbar;
 	}
 
-	public boolean confirm(String message) {
-		throw new UnsupportedOperationException();
+	public void setToolbar(BarProp toolbar) {
+		this.toolbar = toolbar;
 	}
 
-	public Document getDocument() {
-		return document;
+	public EventListener getOnabort() {
+		return onabort;
 	}
 
-	public String getName() {
-		throw new UnsupportedOperationException();
+	public void setOnabort(EventListener onabort) {
+		this.onabort = onabort;
 	}
 
-	public String getStatus() {
-		throw new UnsupportedOperationException();
+	public EventListener getOnblur() {
+		return onblur;
 	}
 
-	public String prompt(String message, String defaultText) {
-		throw new UnsupportedOperationException();
+	public void setOnblur(EventListener onblur) {
+		this.onblur = onblur;
 	}
 
-	public Element getFrameElement() {
-		throw new UnsupportedOperationException();
+	public EventListener getOncancel() {
+		return oncancel;
+	}
+
+	public void setOncancel(EventListener oncancel) {
+		this.oncancel = oncancel;
+	}
+
+	public EventListener getOncanplay() {
+		return oncanplay;
+	}
+
+	public void setOncanplay(EventListener oncanplay) {
+		this.oncanplay = oncanplay;
+	}
+
+	public EventListener getOncanplaythrough() {
+		return oncanplaythrough;
+	}
+
+	public void setOncanplaythrough(EventListener oncanplaythrough) {
+		this.oncanplaythrough = oncanplaythrough;
+	}
+
+	public EventListener getOnchange() {
+		return onchange;
+	}
+
+	public void setOnchange(EventListener onchange) {
+		this.onchange = onchange;
+	}
+
+	public EventListener getOnclick() {
+		return onclick;
+	}
+
+	public void setOnclick(EventListener onclick) {
+		this.onclick = onclick;
+	}
+
+	public EventListener getOnclose() {
+		return onclose;
+	}
+
+	public void setOnclose(EventListener onclose) {
+		this.onclose = onclose;
+	}
+
+	public EventListener getOncontextmenu() {
+		return oncontextmenu;
+	}
+
+	public void setOncontextmenu(EventListener oncontextmenu) {
+		this.oncontextmenu = oncontextmenu;
+	}
+
+	public EventListener getOncuechange() {
+		return oncuechange;
+	}
+
+	public void setOncuechange(EventListener oncuechange) {
+		this.oncuechange = oncuechange;
+	}
+
+	public EventListener getOndblclick() {
+		return ondblclick;
+	}
+
+	public void setOndblclick(EventListener ondblclick) {
+		this.ondblclick = ondblclick;
+	}
+
+	public EventListener getOndrag() {
+		return ondrag;
+	}
+
+	public void setOndrag(EventListener ondrag) {
+		this.ondrag = ondrag;
+	}
+
+	public EventListener getOndragend() {
+		return ondragend;
+	}
+
+	public void setOndragend(EventListener ondragend) {
+		this.ondragend = ondragend;
+	}
+
+	public EventListener getOndragenter() {
+		return ondragenter;
+	}
+
+	public void setOndragenter(EventListener ondragenter) {
+		this.ondragenter = ondragenter;
+	}
+
+	public EventListener getOndragleave() {
+		return ondragleave;
+	}
+
+	public void setOndragleave(EventListener ondragleave) {
+		this.ondragleave = ondragleave;
+	}
+
+	public EventListener getOndragover() {
+		return ondragover;
+	}
+
+	public void setOndragover(EventListener ondragover) {
+		this.ondragover = ondragover;
+	}
+
+	public EventListener getOndragstart() {
+		return ondragstart;
+	}
+
+	public void setOndragstart(EventListener ondragstart) {
+		this.ondragstart = ondragstart;
+	}
+
+	public EventListener getOndrop() {
+		return ondrop;
+	}
+
+	public void setOndrop(EventListener ondrop) {
+		this.ondrop = ondrop;
+	}
+
+	public EventListener getOndurationchange() {
+		return ondurationchange;
+	}
+
+	public void setOndurationchange(EventListener ondurationchange) {
+		this.ondurationchange = ondurationchange;
+	}
+
+	public EventListener getOnemptied() {
+		return onemptied;
+	}
+
+	public void setOnemptied(EventListener onemptied) {
+		this.onemptied = onemptied;
+	}
+
+	public EventListener getOnended() {
+		return onended;
+	}
+
+	public void setOnended(EventListener onended) {
+		this.onended = onended;
+	}
+
+	public OnErrorEventHandler getOnerror() {
+		return onerror;
+	}
+
+	public void setOnerror(OnErrorEventHandler onerror) {
+		this.onerror = onerror;
+	}
+
+	public EventListener getOnfocus() {
+		return onfocus;
+	}
+
+	public void setOnfocus(EventListener onfocus) {
+		this.onfocus = onfocus;
+	}
+
+	public EventListener getOninput() {
+		return oninput;
+	}
+
+	public void setOninput(EventListener oninput) {
+		this.oninput = oninput;
+	}
+
+	public EventListener getOninvalid() {
+		return oninvalid;
+	}
+
+	public void setOninvalid(EventListener oninvalid) {
+		this.oninvalid = oninvalid;
+	}
+
+	public EventListener getOnkeydown() {
+		return onkeydown;
+	}
+
+	public void setOnkeydown(EventListener onkeydown) {
+		this.onkeydown = onkeydown;
+	}
+
+	public EventListener getOnkeypress() {
+		return onkeypress;
+	}
+
+	public void setOnkeypress(EventListener onkeypress) {
+		this.onkeypress = onkeypress;
+	}
+
+	public EventListener getOnkeyup() {
+		return onkeyup;
+	}
+
+	public void setOnkeyup(EventListener onkeyup) {
+		this.onkeyup = onkeyup;
+	}
+
+	public EventListener getOnload() {
+		return onload;
+	}
+
+	public void setOnload(EventListener onload) {
+		this.onload = onload;
+	}
+
+	public EventListener getOnloadeddata() {
+		return onloadeddata;
+	}
+
+	public void setOnloadeddata(EventListener onloadeddata) {
+		this.onloadeddata = onloadeddata;
+	}
+
+	public EventListener getOnloadedmetadata() {
+		return onloadedmetadata;
+	}
+
+	public void setOnloadedmetadata(EventListener onloadedmetadata) {
+		this.onloadedmetadata = onloadedmetadata;
+	}
+
+	public EventListener getOnloadstart() {
+		return onloadstart;
+	}
+
+	public void setOnloadstart(EventListener onloadstart) {
+		this.onloadstart = onloadstart;
+	}
+
+	public EventListener getOnmousedown() {
+		return onmousedown;
+	}
+
+	public void setOnmousedown(EventListener onmousedown) {
+		this.onmousedown = onmousedown;
+	}
+
+	public EventListener getOnmouseenter() {
+		return onmouseenter;
+	}
+
+	public void setOnmouseenter(EventListener onmouseenter) {
+		this.onmouseenter = onmouseenter;
+	}
+
+	public EventListener getOnmouseleave() {
+		return onmouseleave;
+	}
+
+	public void setOnmouseleave(EventListener onmouseleave) {
+		this.onmouseleave = onmouseleave;
+	}
+
+	public EventListener getOnmousemove() {
+		return onmousemove;
+	}
+
+	public void setOnmousemove(EventListener onmousemove) {
+		this.onmousemove = onmousemove;
+	}
+
+	public EventListener getOnmouseout() {
+		return onmouseout;
+	}
+
+	public void setOnmouseout(EventListener onmouseout) {
+		this.onmouseout = onmouseout;
+	}
+
+	public EventListener getOnmouseover() {
+		return onmouseover;
+	}
+
+	public void setOnmouseover(EventListener onmouseover) {
+		this.onmouseover = onmouseover;
+	}
+
+	public EventListener getOnmouseup() {
+		return onmouseup;
+	}
+
+	public void setOnmouseup(EventListener onmouseup) {
+		this.onmouseup = onmouseup;
+	}
+
+	public EventListener getOnmousewheel() {
+		return onmousewheel;
+	}
+
+	public void setOnmousewheel(EventListener onmousewheel) {
+		this.onmousewheel = onmousewheel;
+	}
+
+	public EventListener getOnpause() {
+		return onpause;
+	}
+
+	public void setOnpause(EventListener onpause) {
+		this.onpause = onpause;
+	}
+
+	public EventListener getOnplay() {
+		return onplay;
+	}
+
+	public void setOnplay(EventListener onplay) {
+		this.onplay = onplay;
+	}
+
+	public EventListener getOnplaying() {
+		return onplaying;
+	}
+
+	public void setOnplaying(EventListener onplaying) {
+		this.onplaying = onplaying;
+	}
+
+	public EventListener getOnprogress() {
+		return onprogress;
+	}
+
+	public void setOnprogress(EventListener onprogress) {
+		this.onprogress = onprogress;
+	}
+
+	public EventListener getOnratechange() {
+		return onratechange;
+	}
+
+	public void setOnratechange(EventListener onratechange) {
+		this.onratechange = onratechange;
+	}
+
+	public EventListener getOnreset() {
+		return onreset;
+	}
+
+	public void setOnreset(EventListener onreset) {
+		this.onreset = onreset;
+	}
+
+	public EventListener getOnscroll() {
+		return onscroll;
+	}
+
+	public void setOnscroll(EventListener onscroll) {
+		this.onscroll = onscroll;
+	}
+
+	public EventListener getOnseeked() {
+		return onseeked;
+	}
+
+	public void setOnseeked(EventListener onseeked) {
+		this.onseeked = onseeked;
+	}
+
+	public EventListener getOnseeking() {
+		return onseeking;
+	}
+
+	public void setOnseeking(EventListener onseeking) {
+		this.onseeking = onseeking;
+	}
+
+	public EventListener getOnselect() {
+		return onselect;
+	}
+
+	public void setOnselect(EventListener onselect) {
+		this.onselect = onselect;
+	}
+
+	public EventListener getOnshow() {
+		return onshow;
+	}
+
+	public void setOnshow(EventListener onshow) {
+		this.onshow = onshow;
+	}
+
+	public EventListener getOnsort() {
+		return onsort;
+	}
+
+	public void setOnsort(EventListener onsort) {
+		this.onsort = onsort;
+	}
+
+	public EventListener getOnstalled() {
+		return onstalled;
+	}
+
+	public void setOnstalled(EventListener onstalled) {
+		this.onstalled = onstalled;
+	}
+
+	public EventListener getOnsubmit() {
+		return onsubmit;
+	}
+
+	public void setOnsubmit(EventListener onsubmit) {
+		this.onsubmit = onsubmit;
+	}
+
+	public EventListener getOnsuspend() {
+		return onsuspend;
+	}
+
+	public void setOnsuspend(EventListener onsuspend) {
+		this.onsuspend = onsuspend;
+	}
+
+	public EventListener getOntimeupdate() {
+		return ontimeupdate;
+	}
+
+	public void setOntimeupdate(EventListener ontimeupdate) {
+		this.ontimeupdate = ontimeupdate;
+	}
+
+	public EventListener getOnvolumechange() {
+		return onvolumechange;
+	}
+
+	public void setOnvolumechange(EventListener onvolumechange) {
+		this.onvolumechange = onvolumechange;
+	}
+
+	public EventListener getOnwaiting() {
+		return onwaiting;
+	}
+
+	public void setOnwaiting(EventListener onwaiting) {
+		this.onwaiting = onwaiting;
+	}
+
+	public EventListener getOnafterprint() {
+		return onafterprint;
+	}
+
+	public void setOnafterprint(EventListener onafterprint) {
+		this.onafterprint = onafterprint;
+	}
+
+	public EventListener getOnbeforeprint() {
+		return onbeforeprint;
+	}
+
+	public void setOnbeforeprint(EventListener onbeforeprint) {
+		this.onbeforeprint = onbeforeprint;
+	}
+
+	public EventListener getOnbeforeunload() {
+		return onbeforeunload;
+	}
+
+	public void setOnbeforeunload(EventListener onbeforeunload) {
+		this.onbeforeunload = onbeforeunload;
+	}
+
+	public EventListener getOnfullscreenchange() {
+		return onfullscreenchange;
+	}
+
+	public void setOnfullscreenchange(EventListener onfullscreenchange) {
+		this.onfullscreenchange = onfullscreenchange;
+	}
+
+	public EventListener getOnfullscreenerror() {
+		return onfullscreenerror;
+	}
+
+	public void setOnfullscreenerror(EventListener onfullscreenerror) {
+		this.onfullscreenerror = onfullscreenerror;
+	}
+
+	public EventListener getOnhashchange() {
+		return onhashchange;
+	}
+
+	public void setOnhashchange(EventListener onhashchange) {
+		this.onhashchange = onhashchange;
+	}
+
+	public EventListener getOnmessage() {
+		return onmessage;
+	}
+
+	public void setOnmessage(EventListener onmessage) {
+		this.onmessage = onmessage;
+	}
+
+	public EventListener getOnoffline() {
+		return onoffline;
+	}
+
+	public void setOnoffline(EventListener onoffline) {
+		this.onoffline = onoffline;
+	}
+
+	public EventListener getOnonline() {
+		return ononline;
+	}
+
+	public void setOnonline(EventListener ononline) {
+		this.ononline = ononline;
+	}
+
+	public EventListener getOnpagehide() {
+		return onpagehide;
+	}
+
+	public void setOnpagehide(EventListener onpagehide) {
+		this.onpagehide = onpagehide;
+	}
+
+	public EventListener getOnpageshow() {
+		return onpageshow;
+	}
+
+	public void setOnpageshow(EventListener onpageshow) {
+		this.onpageshow = onpageshow;
+	}
+
+	public EventListener getOnpopstate() {
+		return onpopstate;
+	}
+
+	public void setOnpopstate(EventListener onpopstate) {
+		this.onpopstate = onpopstate;
+	}
+
+	public EventListener getOnresize() {
+		return onresize;
+	}
+
+	public void setOnresize(EventListener onresize) {
+		this.onresize = onresize;
+	}
+
+	public EventListener getOnstorage() {
+		return onstorage;
+	}
+
+	public void setOnstorage(EventListener onstorage) {
+		this.onstorage = onstorage;
+	}
+
+	public EventListener getOnunload() {
+		return onunload;
+	}
+
+	public void setOnunload(EventListener onunload) {
+		this.onunload = onunload;
+	}
+
+	public ApplicationCache getApplicationCache() {
+		return applicationCache;
 	}
 
 	public External getExternal() {
@@ -96,76 +781,12 @@ public abstract class AbstractWindow implements Window {
 		return location;
 	}
 
-	public long getLength() {
-		throw new UnsupportedOperationException();
-	}
-
 	public Navigator getNavigator() {
 		return navigator;
 	}
 
-	public Object get(String name) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Object showModalDialog(String url, Object optionalArgument) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void alert(String message) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void blur() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void close() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void focus() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void print() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setName(String name) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOpener(Window opener) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setStatus(String status) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void stop() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Window get(long index) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Window getOpener() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Window getParent() {
-		throw new UnsupportedOperationException();
-	}
-
 	public Window getSelf() {
 		return this;
-	}
-
-	public Window getTop() {
-		throw new UnsupportedOperationException();
 	}
 
 	public Window getWindow() {
@@ -186,601 +807,5 @@ public abstract class AbstractWindow implements Window {
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		return eventDispatcher.dispatchEvent(event);
-	}
-
-	public EventListener getOnafterprint() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnafterprint(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnbeforeprint() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnbeforeprint(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnbeforeunload() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnbeforeunload(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnfullscreenchange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnfullscreenchange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnfullscreenerror() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnfullscreenerror(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnhashchange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnhashchange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmessage() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmessage(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnoffline() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnoffline(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnonline() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnonline(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnpagehide() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnpagehide(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnpageshow() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnpageshow(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnpopstate() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnpopstate(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnresize() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnresize(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnstorage() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnstorage(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnunload() {
-		return windowEventHandlers.getOnunload();
-	}
-
-	public void setOnunload(EventListener handler) {
-		windowEventHandlers.setOnunload(handler);
-	}
-
-	public EventListener getOnabort() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnabort(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnblur() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnblur(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public OnErrorEventHandler getOnerror() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnerror(OnErrorEventHandler handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnfocus() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnfocus(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOncancel() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOncancel(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOncanplay() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOncanplay(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOncanplaythrough() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOncanplaythrough(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnchange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnchange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnclick() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnclick(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnclose() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnclose(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOncontextmenu() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOncontextmenu(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOncuechange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOncuechange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndblclick() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndblclick(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndrag() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndrag(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndragend() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndragend(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndragenter() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndragenter(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndragleave() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndragleave(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndragover() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndragover(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndragstart() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndragstart(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndrop() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndrop(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOndurationchange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOndurationchange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnemptied() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnemptied(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnended() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnended(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOninput() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOninput(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOninvalid() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOninvalid(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnkeydown() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnkeydown(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnkeypress() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnkeypress(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnkeyup() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnkeyup(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnload() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnload(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnloadeddata() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnloadeddata(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnloadedmetadata() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnloadedmetadata(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnloadstart() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnloadstart(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmousedown() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmousedown(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmouseenter() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmouseenter(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmouseleave() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmouseleave(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmousemove() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmousemove(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmouseout() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmouseout(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmouseover() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmouseover(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmouseup() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmouseup(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnmousewheel() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnmousewheel(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnpause() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnpause(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnplay() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnplay(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnplaying() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnplaying(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnprogress() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnprogress(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnratechange() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnratechange(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnreset() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnreset(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnscroll() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnscroll(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnseeked() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnseeked(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnseeking() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnseeking(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnselect() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnselect(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnshow() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnshow(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnsort() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnsort(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnstalled() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnstalled(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnsubmit() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnsubmit(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnsuspend() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOnsuspend(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOntimeupdate() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOntimeupdate(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public EventListener getOnvolumechange() {
-		return globalEventHandlers.getOnvolumechange();
-	}
-
-	public void setOnvolumechange(EventListener handler) {
-		globalEventHandlers.setOnvolumechange(handler);
-	}
-
-	public EventListener getOnwaiting() {
-		return globalEventHandlers.getOnwaiting();
-	}
-
-	public void setOnwaiting(EventListener handler) {
-		globalEventHandlers.setOnwaiting(handler);
-	}
-
-	public Object eval(String script) {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean isClosed() {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getDefaultStatus() {
-		throw new UnsupportedOperationException();
 	}
 }
