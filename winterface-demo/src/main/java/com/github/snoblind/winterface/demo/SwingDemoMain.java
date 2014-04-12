@@ -1,7 +1,6 @@
 package com.github.snoblind.winterface.demo;
 
 import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.DefaultGlobalEventHandlers;
 import com.github.snoblind.winterface.event.DefaultWindowEventHandlers;
 import com.github.snoblind.winterface.event.EventDispatcher;
@@ -89,11 +88,6 @@ public final class SwingDemoMain {
 		final Console console = new PrintStreamConsole();
 		final QuerySelector querySelector = new JoddQuerySelector();
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
-		final Factory<Event> eventFactory = new Factory<Event>() {
-			public Event create() {
-				return new DefaultEvent();
-			}
-		};
 		final Factory<HTMLParser> parserFactory = new Factory<HTMLParser>() {
 			public HTMLParser create() {
 				return new JSoupHTMLParser(eventDispatcher);
@@ -103,7 +97,6 @@ public final class SwingDemoMain {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
 						.client(httpClient)
-						.eventFactory(eventFactory)
 						.parserFactory(parserFactory)
 						.build();
 			}

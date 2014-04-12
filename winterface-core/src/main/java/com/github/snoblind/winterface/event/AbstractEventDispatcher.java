@@ -7,6 +7,7 @@ import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.Window;
+import com.github.snoblind.winterface.XMLHttpRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,6 +74,9 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 			return ((ExtendedHTMLDocument)target).getDefaultView();
 		}
 		if (target instanceof Window) {
+			return null;
+		}
+		if (target instanceof XMLHttpRequest) {
 			return null;
 		}
 		throw new IllegalArgumentException(target.getClass().getName());

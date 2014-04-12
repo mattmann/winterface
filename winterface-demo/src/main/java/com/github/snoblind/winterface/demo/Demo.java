@@ -1,8 +1,8 @@
 package com.github.snoblind.winterface.demo;
 
-import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.XMLHttpRequest;
-import com.github.snoblind.winterface.event.DefaultEvent;
+import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.rhino.Console;
 import com.github.snoblind.winterface.rhino.RhinoWindow;
@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
-import static org.apache.commons.collections4.functors.InstantiateFactory.instantiateFactory;
 import static org.mozilla.javascript.ScriptableObject.DONTENUM;
 import static org.mozilla.javascript.ScriptableObject.defineProperty;
 import static org.mozilla.javascript.ScriptableObject.putProperty;
@@ -44,12 +43,12 @@ public class Demo implements Callable<Void> {
 	private Demo() {}
 
 	public Void call() throws IOException {
-        final Factory<? extends Event> eventFactory = instantiateFactory(DefaultEvent.class, null, null);
+		final EventDispatcher eventDispatcher = new MapEventDispatcher();
         final Factory<? extends XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
 						.client(httpClient)
-						.eventFactory(eventFactory)
+						.eventDispatcher(eventDispatcher)
 						.parserFactory(parserFactory)
 						.build();
 			}

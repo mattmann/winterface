@@ -1,4 +1,4 @@
-package com.github.snoblind.winterface.rhino;
+package com.github.snoblind.winterface.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;

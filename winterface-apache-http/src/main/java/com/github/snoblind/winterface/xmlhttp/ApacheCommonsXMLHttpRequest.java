@@ -1,8 +1,12 @@
 package com.github.snoblind.winterface.xmlhttp;
 
 import com.github.snoblind.winterface.Event;
+import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.XMLHttpRequest;
+import com.github.snoblind.winterface.event.DefaultEvent;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,19 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
+public class ApacheCommonsXMLHttpRequest implements EventTarget, XMLHttpRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApacheCommonsXMLHttpRequest.class);
 
-	private final HttpClient client;
-	private final Factory<? extends Event> eventFactory;
-	private final Factory<? extends HTMLParser> parserFactory;
-
-	public ApacheCommonsXMLHttpRequest(final HttpClient client, final Factory<? extends Event> eventFactory, final Factory<? extends HTMLParser> parserFactory) {
-		notNull(this.client = client);
-		notNull(this.eventFactory = eventFactory);
-		notNull(this.parserFactory = parserFactory);
-	}
+	private HttpClient client;
+	private Factory<? extends HTMLParser> parserFactory;
+	private EventDispatcher eventDispatcher;
+	private EventListener onreadystatechange;
 
 	@SuppressWarnings("unused") private String username;
 	@SuppressWarnings("unused") private String password;
@@ -45,7 +44,6 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 	private int readyState = 0;
 	private HttpUriRequest request;
 	private HttpResponse response;
-	private EventListener onreadystatechange;
 
 	public void open(String method, String url, boolean asynchronous, String username, String password) {
 		LOGGER.debug("open({}, {}, {}, {}, {})", method, url, asynchronous, username, password);
@@ -151,13 +149,10 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 
 	private void setReadyState(int readyState) {
 		this.readyState = readyState;
-		fireReadyStateChanged();
-	}
-
-	private void fireReadyStateChanged() {
-		if (onreadystatechange != null) {
-			onreadystatechange.handleEvent(eventFactory.create());
-		}
+		final DefaultEvent event = new DefaultEvent();
+		event.setType("readystatechange");
+		event.setTarget(this);
+		eventDispatcher.dispatchEvent(event);
 	}
 
 	public int getStatus() {
@@ -175,41 +170,61 @@ public class ApacheCommonsXMLHttpRequest implements XMLHttpRequest {
 		return responseXML;
 	}
 
-	public EventListener getOnreadystatechange() {
-		return onreadystatechange;
-	}
-
-	public void setOnreadystatechange(EventListener onreadystatechange) {
-		this.onreadystatechange = onreadystatechange;
-	}
-
 	public static Builder builder() {
 		return new Builder();
 	}
 	
 	public static class Builder {
 
-		private HttpClient client;
-		private Factory<? extends Event> eventFactory;
-		private Factory<? extends HTMLParser> parserFactory;
+		private ApacheCommonsXMLHttpRequest request = new ApacheCommonsXMLHttpRequest();
 
 		public ApacheCommonsXMLHttpRequest build() {
-			return new ApacheCommonsXMLHttpRequest(client, eventFactory, parserFactory);
+			ApacheCommonsXMLHttpRequest request = this.request;
+			this.request = null;
+			return request;
 		}
 		
 		public Builder client(final HttpClient client) {
-			this.client = client;
+			request().client = client;
 			return this;
 		}
 
-		public Builder eventFactory(final Factory<? extends Event> eventFactory) {
-			this.eventFactory = eventFactory;
+		public Builder eventDispatcher(final EventDispatcher eventDispatcher) {
+			request().eventDispatcher = eventDispatcher;
 			return this;
 		}
 
 		public Builder parserFactory(final Factory<? extends HTMLParser> parserFactory) {
-			this.parserFactory = parserFactory;
+			request().parserFactory = parserFactory;
 			return this;
 		}
+
+		private ApacheCommonsXMLHttpRequest request() {
+			if (request == null) {
+				request = new ApacheCommonsXMLHttpRequest();
+			}
+			return request;
+		}
+	}
+
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
+		eventDispatcher.addEventListener(this, type, listener, useCapture);
+	}
+
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
+		eventDispatcher.removeEventListener(this, type, listener, useCapture);
+	}
+
+	public boolean dispatchEvent(Event event) throws EventException {
+		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public EventListener getOnreadystatechange() {
+		return onreadystatechange;
+	}
+
+	public void setOnreadystatechange(EventListener onreadystatechange) {
+		this.onreadystatechange = onreadystatechange;
+		eventDispatcher.addEventListener(this, "readystatechange", onreadystatechange, false);
 	}
 }

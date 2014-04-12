@@ -1,30 +1,18 @@
-package com.github.snoblind.winterface.rhino;
+package com.github.snoblind.winterface.abstracts;
 
 import com.github.snoblind.winterface.Location;
-import com.github.snoblind.winterface.XMLHttpRequest;
-import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.util.URIBuilder;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import org.w3c.dom.Document;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.StringUtils.defaultString;
-import static org.apache.commons.lang.Validate.isTrue;
-import static org.apache.commons.lang.Validate.notNull;
 
-public class RhinoLocation implements Location {
+public abstract class AbstractLocation implements Location {
 
-	private final RhinoWindow window;
-	private String href;
-	
-	public RhinoLocation(final RhinoWindow window) {
-		notNull(this.window = window);
-		window.setLocation(this);
-	}
-	
+	protected String href;
+
+	public abstract void assign(String url);
+
 	public String getProtocol() {
 		try {
 			return String.format("%s:", new URI(href).getScheme());
@@ -151,74 +139,74 @@ public class RhinoLocation implements Location {
 		assign(href);
 	}
 
-	protected void submit(String method, String action, String data) {
-		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
-		request.open(method, action, false, null, null);
-		try {
-			request.send(data);
-		}
-		catch (IOException x) {
-			throw new RuntimeException(x);
-		}
-		isTrue(4 == request.getReadyState());
-		href = action;
-		window.setDocument(RhinoDocument.builder()
-				.document(request.getResponseXML())
-				.eventDispatcher(window.getEventDispatcher())
-				.parser(window.getParserFactory().create())
-				.querySelector(window.getQuerySelector())
-				.build());
-		window.evalDocument();
-	}
+//	protected void submit(String method, String action, String data) {
+//		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
+//		request.open(method, action, false, null, null);
+//		try {
+//			request.send(data);
+//		}
+//		catch (IOException x) {
+//			throw new RuntimeException(x);
+//		}
+//		isTrue(4 == request.getReadyState());
+//		href = action;
+//		window.setDocument(RhinoDocument.builder()
+//				.document(request.getResponseXML())
+//				.eventDispatcher(window.getEventDispatcher())
+//				.parser(window.getParserFactory().create())
+//				.querySelector(window.getQuerySelector())
+//				.build());
+//		window.evalDocument();
+//	}
 
-	private void assign(final URL url) throws IOException {
-		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
-		request.open("GET", url.toString(), false, null, null);
-		request.send(null);
-		isTrue(4 == request.getReadyState());
-		href = url.toString();
-		window.setDocument(RhinoDocument.builder()
-				.document(request.getResponseXML())
-				.eventDispatcher(window.getEventDispatcher())
-				.parser(window.getParserFactory().create())
-				.querySelector(window.getQuerySelector())
-				.build());
-		window.evalDocument();
-	}
+//	private void assign(final URL url) throws IOException {
+//		final XMLHttpRequest request = window.getXmlHttpRequestFactory().create();
+//		request.open("GET", url.toString(), false, null, null);
+//		request.send(null);
+//		isTrue(4 == request.getReadyState());
+//		href = url.toString();
+//		window.setDocument(RhinoDocument.builder()
+//				.document(request.getResponseXML())
+//				.eventDispatcher(window.getEventDispatcher())
+//				.parser(window.getParserFactory().create())
+//				.querySelector(window.getQuerySelector())
+//				.build());
+//		window.evalDocument();
+//	}
 
-	private URL toURL(final String url) throws MalformedURLException {
-		try {
-			return new URL(url);
-		}
-		catch (MalformedURLException x) {
-			if (x.getMessage().startsWith("no protocol: ")) {
-				return new URL(String.format("http://%s", url));
-			}
-			throw x;
-		}
-	}
+//	private URL toURL(final String url) throws MalformedURLException {
+//		try {
+//			return new URL(url);
+//		}
+//		catch (MalformedURLException x) {
+//			if (x.getMessage().startsWith("no protocol: ")) {
+//				return new URL(String.format("http://%s", url));
+//			}
+//			throw x;
+//		}
+//	}
 	
-	public void assign(final String url) {
-		if ("about:blank".equals(url)) {
-			final HTMLParser parser = window.getParserFactory().create();
-			final Document document = parser.parse("<html/>", url);
-			window.setDocument(RhinoDocument.builder()
-					.document(document)
-					.eventDispatcher(window.getEventDispatcher())
-					.parser(parser)
-					.querySelector(window.getQuerySelector())
-					.build());
-			href = url;
-		}
-		else {
-			try {
-				assign(toURL(url));
-			}
-			catch (IOException x) {
-				throw new RuntimeException(x);
-			}
-		}
-	}
+//	public void assign(final String url) {
+//		if ("about:blank".equals(url)) {
+//			final HTMLParser parser = window.getParserFactory().create();
+//			final Document document = parser.parse("<html/>", url);
+//			window.setDocument(RhinoDocument.builder()
+//					.document(document)
+//					.eventDispatcher(window.getEventDispatcher())
+//					.parser(parser)
+//					.querySelector(window.getQuerySelector())
+//					.build());
+//			href = url;
+//		}
+//		else {
+//			try {
+//				assign(toURL(url));
+//			}
+//			catch (IOException x) {
+//				throw new RuntimeException(x);
+//			}
+//		}
+//	}
 
 	public void replace(String url) {
 		assign(url);

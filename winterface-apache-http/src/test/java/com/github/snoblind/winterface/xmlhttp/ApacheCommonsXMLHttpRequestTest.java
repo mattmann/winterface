@@ -2,6 +2,7 @@ package com.github.snoblind.winterface.xmlhttp;
 
 import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.mock.ArgumentMatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.ByteArrayInputStream;
@@ -38,7 +39,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -57,7 +57,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 
 	private ApacheCommonsXMLHttpRequest request;
 
-	@Mock private Event event;
+	@Mock private EventDispatcher eventDispatcher;
 	@Mock private EventListener listener;
 	@Mock private HTMLDocument document;
 	@Mock private HTMLParser parser;
@@ -71,10 +71,10 @@ public class ApacheCommonsXMLHttpRequestTest {
 		initMocks(this);
 		request = ApacheCommonsXMLHttpRequest.builder()
 				.client(client)
-				.eventFactory(constantFactory(event))
+				.eventDispatcher(eventDispatcher)
 				.parserFactory(constantFactory(parser))
 				.build();
-		doNothing().when(listener).handleEvent(event);
+		doNothing().when(listener).handleEvent(any(Event.class));
 		doReturn(200).when(statusLine).getStatusCode();
 		doReturn(entity).when(response).getEntity();
 		doReturn(response).when(client).execute(any(HttpUriRequest.class));
@@ -97,7 +97,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verifyZeroInteractions(client);
 		verifyZeroInteractions(document);
 		verifyZeroInteractions(entity);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 		verifyZeroInteractions(parser);
 		verifyZeroInteractions(response);
@@ -114,7 +113,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verify(entity).getContent();
 		verify(response).getEntity();
 		verifyZeroInteractions(document);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 		verifyZeroInteractions(parser);
 		verifyZeroInteractions(response);
@@ -132,14 +130,12 @@ public class ApacheCommonsXMLHttpRequestTest {
 		assertEquals(200, request.getStatus());
 		assertEquals(responseText, request.getResponseText());
 		assertSame(document, request.getResponseXML());
-		verify(listener, times(4)).handleEvent(event);
 		verify(client).execute(argThat(matchRequestURI(resource)));
 		verify(entity).getContent();
 		verify(response).getEntity();
 		verify(parser).parse(responseText, resource.toExternalForm());
 		verify(statusLine).getStatusCode();
 		verifyZeroInteractions(document);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 		verifyZeroInteractions(parser);
 	}
@@ -158,7 +154,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verify(parser).parse(responseText, resource.toExternalForm());
 		verify(statusLine).getStatusCode();
 		verifyZeroInteractions(document);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 	}
 
@@ -177,7 +172,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verify(parser).parse(responseText, resource.toExternalForm());
 		verify(statusLine).getStatusCode();
 		verifyZeroInteractions(document);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 	}
 
@@ -195,7 +189,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 		verify(parser).parse(responseText, resource.toExternalForm());
 		verify(statusLine).getStatusCode();
 		verifyZeroInteractions(document);
-		verifyZeroInteractions(event);
 		verifyZeroInteractions(listener);
 	}
 
@@ -211,7 +204,6 @@ public class ApacheCommonsXMLHttpRequestTest {
 			verifyZeroInteractions(entity);
 			verifyZeroInteractions(response);
 			verifyZeroInteractions(statusLine);
-			verifyZeroInteractions(event);
 			verifyZeroInteractions(listener);
 			verifyZeroInteractions(document);
 			verifyZeroInteractions(parser);
