@@ -178,6 +178,8 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 			return new NashornBodyElement(this);
 		case "br":
 			return new NashornBRElement(this);
+		case "button":
+			return new NashornButtonElement(this);
 		case "div":
 			return new NashornDivElement(this);
 		case "dl":
@@ -197,6 +199,8 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 			return new NashornHeadingElement(tagName, this);
 		case "head":
 			return new NashornHeadElement(this);
+		case "hr":
+			return new NashornHRElement(this);
 		case "html":
 			return new NashornHtmlElement(this);
 		case "iframe":
@@ -253,7 +257,9 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		case "section":
 		case "span":
 		case "strong":
+		case "sup":
 		case "tbody":
+		case "th":
 		case "time":
 		case "u":
 			return new NashornElement(tagName, this);
