@@ -9,9 +9,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class NashornNamedNodeMap implements NamedNodeMap {
+public class NashornNamedNodeMap implements NamedNodeMap, Iterable<Node> {
 
 	private Map<Key, Node> map = new LinkedHashMap<Key, Node>();
+
+	public Iterator<Node> iterator() {
+		return map.values().iterator();
+	}
 	
 	public Node getNamedItem(String name) {
 		return getNamedItemNS(null, name);

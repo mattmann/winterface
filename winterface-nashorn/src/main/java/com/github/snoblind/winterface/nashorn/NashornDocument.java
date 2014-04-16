@@ -27,9 +27,18 @@ import org.w3c.dom.html.HTMLElement;
 
 public class NashornDocument extends NashornNode implements ExtendedHTMLDocument {
 
+	private String baseURI;
 	private String xmlEncoding;
 	private boolean xmlStandalone;
 	private String xmlVersion;
+
+	public String getBaseURI() {
+		return baseURI;
+	}
+
+	public void setBaseURI(String baseURI) {
+		this.baseURI = baseURI;
+	}
 
 	public Document getOwnerDocument() {
 		return this;
@@ -167,7 +176,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public Element getDocumentElement() {
-		throw new UnsupportedOperationException();
+		return (Element) getFirstChild();
 	}
 
 	public Element createElement(String tagName) throws DOMException {
@@ -241,6 +250,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 			return new NashornTableRowElement(this);
 		case "ul":
 			return new NashornUListElement(this);
+		case "abbr":
 		case "article":
 		case "b":
 		case "center":
@@ -255,6 +265,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		case "nobr":
 		case "noscript":
 		case "section":
+		case "small":
 		case "span":
 		case "strong":
 		case "sup":
@@ -349,7 +360,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public void normalizeDocument() {
-		throw new UnsupportedOperationException();
+		getDocumentElement().normalize();
 	}
 
 	public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {

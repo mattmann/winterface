@@ -15,6 +15,8 @@ import com.github.snoblind.winterface.WindowEnvironment;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import java.io.IOException;
 import java.util.AbstractMap;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 public abstract class AbstractWindow extends AbstractMap<String, Object> implements Window {
 
@@ -418,6 +420,7 @@ public abstract class AbstractWindow extends AbstractMap<String, Object> impleme
 
 	public void setOnload(EventListener onload) {
 		this.onload = onload;
+		eventDispatcher.addEventListener(this, "load", onload, false);
 	}
 
 	public EventListener getOnloadeddata() {
@@ -818,5 +821,10 @@ public abstract class AbstractWindow extends AbstractMap<String, Object> impleme
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public String toString() {
+		final ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE);
+		return builder.toString();
 	}
 }

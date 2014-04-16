@@ -15,4 +15,8 @@ public class NashornComment extends NashornCharacterData implements Comment {
 	public String getNodeName() {
 		return "#comment";
 	}
+
+	public String toString() {
+		return String.format("<!--%s-->", getData());
+	}
 }

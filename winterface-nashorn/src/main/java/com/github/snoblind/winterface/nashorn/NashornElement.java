@@ -5,11 +5,13 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
+import java.util.Iterator;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.css.CSSStyleDeclaration;
@@ -18,7 +20,7 @@ import static org.apache.commons.lang.Validate.notNull;
 public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 
 	private final NashornDocument ownerDocument;
-	private final NamedNodeMap attributes = new NashornNamedNodeMap();
+	private final NashornNamedNodeMap attributes = new NashornNamedNodeMap();
 	private final String namespaceURI;
 	private final String tagName;
 
@@ -67,6 +69,15 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	}
 
 	public void setNodeValue(String nodeValue) {
+	}
+
+	public String toString() {
+		final StringBuilder builder = new StringBuilder("<").append(tagName);
+		for (Iterator<Node> iterator = attributes.iterator(); iterator.hasNext();) {
+			final Attr attribute = (Attr) iterator.next();
+			builder.append(" ").append(attribute.getName()).append("=\"").append(attribute.getValue()).append("\"");
+		}
+		return builder.append(">").toString();
 	}
 
 	public String getId() {

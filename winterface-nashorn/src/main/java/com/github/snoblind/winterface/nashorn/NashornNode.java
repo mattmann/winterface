@@ -17,7 +17,21 @@ public abstract class NashornNode implements Node {
 	}
 
 	public NodeList getChildNodes() {
-		throw new UnsupportedOperationException();
+		return new NodeList() {
+
+			public Node item(int index) {
+				try {
+					return children.get(index);
+				}
+				catch (IndexOutOfBoundsException x) {
+					return null;
+				}
+			}
+
+			public int getLength() {
+				return children.size();
+			}
+		};
 	}
 
 	public Node getFirstChild() {

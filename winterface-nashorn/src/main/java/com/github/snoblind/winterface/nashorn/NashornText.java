@@ -32,4 +32,8 @@ public class NashornText extends NashornCharacterData implements Text {
 	public Text replaceWholeText(String content) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
+
+	public String toString() {
+		return getData();
+	}
 }

@@ -5,7 +5,6 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.XMLHttpRequest;
-import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
@@ -149,8 +148,8 @@ public class ApacheCommonsXMLHttpRequest implements EventTarget, XMLHttpRequest 
 
 	private void setReadyState(int readyState) {
 		this.readyState = readyState;
-		final DefaultEvent event = new DefaultEvent();
-		event.setType("readystatechange");
+		final Event event = eventDispatcher.createEvent("Event");
+		event.initEvent("readystatechange", false, false);
 		event.setTarget(this);
 		eventDispatcher.dispatchEvent(event);
 	}
