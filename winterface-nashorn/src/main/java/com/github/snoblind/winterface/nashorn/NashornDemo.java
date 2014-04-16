@@ -21,24 +21,24 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.tree.TreeModel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.apache.commons.collections4.Factory;
-import org.apache.commons.collections4.functors.ConstantFactory;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.CharacterData;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import static javax.script.ScriptContext.ENGINE_SCOPE;
+import static org.apache.commons.collections4.functors.ConstantFactory.constantFactory;
 
 public final class NashornDemo {
 
@@ -67,51 +67,16 @@ public final class NashornDemo {
 		});
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
 		final HTMLParser parser = new NashornHTMLParser();
-		final Factory<HTMLParser> parserFactory = ConstantFactory.constantFactory(parser);
 		final Factory<XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
 						.client(httpClient)
 						.eventDispatcher(eventDispatcher)
-						.parserFactory(parserFactory)
+						.parserFactory(constantFactory(parser))
 						.build();
 			}
 		};
 		final NashornLocation location = new NashornLocation(xmlHttpRequestFactory);
-		final NashornWindow window = new NashornWindow();
-		window.setLocation(location);
-		location.setOnreadystatechange(new EventListener() {
-			public void handleEvent(Event event1) {
-				final int readyState = ((XMLHttpRequest) event1.getTarget()).getReadyState();
-				if (4 == readyState) {
-					final NashornDocument document = (NashornDocument) location.getXmlHttpRequest().getResponseXML();
-					removeWhitespace(document, parser);
-					window.setDocument(document);
-					final Event event2 = eventDispatcher.createEvent("Event");
-					event2.initEvent("load", false, false);
-					event2.setTarget(window);
-					window.dispatchEvent(event2);
-				}
-			}
-		});
-		window.setEventDispatcher(eventDispatcher);
-		final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
-		final Bindings bindings = scriptEngine.getBindings(ENGINE_SCOPE);
-		bindings.put("window", window);
-		final JScrollPane scrollPane = new JScrollPane();
-		final JTree tree = new JTree();
-		window.setOnload(new EventListener() {
-			public void handleEvent(Event event) {
-				tree.setModel(new DocumentModel(window.getDocument()));
-				scrollPane.setViewportView(tree);
-			}
-		});
-		window.setOnunload(new EventListener() {
-			public void handleEvent(Event event) {
-				System.err.println(event);
-			}
-		});
 		final JTextField textField = new JTextField(/* window.getLocation().getHref() */);
 		textField.setMargin(new Insets(4, 4, 4, 4));
 		textField.addActionListener(new ActionListener() {
@@ -124,32 +89,93 @@ public final class NashornDemo {
 				}
 			}
 		});
+		final NashornQuerySelector querySelector = new NashornQuerySelector();
+		final NashornWindow window = new NashornWindow();
+		window.setHTMLParser(parser);
+		window.setLocation(location);
+		location.setOnreadystatechange(new EventListener() {
+			public void handleEvent(Event event1) {
+				final int readyState = ((XMLHttpRequest) event1.getTarget()).getReadyState();
+				switch (readyState) {
+				case 1:
+				case 2:
+					break;
+				case 3:
+					textField.setText(location.getHref());
+					break;
+				case 4:
+					final NashornDocument document = (NashornDocument) location.getXmlHttpRequest().getResponseXML();
+					document.setDefaultView(window);
+					document.setQuerySelector(querySelector);
+					window.setDocument(document);
+					final Event event2 = eventDispatcher.createEvent("Event");
+					event2.initEvent("load", false, false);
+					event2.setTarget(window);
+					window.dispatchEvent(event2);
+					break;
+				default:
+					throw new IllegalArgumentException(Integer.toString(readyState));
+				}
+			}
+		});
+		window.setEventDispatcher(eventDispatcher);
+		final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+		final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
+		final Bindings bindings = scriptEngine.getBindings(ENGINE_SCOPE);
+		bindings.put("location", location);
+		bindings.put("this", window);
+		bindings.put("window", window);
+		window.setScriptEngine(scriptEngine);
+		final JScrollPane scrollPane = new JScrollPane();
+		final JTree tree = new JTree();
+		final TreeModelListener treeModelListener = new TreeModelListener() {
+
+			public void treeNodesChanged(TreeModelEvent e) {
+				System.err.println(e);
+				throw new UnsupportedOperationException();
+			}
+
+			public void treeNodesInserted(TreeModelEvent e) {
+				System.err.println(e);
+				throw new UnsupportedOperationException();
+			}
+
+			public void treeNodesRemoved(TreeModelEvent e) {
+				System.err.println(e);
+				throw new UnsupportedOperationException();
+			}
+
+			public void treeStructureChanged(TreeModelEvent e) {
+				System.err.println(e);
+				throw new UnsupportedOperationException();
+			}
+		};
+		window.setOnload(new EventListener() {
+			public void handleEvent(Event event) {
+				final TreeModel model = new DocumentModel(window.getDocument());
+				model.addTreeModelListener(treeModelListener);
+				tree.setModel(model);
+				for (int i = 0; i < tree.getRowCount(); i++) {
+					tree.expandPath(tree.getPathForRow(i));
+				}
+				scrollPane.setViewportView(tree);
+			}
+		});
+		window.setOnunload(new EventListener() {
+			public void handleEvent(Event event) {
+				System.err.println(event);
+			}
+		});
 		final JFrame frame = new JFrame("Winterface Demonstration");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(textField, BorderLayout.NORTH);
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		frame.setSize(1600, 1200);
 		WindowUtils.centerOnScreenAndShow(frame);
-	}
-
-	private static void removeWhitespace(final NashornDocument document, final HTMLParser parser) {
-		removeWhitespace(document.getDocumentElement(), parser);
-	}
-
-	private static void removeWhitespace(final Node parentNode, final HTMLParser parser) {
-		final NodeList childNodes = parentNode.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			final Node childNode = childNodes.item(i);
-			if (childNode instanceof CharacterData) {
-				final String data = ((CharacterData) childNode).getData();
-				if (StringUtils.isWhitespace(data)) {
-					parentNode.removeChild(childNode);
-					i--;
-				}
-			}
-			else {
-				removeWhitespace(childNode, parser);
-			}
+		window.eval("location.href = 'http://nytimes.com/'");
+		final NodeList nodes = (NodeList) window.eval("window.document.getElementsByName('script')");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			System.out.println(nodes.item(i));
 		}
 	}
 

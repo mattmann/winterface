@@ -96,6 +96,10 @@ public abstract class NashornNode implements Node {
 		return null;
 	}
 
+	public boolean isSameNode(final Node node) {
+		return equals(node);
+	}
+
 	public boolean hasChildNodes() {
 		throw new UnsupportedOperationException();
 	}
@@ -137,10 +141,6 @@ public abstract class NashornNode implements Node {
 	}
 
 	public void setTextContent(String textContent) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean isSameNode(Node other) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -2,9 +2,12 @@ package com.github.snoblind.winterface.nashorn;
 
 import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.abstracts.AbstractWindow;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import org.w3c.dom.Element;
 
 public class NashornWindow extends AbstractWindow {
@@ -12,13 +15,40 @@ public class NashornWindow extends AbstractWindow {
 	private final Map<String, Object> map = new HashMap<String, Object>();
 
 	private NashornDocument document;
-	
+	private ScriptEngine scriptEngine;
+	private HTMLParser htmlParser;
+
 	public NashornDocument getDocument() {
 		return document;
 	}
 
 	public void setDocument(NashornDocument document) {
 		this.document = document;
+	}
+
+	public HTMLParser getHTMLParser() {
+		return htmlParser;
+	}
+
+	public void setHTMLParser(final HTMLParser htmlParser) {
+		this.htmlParser = htmlParser;
+	}
+
+	public ScriptEngine getScriptEngine() {
+		return scriptEngine;
+	}
+
+	public void setScriptEngine(ScriptEngine scriptEngine) {
+		this.scriptEngine = scriptEngine;
+	}
+
+	public Object eval(String script) {
+		try {
+			return scriptEngine.eval(script);
+		}
+		catch (ScriptException x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	public Object get(String key) {
@@ -83,10 +113,6 @@ public class NashornWindow extends AbstractWindow {
 	}
 
 	public long getLength() {
-		throw new UnsupportedOperationException();
-	}
-
-	public Object eval(String script) {
 		throw new UnsupportedOperationException();
 	}
 

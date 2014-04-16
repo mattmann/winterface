@@ -5,6 +5,7 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
+import com.github.snoblind.winterface.spi.HTMLParser;
 import java.util.Iterator;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -35,9 +36,42 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	public NashornElement(final String tagName, final NashornDocument ownerDocument) {
 		this(null, tagName, ownerDocument);
 	}
-	
+
 	public Document getOwnerDocument() {
 		return ownerDocument;
+	}
+
+	protected NashornWindow getDefaultView() {
+		if (ownerDocument == null) {
+			return null;
+		}
+		return ownerDocument.getDefaultView();
+	}
+	
+	protected HTMLParser getHTMLParser() {
+		final NashornWindow window = getDefaultView();
+		if (window == null) {
+			return null;
+		}
+		final HTMLParser parser = window.getHTMLParser();
+		notNull(parser, "HTML parser not provided!");
+		return parser;
+	}
+	
+	public String getInnerHTML() {
+		return getHTMLParser().getInnerHTML(this);
+	}
+
+	public void setInnerHTML(final String html) {
+		getHTMLParser().setInnerHTML(this, html);
+	}
+
+	public String getOuterHTML() {
+		return getHTMLParser().getOuterHTML(this);
+	}
+
+	public void setOuterHTML(final String html) {
+		getHTMLParser().setOuterHTML(this, html);
 	}
 
 	public String getNamespaceURI() {
@@ -722,22 +756,6 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	}
 
 	public void setOntouchcancel(EventListener handler) {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getInnerHTML() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setInnerHTML(String innerHTML) {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getOuterHTML() {
-		throw new UnsupportedOperationException();
-	}
-
-	public void setOuterHTML(String outerHTML) {
 		throw new UnsupportedOperationException();
 	}
 

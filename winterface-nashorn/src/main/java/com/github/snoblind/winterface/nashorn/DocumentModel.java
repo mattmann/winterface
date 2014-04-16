@@ -37,6 +37,7 @@ public class DocumentModel implements TreeModel {
 	}
 
 	public void valueForPathChanged(TreePath path, Object newValue) {
+		System.err.printf("valueForPathChanged(%s, %s)%n", path, newValue);
 		throw new UnsupportedOperationException();
 	}
 

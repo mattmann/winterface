@@ -5,7 +5,7 @@ import com.github.snoblind.winterface.EventException;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
-import com.github.snoblind.winterface.Window;
+import com.github.snoblind.winterface.spi.QuerySelector;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -27,10 +27,45 @@ import org.w3c.dom.html.HTMLElement;
 
 public class NashornDocument extends NashornNode implements ExtendedHTMLDocument {
 
+	private NashornWindow defaultView;
 	private String baseURI;
 	private String xmlEncoding;
 	private boolean xmlStandalone;
 	private String xmlVersion;
+	private QuerySelector querySelector;
+
+	public Element querySelector(String selectors) {
+//		final ExtendedHTMLCollection collection = querySelectorAll(selectors);
+//		if (0 == collection.getLength()) {
+//			return null;
+//		}
+//		return (Element) collection.item(0);
+		return querySelector.querySelector(this, selectors);
+	}
+
+	public ExtendedHTMLCollection querySelectorAll(final String selectors) {
+		return querySelector.querySelectorAll(this, selectors);
+	}
+
+	public ExtendedHTMLCollection getElementsByName(final String elementName) {
+		return querySelector.querySelectorAll(this, elementName);
+	}
+
+	public QuerySelector getQuerySelector() {
+		return querySelector;
+	}
+
+	public void setQuerySelector(QuerySelector querySelector) {
+		this.querySelector = querySelector;
+	}
+
+	public NashornWindow getDefaultView() {
+		return defaultView;
+	}
+
+	public void setDefaultView(NashornWindow defaultView) {
+		this.defaultView = defaultView;
+	}
 
 	public String getBaseURI() {
 		return baseURI;
@@ -376,22 +411,6 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
-	}
-
-	public Element querySelector(String selectors) {
-		throw new UnsupportedOperationException();
-	}
-
-	public ExtendedHTMLCollection querySelectorAll(String selectors) {
-		throw new UnsupportedOperationException();
-	}
-
-	public ExtendedHTMLCollection getElementsByName(String elementName) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Window getDefaultView() {
 		throw new UnsupportedOperationException();
 	}
 }
