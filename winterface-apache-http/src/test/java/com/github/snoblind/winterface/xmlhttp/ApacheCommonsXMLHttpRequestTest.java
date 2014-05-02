@@ -26,6 +26,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.w3c.dom.html.HTMLDocument;
 import org.xml.sax.SAXException;
+import static com.github.snoblind.winterface.mock.Answers.UNSUPPORTED;
+import static com.github.snoblind.winterface.mock.MockitoAnnotations.initMocks;
 import static org.apache.commons.collections4.functors.ConstantFactory.constantFactory;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.junit.Assert.assertEquals;
@@ -41,7 +43,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApacheCommonsXMLHttpRequestTest {
 
@@ -57,6 +58,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 
 	private ApacheCommonsXMLHttpRequest request;
 
+	@Mock private Event event;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private EventListener listener;
 	@Mock private HTMLDocument document;
@@ -68,18 +70,21 @@ public class ApacheCommonsXMLHttpRequestTest {
 	
 	@Before
 	public void setUp() throws ClientProtocolException, IOException, ParserConfigurationException, SAXException {
-		initMocks(this);
+		initMocks(this, UNSUPPORTED);
 		request = ApacheCommonsXMLHttpRequest.builder()
 				.client(client)
 				.eventDispatcher(eventDispatcher)
 				.parserFactory(constantFactory(parser))
 				.build();
-		doNothing().when(listener).handleEvent(any(Event.class));
+		doNothing().when(event).initEvent("readystatechange", false, false);
+		doNothing().when(event).setTarget(request);
 		doReturn(200).when(statusLine).getStatusCode();
+		doReturn(document).when(parser).parse(responseText, resource.toExternalForm());
 		doReturn(entity).when(response).getEntity();
+		doReturn(event).when(eventDispatcher).createEvent("Event");
 		doReturn(response).when(client).execute(any(HttpUriRequest.class));
 		doReturn(statusLine).when(response).getStatusLine();
-		doReturn(document).when(parser).parse(responseText, resource.toExternalForm());
+		doReturn(true).when(eventDispatcher).dispatchEvent(event);
 		doAnswer(new Answer<InputStream>() {
 			public InputStream answer(InvocationOnMock invocation) throws Throwable {
 				return new ByteArrayInputStream(responseText.getBytes());
@@ -121,6 +126,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 	
 	@Test
 	public void send_GET_asynchronous() throws IOException, InterruptedException {
+		doNothing().when(eventDispatcher).addEventListener(request, "readystatechange", listener, false);
 		request.setOnreadystatechange(listener);
 		assertSame(listener, request.getOnreadystatechange());
 		request.open("GET", resource.toExternalForm(), true, EMPTY, EMPTY);
@@ -130,6 +136,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 		assertEquals(200, request.getStatus());
 		assertEquals(responseText, request.getResponseText());
 		assertSame(document, request.getResponseXML());
+		verify(eventDispatcher).addEventListener(request, "readystatechange", listener, false);
 		verify(client).execute(argThat(matchRequestURI(resource)));
 		verify(entity).getContent();
 		verify(response).getEntity();

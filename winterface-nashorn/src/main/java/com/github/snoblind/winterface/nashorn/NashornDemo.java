@@ -5,6 +5,8 @@ import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
+import com.github.snoblind.winterface.spi.HTMLSerializer;
+import com.github.snoblind.winterface.util.NodeUtils;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import java.awt.BorderLayout;
@@ -30,6 +32,7 @@ import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.apache.commons.collections4.Factory;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -66,7 +69,8 @@ public final class NashornDemo {
 			}
 		});
 		final EventDispatcher eventDispatcher = new MapEventDispatcher();
-		final HTMLParser parser = new NashornHTMLParser();
+		final HTMLSerializer serializer = new NashornHTMLSerializer();
+		final HTMLParser parser = new NashornHTMLParser(serializer);
 		final Factory<XMLHttpRequest> xmlHttpRequestFactory = new Factory<XMLHttpRequest>() {
 			public XMLHttpRequest create() {
 				return ApacheCommonsXMLHttpRequest.builder()
@@ -173,9 +177,14 @@ public final class NashornDemo {
 		frame.setSize(1600, 1200);
 		WindowUtils.centerOnScreenAndShow(frame);
 		window.eval("location.href = 'http://nytimes.com/'");
-		final NodeList nodes = (NodeList) window.eval("window.document.getElementsByName('script')");
+		final String query = "script[src][type][language=\"JavaScript\"], style[media=\"screen\"], #shell, html > body > div > ulist, html > body > :first-child, body a#storeLink, p.hover-subhead :contains('Get unlimited access')";
+		final String script = String.format("window.document.querySelectorAll('%s')", StringEscapeUtils.escapeJavaScript(query));
+		final NodeList nodes = (NodeList) window.eval(script);
+		System.out.printf("Selected %,d nodes using query: \'%s\'.%n", nodes.getLength(), query);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			System.out.println(nodes.item(i));
+//			System.out.printf("%d: %s%n", i, nodes.item(i));
+//			System.out.printf("%d: %s%n", i, ((ExtendedHTMLElement) nodes.item(i)).getOuterHTML().replace('\r', ' ').replace('\n', ' '));
+			System.out.printf("%d: %s%n", i, NodeUtils.describePath(nodes.item(i)));
 		}
 	}
 

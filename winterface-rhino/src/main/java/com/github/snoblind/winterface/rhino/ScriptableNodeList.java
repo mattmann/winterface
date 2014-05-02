@@ -1,6 +1,6 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.NodeListIterator;
+import com.github.snoblind.winterface.util.NodeListIterator;
 import java.util.Iterator;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;

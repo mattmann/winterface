@@ -7,6 +7,9 @@ import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.util.Iterator;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -19,6 +22,8 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class NashornElement extends NashornNode implements ExtendedHTMLElement {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(NashornElement.class);
 
 	private final NashornDocument ownerDocument;
 	private final NashornNamedNodeMap attributes = new NashornNamedNodeMap();
@@ -155,7 +160,10 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	}
 
 	public String getAttribute(String name) {
-		throw new UnsupportedOperationException();
+		final Attr attribute = (Attr) attributes.getNamedItem(name);
+		final String value = attribute == null ? StringUtils.EMPTY : attribute.getValue();
+		LOGGER.debug("getAttribute({}) => {}", name, value);
+		return value;
 	}
 
 	public void setAttribute(final String name, final String value) throws DOMException {
@@ -212,7 +220,7 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	}
 
 	public boolean hasAttribute(String name) {
-		throw new UnsupportedOperationException();
+		return null != attributes.getNamedItem(name);
 	}
 
 	public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {

@@ -1,24 +1,24 @@
 package com.github.snoblind.winterface.nashorn;
 
 import com.github.snoblind.winterface.spi.HTMLParser;
-import java.io.StringWriter;
-import java.io.Writer;
+import com.github.snoblind.winterface.spi.HTMLSerializer;
 import java.util.List;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.jsoup.parser.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import static org.apache.commons.lang.StringUtils.isWhitespace;
 import static org.apache.commons.lang.Validate.isTrue;
+import static org.apache.commons.lang.Validate.notNull;
 
 public class NashornHTMLParser implements HTMLParser {
 
-	private TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	private final HTMLSerializer serializer;
+
+	public NashornHTMLParser(HTMLSerializer serializer) {
+		notNull(serializer);
+		this.serializer = serializer;
+	}
 	
 	public Document parse(String html, String baseUri) {
 		final org.jsoup.nodes.Document d1 = Parser.parse(html, baseUri);
@@ -68,22 +68,10 @@ public class NashornHTMLParser implements HTMLParser {
 	}
 	
 	private org.jsoup.nodes.Node convert(final Node node) {
-		final String html = toString(node);
+		final String html = serializer.serialize(node);
 		final List<org.jsoup.nodes.Node> results = Parser.parseFragment(html, null, getBaseURI(node));
 		isTrue(1 == results.size());
 		return results.get(0);
-	}
-	
-	private String toString(final Node node) {
-		try {
-			final Writer writer = new StringWriter();
-			final Transformer transformer = transformerFactory.newTransformer();
-			transformer.transform(new DOMSource(node), new StreamResult(writer));
-			return writer.toString();
-		}
-		catch (TransformerException x) {
-			throw new RuntimeException(x);
-		}
 	}
 	
 	public String getInnerText(final Node node) {
@@ -111,7 +99,7 @@ public class NashornHTMLParser implements HTMLParser {
 	}
 
 	public String getOuterHTML(Element element) {
-		return toString(element);
+		return serializer.serialize(element);
 	}
 
 	public Node setOuterHTML(Element element, String outerHTML) {

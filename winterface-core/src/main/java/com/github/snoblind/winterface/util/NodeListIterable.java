@@ -1,4 +1,4 @@
-package com.github.snoblind.winterface;
+package com.github.snoblind.winterface.util;
 
 import java.util.Iterator;
 import org.w3c.dom.Node;

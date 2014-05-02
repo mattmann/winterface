@@ -1,12 +1,11 @@
 package com.github.snoblind.winterface.util;
 
+import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import java.util.List;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class HTMLCollectionAdapter implements HTMLCollection, NodeList {
+public class HTMLCollectionAdapter implements ExtendedHTMLCollection {
 	
 	private final List<Node> nodes;
 

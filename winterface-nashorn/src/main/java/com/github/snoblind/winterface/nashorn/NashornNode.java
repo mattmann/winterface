@@ -1,17 +1,20 @@
 package com.github.snoblind.winterface.nashorn;
 
+import com.github.snoblind.winterface.util.NodeListUtils;
 import java.util.Iterator;
 import java.util.LinkedList;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import static org.apache.commons.lang.StringUtils.EMPTY;
+import static org.w3c.dom.DOMException.INVALID_STATE_ERR;
 
 public abstract class NashornNode implements Node {
 
 	private final LinkedList<Node> children = new LinkedList<Node>();
 	private NashornNode parentNode;
-
+	
 	public Node getParentNode() {
 		return parentNode;
 	}
@@ -137,7 +140,35 @@ public abstract class NashornNode implements Node {
 	}
 
 	public String getTextContent() throws DOMException {
-		throw new UnsupportedOperationException();
+		switch (getNodeType()) {
+		case DOCUMENT_NODE:
+		case DOCUMENT_TYPE_NODE:
+		case NOTATION_NODE:
+			return null;
+		case TEXT_NODE:
+		case CDATA_SECTION_NODE:
+		case COMMENT_NODE:
+		case PROCESSING_INSTRUCTION_NODE:
+			return getNodeValue();
+		case ELEMENT_NODE:
+		case ATTRIBUTE_NODE:
+		case ENTITY_NODE:
+		case ENTITY_REFERENCE_NODE:
+		case DOCUMENT_FRAGMENT_NODE:
+			final NodeList childNodes = getChildNodes();
+			if (0 == childNodes.getLength()) {
+				return EMPTY;
+			}
+			final StringBuilder builder = new StringBuilder();
+			for (Node childNode: NodeListUtils.iterable(childNodes)) {
+				if (COMMENT_NODE != childNode.getNodeType() && PROCESSING_INSTRUCTION_NODE != childNode.getNodeType()) {
+					builder.append(childNode.getTextContent());
+				}
+			}
+			return builder.toString();
+		default:
+			throw new DOMException(INVALID_STATE_ERR, String.format("Unexpected node type: %d.", getNodeType()));
+		}
 	}
 
 	public void setTextContent(String textContent) throws DOMException {

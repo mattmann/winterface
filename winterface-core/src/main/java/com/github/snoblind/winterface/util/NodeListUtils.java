@@ -1,14 +1,13 @@
 package com.github.snoblind.winterface.util;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
-import com.github.snoblind.winterface.NodeListIterable;
-import com.github.snoblind.winterface.NodeListIterator;
 import java.util.Iterator;
 import java.util.List;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLCollection;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang.Validate.notNull;
 
@@ -33,8 +32,12 @@ public final class NodeListUtils {
 			}
 		};
 	}
+
+	public static NodeList from(final Node... nodes) {
+		return from(asList(nodes));
+	}
 	
-	public static NodeList fromList(final List<? extends Node> list) {
+	public static NodeList from(final List<? extends Node> list) {
 		return new NodeList() {
 
 			public Node item(int index) {
@@ -56,6 +59,13 @@ public final class NodeListUtils {
 
 	public static Iterator<Node> iterator(final NodeList nodes) {
 		return new NodeListIterator(nodes);
+	}
+
+	public static Iterable<Node> reverseIterable(final NodeList nodes) {
+		if (nodes == null) {
+			return emptyList();
+		}
+		return new ReverseNodeListIterable(nodes);
 	}
 
 	public static Node namedItem(final String name, final Iterable<Node> nodes) {

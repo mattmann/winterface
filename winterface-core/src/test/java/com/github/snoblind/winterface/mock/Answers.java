@@ -4,9 +4,13 @@ import java.util.Arrays;
 import java.lang.reflect.Method;
 import org.mockito.stubbing.Answer;
 import org.mockito.invocation.InvocationOnMock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Answers {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Answers.class);
+	
 	private Answers() {
 	}
 	
@@ -22,9 +26,9 @@ public final class Answers {
 					return invocation.getMock().getClass().getName();
 				}
 			}
-			System.err.println(method);
-			System.err.println(Arrays.toString(arguments));
-			throw new UnsupportedOperationException(method.toString());
+			final String message = String.format("%s %s", method, Arrays.toString(arguments));
+			LOGGER.error(message);
+			throw new UnsupportedOperationException(message);
 		}
 	};
 }
