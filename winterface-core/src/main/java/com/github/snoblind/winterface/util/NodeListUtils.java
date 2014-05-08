@@ -16,7 +16,12 @@ public final class NodeListUtils {
 	private NodeListUtils() {
 	}
 
+	public static ExtendedHTMLCollection toHTMLCollection(final Node... nodes) {
+		return toHTMLCollection(asList(nodes));
+	}
+	
 	public static ExtendedHTMLCollection toHTMLCollection(final List<Node> nodes) {
+		notNull(nodes);
 		return new ExtendedHTMLCollection() {
 
 			public int getLength() {
@@ -29,6 +34,10 @@ public final class NodeListUtils {
 
 			public Node namedItem(String name) {
 				throw new UnsupportedOperationException(String.format("namedItem(\"%s\")", name));
+			}
+
+			public String toString() {
+				return nodes.toString();
 			}
 		};
 	}

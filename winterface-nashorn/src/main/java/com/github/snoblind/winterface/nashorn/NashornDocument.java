@@ -6,6 +6,10 @@ import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.spi.QuerySelector;
+import com.github.snoblind.winterface.util.NodeListUtils;
+import java.util.LinkedList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -35,11 +39,6 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	private QuerySelector querySelector;
 
 	public Element querySelector(String selectors) {
-//		final ExtendedHTMLCollection collection = querySelectorAll(selectors);
-//		if (0 == collection.getLength()) {
-//			return null;
-//		}
-//		return (Element) collection.item(0);
 		return querySelector.querySelector(this, selectors);
 	}
 
@@ -47,14 +46,35 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		return querySelector.querySelectorAll(this, selectors);
 	}
 
-	public ExtendedHTMLCollection getElementsByName(final String elementName) {
-		return querySelector.querySelectorAll(this, elementName);
+	public ExtendedHTMLCollection getElementsByName(final String name) {
+		return querySelectorAll(String.format("[name=\"%s\"]", name));
+	}
+
+	public NodeList getElementsByTagName(String tagName) {
+		return querySelectorAll(tagName);
+	}
+
+	public Element getElementById(final String id) {
+		return querySelector(String.format("[id=\"%s\"]", id));
+	}
+
+	public NodeList getElementsByTagNameNS(final String namespaceURI, final String localName) {
+		final List<Node> list = new LinkedList<Node>();
+		for (Node node: NodeListUtils.iterable(querySelectorAll("*"))) {
+			if (ELEMENT_NODE == node.getNodeType()
+					&& ("*".equals(namespaceURI) || node.getNamespaceURI().equals(namespaceURI))
+					&& ("*".equals(localName) || node.getLocalName().equals(localName))) {
+				list.add(node);
+			}
+		}
+		return NodeListUtils.toHTMLCollection(list);
 	}
 
 	public QuerySelector getQuerySelector() {
 		return querySelector;
 	}
 
+	@Required
 	public void setQuerySelector(QuerySelector querySelector) {
 		this.querySelector = querySelector;
 	}
@@ -342,10 +362,6 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		throw new UnsupportedOperationException();
 	}
 
-	public NodeList getElementsByTagName(String tagname) {
-		throw new UnsupportedOperationException();
-	}
-
 	public Node importNode(Node importedNode, boolean deep) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
@@ -355,14 +371,6 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
-		throw new UnsupportedOperationException();
-	}
-
-	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
-		throw new UnsupportedOperationException();
-	}
-
-	public Element getElementById(String elementId) {
 		throw new UnsupportedOperationException();
 	}
 
