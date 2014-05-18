@@ -151,51 +151,46 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public String getTitle() {
-		throw new UnsupportedOperationException();
+		final Element element = querySelector("title");
+		if (element == null) {
+			return null;
+		}
+		return element.getTextContent();
 	}
 
-	public void setTitle(String title) {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getReferrer() {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getDomain() {
-		throw new UnsupportedOperationException();
-	}
-
-	public String getURL() {
-		throw new UnsupportedOperationException();
+	public void setTitle(final String title) {
+		final Element element = querySelector("title");
+		if (element != null) {
+			element.setTextContent(title);
+		}
 	}
 
 	public HTMLElement getBody() {
-		throw new UnsupportedOperationException();
+		return (HTMLElement) querySelector("body");
 	}
 
-	public void setBody(HTMLElement body) {
+	public void setBody(final HTMLElement body) {
 		throw new UnsupportedOperationException();
 	}
 
 	public HTMLCollection getImages() {
-		throw new UnsupportedOperationException();
+		return querySelectorAll("img");
 	}
 
 	public HTMLCollection getApplets() {
-		throw new UnsupportedOperationException();
+		return querySelectorAll("applet");
 	}
 
 	public HTMLCollection getLinks() {
-		throw new UnsupportedOperationException();
+		return querySelectorAll("a[href]");
 	}
 
 	public HTMLCollection getForms() {
-		throw new UnsupportedOperationException();
+		return querySelectorAll("form");
 	}
 
 	public HTMLCollection getAnchors() {
-		throw new UnsupportedOperationException();
+		return querySelectorAll("a[name]:not([href])");
 	}
 
 	public String getCookie() {
@@ -227,6 +222,18 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	}
 
 	public DOMImplementation getImplementation() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getReferrer() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getDomain() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String getURL() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -330,7 +337,8 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		case "u":
 			return new NashornElement(tagName, this);
 		default:
-			throw new IllegalArgumentException(tagName);
+//			throw new IllegalArgumentException(tagName);
+			return new NashornElement(tagName, this);
 		}
 	}
 

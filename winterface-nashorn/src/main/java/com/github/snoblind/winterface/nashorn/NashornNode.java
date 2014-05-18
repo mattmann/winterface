@@ -171,8 +171,11 @@ public abstract class NashornNode implements Node {
 		}
 	}
 
-	public void setTextContent(String textContent) throws DOMException {
-		throw new UnsupportedOperationException();
+	public void setTextContent(final String textContent) throws DOMException {
+		while (getFirstChild() != null) {
+			removeChild(getFirstChild());
+		}
+		appendChild(getOwnerDocument().createTextNode(textContent));
 	}
 
 	public String lookupPrefix(String namespaceURI) {
