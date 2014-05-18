@@ -1,8 +1,5 @@
 package com.github.snoblind.winterface.jodd;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.Window;
@@ -23,6 +20,9 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import static org.apache.commons.lang.Validate.notNull;

@@ -1,10 +1,8 @@
 package com.github.snoblind.winterface.demo;
 
-import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.event.DefaultGlobalEventHandlers;
 import com.github.snoblind.winterface.event.DefaultWindowEventHandlers;
 import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.jodd.JoddQuerySelector;
@@ -52,6 +50,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.mozilla.javascript.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import static org.mozilla.javascript.ScriptableObject.defineProperty;
 import static org.mozilla.javascript.ScriptableObject.DONTENUM;
 import static org.mozilla.javascript.ScriptableObject.putProperty;

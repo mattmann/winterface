@@ -1,9 +1,6 @@
 package com.github.snoblind.winterface;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
-
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.io.StringWriter;
@@ -11,6 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import static org.junit.Assert.assertEquals;
 

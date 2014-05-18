@@ -1,8 +1,8 @@
 package com.github.snoblind.winterface.event;
 
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.NodeEventHandlers;
 import com.github.snoblind.winterface.OnErrorEventHandler;
+import org.w3c.dom.events.EventListener;
 
 public class DefaultNodeEventHandlers implements NodeEventHandlers {
 	

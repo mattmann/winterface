@@ -1,11 +1,11 @@
 package com.github.snoblind.winterface.event;
 
 import org.mockito.Mockito;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.event.DefaultEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;

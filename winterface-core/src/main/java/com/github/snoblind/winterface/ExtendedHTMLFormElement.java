@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface;
 
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLFormElement;
 
 public interface ExtendedHTMLFormElement extends HTMLFormElement, ExtendedHTMLElement {

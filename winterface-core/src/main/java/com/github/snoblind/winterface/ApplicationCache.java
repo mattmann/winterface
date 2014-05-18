@@ -1,5 +1,7 @@
 package com.github.snoblind.winterface;
 
+import org.w3c.dom.events.EventListener;
+
 public interface ApplicationCache {
 
 	public static final short UNCACHED = 0;

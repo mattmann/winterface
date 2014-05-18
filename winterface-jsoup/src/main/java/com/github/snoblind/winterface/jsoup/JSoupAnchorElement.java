@@ -1,10 +1,9 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.ExtendedHTMLAnchorElement;
 import com.github.snoblind.winterface.Location;
-
 import org.jsoup.nodes.Element;
+import org.w3c.dom.events.Event;
 
 public class JSoupAnchorElement extends JSoupElement implements ExtendedHTMLAnchorElement {
 

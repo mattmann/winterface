@@ -1,10 +1,12 @@
 package com.github.snoblind.winterface.nashorn;
 
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class NashornAttribute extends NashornNode implements Attr {
@@ -39,7 +41,7 @@ public class NashornAttribute extends NashornNode implements Attr {
 		setValue(value);
 	}
 
-	public Document getOwnerDocument() {
+	public NashornDocument getOwnerDocument() {
 		return ownerDocument;
 	}
 
@@ -89,5 +91,17 @@ public class NashornAttribute extends NashornNode implements Attr {
 
 	public boolean isId() {
 		throw new UnsupportedOperationException();
+	}
+
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
+	}
+
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().removeEventListener(this, type, listener, useCapture);
+	}
+
+	public boolean dispatchEvent(Event event) throws EventException {
+		return ownerDocument.getEventDispatcher().dispatchEvent(event);
 	}
 }

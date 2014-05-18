@@ -1,12 +1,12 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.Navigator;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.mock.Answers;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
@@ -37,7 +37,7 @@ public class RhinoWindowEnvironmentTest {
 	@Mock private Console console;
 	@Mock private CookieStore cookieStore;
 	@Mock private Document responseXML;
-	@Mock private Event event;
+	@Mock private ExtendedEvent event;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private ExtendedHTMLCollection collection;
 	@Mock private GlobalEventHandlers globalEventHandlers;

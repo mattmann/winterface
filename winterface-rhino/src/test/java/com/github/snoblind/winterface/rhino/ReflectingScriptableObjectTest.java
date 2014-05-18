@@ -1,11 +1,11 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.Event;
 import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mozilla.javascript.Scriptable;
+import org.w3c.dom.events.Event;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -28,7 +28,6 @@ public class ReflectingScriptableObjectTest {
 		final Iterator<String> iterator = object.getFunctionsByName().keySet().iterator();
 		assertEquals("initEvent", iterator.next());
 		assertEquals("preventDefault", iterator.next());
-		assertEquals("stopImmediatePropagation", iterator.next());
 		assertEquals("stopPropagation", iterator.next());
 		assertFalse(iterator.hasNext());
 	}
@@ -39,11 +38,9 @@ public class ReflectingScriptableObjectTest {
 		assertEquals("bubbles", iterator.next());
 		assertEquals("cancelable", iterator.next());
 		assertEquals("currentTarget", iterator.next());
-		assertEquals("defaultPrevented", iterator.next());
 		assertEquals("eventPhase", iterator.next());
 		assertEquals("target", iterator.next());
 		assertEquals("timeStamp", iterator.next());
-		assertEquals("trusted", iterator.next());
 		assertEquals("type", iterator.next());
 		assertFalse(iterator.hasNext());
 	}

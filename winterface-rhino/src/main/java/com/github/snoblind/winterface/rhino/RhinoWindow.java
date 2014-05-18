@@ -2,9 +2,6 @@ package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ApplicationCache;
 import com.github.snoblind.winterface.BarProp;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.External;
 import com.github.snoblind.winterface.GlobalEventHandlers;
 import com.github.snoblind.winterface.History;
@@ -14,6 +11,7 @@ import com.github.snoblind.winterface.Window;
 import com.github.snoblind.winterface.WindowEventHandlers;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
@@ -39,6 +37,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static com.github.snoblind.winterface.required.RequiredProperties.assertRequiredProperties;
 import static com.github.snoblind.winterface.util.ReflectionUtils.getPropertyValue;
 import static com.github.snoblind.winterface.util.ReflectionUtils.propertyDescriptorsByName;
@@ -221,7 +222,7 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 	}
 
 	public boolean dispatchEvent(final String eventType, final boolean canBubble, final boolean cancelableArg) throws EventException {
-		final Event event = eventDispatcher.createEvent("Event");
+		final ExtendedEvent event = eventDispatcher.createEvent("Event");
 		event.setTarget(this);
 		event.initEvent(eventType, canBubble, cancelableArg);
 		return dispatchEvent(event);

@@ -1,8 +1,10 @@
 package com.github.snoblind.winterface.nashorn;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class NashornDocumentFragment extends NashornNode implements DocumentFragment {
@@ -14,7 +16,7 @@ public class NashornDocumentFragment extends NashornNode implements DocumentFrag
 		this.ownerDocument = ownerDocument;
 	}
 
-	public Document getOwnerDocument() {
+	public NashornDocument getOwnerDocument() {
 		return ownerDocument;
 	}
 
@@ -43,5 +45,17 @@ public class NashornDocumentFragment extends NashornNode implements DocumentFrag
 
 	public NamedNodeMap getAttributes() {
 		return null;
+	}
+
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
+	}
+
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().removeEventListener(this, type, listener, useCapture);
+	}
+
+	public boolean dispatchEvent(Event event) throws EventException {
+		return ownerDocument.getEventDispatcher().dispatchEvent(event);
 	}
 }

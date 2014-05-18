@@ -1,8 +1,7 @@
 package com.github.snoblind.winterface.xmlhttp;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.mock.ArgumentMatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.ByteArrayInputStream;
@@ -24,6 +23,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLDocument;
 import org.xml.sax.SAXException;
 import static com.github.snoblind.winterface.mock.Answers.UNSUPPORTED;
@@ -58,7 +58,7 @@ public class ApacheCommonsXMLHttpRequestTest {
 
 	private ApacheCommonsXMLHttpRequest request;
 
-	@Mock private Event event;
+	@Mock private ExtendedEvent event;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private EventListener listener;
 	@Mock private HTMLDocument document;

@@ -1,8 +1,7 @@
 package com.github.snoblind.winterface.nashorn;
 
-import com.github.snoblind.winterface.Event;
 import com.github.snoblind.winterface.event.EventDispatcher;
-import com.github.snoblind.winterface.EventListener;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.HTMLSerializer;
@@ -37,6 +36,8 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import static javax.script.ScriptContext.ENGINE_SCOPE;
 import static org.apache.commons.collections4.functors.ConstantFactory.constantFactory;
 
@@ -108,8 +109,9 @@ public final class NashornDemo {
 					final NashornDocument document = (NashornDocument) location.getXmlHttpRequest().getResponseXML();
 					document.setDefaultView(window);
 					document.setQuerySelector(querySelector);
+					document.setEventDispatcher(eventDispatcher);
 					window.setDocument(document);
-					final Event event2 = eventDispatcher.createEvent("Event");
+					final ExtendedEvent event2 = eventDispatcher.createEvent("Event");
 					event2.initEvent("load", false, false);
 					event2.setTarget(window);
 					window.dispatchEvent(event2);
@@ -132,23 +134,19 @@ public final class NashornDemo {
 		final TreeModelListener treeModelListener = new TreeModelListener() {
 
 			public void treeNodesChanged(TreeModelEvent e) {
-				System.err.println(e);
-				throw new UnsupportedOperationException();
+				System.out.println(e);
 			}
 
 			public void treeNodesInserted(TreeModelEvent e) {
-				System.err.println(e);
-				throw new UnsupportedOperationException();
+				System.out.println(e);
 			}
 
 			public void treeNodesRemoved(TreeModelEvent e) {
-				System.err.println(e);
-				throw new UnsupportedOperationException();
+				System.out.println(e);
 			}
 
 			public void treeStructureChanged(TreeModelEvent e) {
-				System.err.println(e);
-				throw new UnsupportedOperationException();
+				System.out.println(e);
 			}
 		};
 		window.setOnunload(new EventListener() {

@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLDocument;
 
 public interface ExtendedHTMLDocument extends HTMLDocument, EventTarget {

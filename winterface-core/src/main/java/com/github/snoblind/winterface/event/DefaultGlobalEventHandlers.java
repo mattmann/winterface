@@ -1,7 +1,7 @@
 package com.github.snoblind.winterface.event;
 
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.GlobalEventHandlers;
+import org.w3c.dom.events.EventListener;
 
 public class DefaultGlobalEventHandlers extends DefaultNodeEventHandlers implements GlobalEventHandlers {
 

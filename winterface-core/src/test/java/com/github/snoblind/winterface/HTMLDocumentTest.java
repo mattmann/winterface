@@ -1,11 +1,11 @@
 package com.github.snoblind.winterface;
 
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLAppletElement;
 import org.w3c.dom.html.HTMLBodyElement;
 import org.w3c.dom.html.HTMLElement;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLAnchorElement;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;

@@ -1,10 +1,8 @@
 package com.github.snoblind.winterface.nashorn;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import java.util.LinkedList;
@@ -16,7 +14,6 @@ import org.w3c.dom.Comment;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
@@ -26,6 +23,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 
@@ -37,6 +37,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	private boolean xmlStandalone;
 	private String xmlVersion;
 	private QuerySelector querySelector;
+	private EventDispatcher eventDispatcher;
 
 	public Element querySelector(String selectors) {
 		return querySelector.querySelector(this, selectors);
@@ -70,6 +71,15 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		return NodeListUtils.toHTMLCollection(list);
 	}
 
+	public EventDispatcher getEventDispatcher() {
+		return eventDispatcher;
+	}
+
+	@Required
+	public void setEventDispatcher(EventDispatcher eventDispatcher) {
+		this.eventDispatcher = eventDispatcher;
+	}
+
 	public QuerySelector getQuerySelector() {
 		return querySelector;
 	}
@@ -95,7 +105,7 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		this.baseURI = baseURI;
 	}
 
-	public Document getOwnerDocument() {
+	public NashornDocument getOwnerDocument() {
 		return this;
 	}
 
@@ -126,6 +136,10 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 		return "#document";
 	}
 
+	public String toString() {
+		return getNodeName();
+	}
+	
 	public String getXmlEncoding() {
 		return xmlEncoding;
 	}
@@ -417,16 +431,16 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
-
+	
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		eventDispatcher.addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		eventDispatcher.removeEventListener(this, type, listener, useCapture);
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
+		return eventDispatcher.dispatchEvent(event);
 	}
 }

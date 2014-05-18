@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface;
 
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLImageElement;
 
 public interface ExtendedHTMLImageElement extends HTMLImageElement, ExtendedHTMLElement {

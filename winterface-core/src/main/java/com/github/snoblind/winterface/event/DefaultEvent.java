@@ -1,11 +1,10 @@
 package com.github.snoblind.winterface.event;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventTarget;
+import org.w3c.dom.events.EventTarget;
 import static org.apache.commons.lang.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang.builder.ToStringStyle.MULTI_LINE_STYLE;
 
-public class DefaultEvent implements Event {
+public class DefaultEvent implements ExtendedEvent {
 
 	public void initEvent(String eventType, boolean canBubble, boolean cancelableArg) {
 		setType(eventType);
@@ -25,7 +24,7 @@ public class DefaultEvent implements Event {
 
 	private boolean bubbles;
 
-	public boolean isBubbles() {
+	public boolean getBubbles() {
 		return bubbles;
 	}
 
@@ -35,7 +34,7 @@ public class DefaultEvent implements Event {
 
 	private boolean cancelable;
 
-	public boolean isCancelable() {
+	public boolean getCancelable() {
 		return cancelable;
 	}
 
@@ -69,13 +68,13 @@ public class DefaultEvent implements Event {
 		this.currentTarget = currentTarget;
 	}
 	
-	private int eventPhase;
+	private short eventPhase;
 
-	public int getEventPhase() {
+	public short getEventPhase() {
 		return eventPhase;
 	}
 
-	protected void setEventPhase(int eventPhase) {
+	protected void setEventPhase(short eventPhase) {
 		this.eventPhase = eventPhase;
 	}
 	

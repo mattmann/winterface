@@ -2,9 +2,6 @@ package com.github.snoblind.winterface.abstracts;
 
 import com.github.snoblind.winterface.ApplicationCache;
 import com.github.snoblind.winterface.BarProp;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.External;
 import com.github.snoblind.winterface.History;
 import com.github.snoblind.winterface.Location;
@@ -17,6 +14,9 @@ import java.io.IOException;
 import java.util.AbstractMap;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 
 public abstract class AbstractWindow extends AbstractMap<String, Object> implements Window {
 

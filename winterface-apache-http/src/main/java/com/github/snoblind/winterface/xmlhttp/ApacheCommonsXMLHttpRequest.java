@@ -1,11 +1,8 @@
 package com.github.snoblind.winterface.xmlhttp;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
-import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +18,10 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class ApacheCommonsXMLHttpRequest implements EventTarget, XMLHttpRequest {
@@ -148,7 +149,7 @@ public class ApacheCommonsXMLHttpRequest implements EventTarget, XMLHttpRequest 
 
 	private void setReadyState(int readyState) {
 		this.readyState = readyState;
-		final Event event = eventDispatcher.createEvent("Event");
+		final ExtendedEvent event = eventDispatcher.createEvent("Event");
 		event.initEvent("readystatechange", false, false);
 		event.setTarget(this);
 		eventDispatcher.dispatchEvent(event);

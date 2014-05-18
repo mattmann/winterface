@@ -1,7 +1,5 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.ExtendedHTMLFormElement;
 import com.github.snoblind.winterface.Location;
@@ -17,10 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLInputElement;
 import org.w3c.dom.html.HTMLSelectElement;
-
 import static org.jsoup.Connection.KeyVal;
 
 public class JSoupFormElement extends JSoupElement implements ExtendedHTMLFormElement {

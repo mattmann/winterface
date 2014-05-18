@@ -1,8 +1,5 @@
 package com.github.snoblind.winterface.abstracts;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.event.EventDispatcher;
@@ -14,6 +11,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 
 public class AbstractHTMLElement extends AbstractNode implements ExtendedHTMLElement {
 

@@ -3,6 +3,7 @@ package com.github.snoblind.winterface;
 import java.io.IOException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventTarget;
 
 /*
  * https://developer.mozilla.org/en-US/docs/Web/API/Window

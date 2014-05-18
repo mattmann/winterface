@@ -1,18 +1,19 @@
 package com.github.snoblind.winterface.rhino;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElement {
@@ -219,8 +220,11 @@ public class RhinoElement extends RhinoNode<Element> implements ExtendedHTMLElem
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		event.setTarget(this);
-		return getEventDispatcher().dispatchEvent(event);
+		if (event instanceof ExtendedEvent) {
+			((ExtendedEvent) event).setTarget(this);
+			return getEventDispatcher().dispatchEvent(event);
+		}
+		throw new IllegalArgumentException(String.valueOf(event));
 	}
 
 	public EventListener getOnabort() {

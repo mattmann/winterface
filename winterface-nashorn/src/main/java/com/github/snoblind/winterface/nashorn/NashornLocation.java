@@ -1,12 +1,12 @@
 package com.github.snoblind.winterface.nashorn;
 
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.XMLHttpRequest;
 import com.github.snoblind.winterface.abstracts.AbstractLocation;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.commons.collections4.Factory;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
 

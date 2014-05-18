@@ -1,5 +1,6 @@
 package com.github.snoblind.winterface.nashorn;
 
+import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,10 +8,11 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.events.EventTarget;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.w3c.dom.DOMException.INVALID_STATE_ERR;
 
-public abstract class NashornNode implements Node {
+public abstract class NashornNode implements Node, EventTarget {
 
 	private final LinkedList<Node> children = new LinkedList<Node>();
 	private NashornNode parentNode;
@@ -76,12 +78,18 @@ public abstract class NashornNode implements Node {
 	}
 
 	private NashornNode removeChild(final NashornNode oldChild) {
+		final ExtendedEvent event = getOwnerDocument().getEventDispatcher().createEvent("Event");
+		event.setTarget(oldChild);
+		event.initEvent("DOMNodeRemoved", true, true);
+		dispatchEvent(event);
 		if (children.remove(oldChild)) {
 			oldChild.parentNode = null;
 			return oldChild;
 		}
 		return null;
 	}
+
+	public abstract NashornDocument getOwnerDocument();
 
 	public Node appendChild(final Node newChild) {
 		return appendChild((NashornNode) newChild);

@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface.nashorn;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
+import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import org.junit.Before;
@@ -47,7 +48,6 @@ import static com.github.snoblind.winterface.required.RequiredProperties.assertR
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.w3c.dom.Node.ELEMENT_NODE;
@@ -61,12 +61,14 @@ public class NashornDocumentTest {
 
 	@Mock private QuerySelector querySelector;
 	@Mock private Element element;
+	@Mock private EventDispatcher eventDispatcher;
 	@Mock private ExtendedHTMLCollection collection;
 	
 	@Before
 	public void setUp() {
 		initMocks(this, UNSUPPORTED);
 		document = new NashornDocument();
+		document.setEventDispatcher(eventDispatcher);
 		document.setQuerySelector(querySelector);
 		assertRequiredProperties(document);
 		assertSame(querySelector, document.getQuerySelector());
@@ -168,12 +170,5 @@ public class NashornDocumentTest {
 		assertTrue(document.createElement("tr") instanceof HTMLTableRowElement);
 		assertTrue(document.createElement("ul") instanceof HTMLUListElement);
 		assertTrue(document.createElement("u") instanceof HTMLElement);
-		try {
-			assertTrue(document.createElement("zzz") instanceof HTMLUListElement);
-			fail();
-		}
-		catch (IllegalArgumentException x) {
-			assertEquals("zzz", x.getMessage());
-		}
 	}
 }

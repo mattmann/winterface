@@ -1,8 +1,5 @@
 package com.github.snoblind.winterface.nashorn;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
 import com.github.snoblind.winterface.spi.HTMLParser;
@@ -12,13 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.notNull;
 
 public class NashornElement extends NashornNode implements ExtendedHTMLElement {
@@ -42,7 +41,7 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 		this(null, tagName, ownerDocument);
 	}
 
-	public Document getOwnerDocument() {
+	public NashornDocument getOwnerDocument() {
 		return ownerDocument;
 	}
 
@@ -244,15 +243,15 @@ public class NashornElement extends NashornNode implements ExtendedHTMLElement {
 	}
 
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
 	}
 
 	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
-		throw new UnsupportedOperationException();
+		ownerDocument.getEventDispatcher().removeEventListener(this, type, listener, useCapture);
 	}
 
 	public boolean dispatchEvent(Event event) throws EventException {
-		throw new UnsupportedOperationException();
+		return ownerDocument.dispatchEvent(event);
 	}
 
 	public EventListener getOnabort() {

@@ -1,10 +1,9 @@
 package com.github.snoblind.winterface.jsoup;
 
-import com.github.snoblind.winterface.EventListener;
 import com.github.snoblind.winterface.ExtendedHTMLImageElement;
 import com.github.snoblind.winterface.OnErrorEventHandler;
-
 import org.jsoup.nodes.Element;
+import org.w3c.dom.events.EventListener;
 
 public class JSoupImageElement extends JSoupElement implements ExtendedHTMLImageElement {
 

@@ -1,9 +1,5 @@
 package com.github.snoblind.winterface.event;
 
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventException;
-import com.github.snoblind.winterface.EventListener;
-import com.github.snoblind.winterface.EventTarget;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.ExtendedHTMLElement;
 import com.github.snoblind.winterface.Window;
@@ -15,9 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static com.github.snoblind.winterface.Event.AT_TARGET;
-import static com.github.snoblind.winterface.Event.BUBBLING_PHASE;
-import static com.github.snoblind.winterface.Event.CAPTURING_PHASE;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+import static org.w3c.dom.events.Event.AT_TARGET;
+import static org.w3c.dom.events.Event.BUBBLING_PHASE;
+import static org.w3c.dom.events.Event.CAPTURING_PHASE;
 import static java.lang.String.format;
 import static org.apache.commons.lang.Validate.isTrue;
 import static org.apache.commons.lang.Validate.notNull;
@@ -30,7 +30,7 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 
 	public abstract void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture);
 
-	public abstract Event createEvent(String eventInterface);
+	public abstract ExtendedEvent createEvent(String eventInterface);
 	
 	protected abstract Collection<EventListener> getEventListeners(EventTarget target, String type, boolean useCapture);
 
@@ -38,7 +38,14 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 		return getEventListeners(event.getCurrentTarget(), event.getType(), CAPTURING_PHASE == event.getEventPhase());
 	}
 
-	public boolean dispatchEvent(Event event) throws EventException {
+	public boolean dispatchEvent(Event event) {
+		if (event instanceof ExtendedEvent) {
+			return dispatchEvent((ExtendedEvent) event);
+		}
+		throw new IllegalArgumentException(String.valueOf(event));
+	}
+	
+	protected boolean dispatchEvent(ExtendedEvent event) {
 		notNull(event.getTarget());
 		LOGGER.debug("dispatchEvent({})", event);
 		Collection<EventTarget> propagationPath = getPropagationPath(event);
@@ -82,7 +89,7 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 		throw new IllegalArgumentException(target.getClass().getName());
 	}
 
-	protected boolean dispatchEvent(Event event, Collection<EventListener> listeners) {
+	protected boolean dispatchEvent(ExtendedEvent event, Collection<EventListener> listeners) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(format("Current target is %s.", event.getCurrentTarget()));
 		}
@@ -95,7 +102,7 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 		return true;
 	}
 
-	protected boolean propagate(DefaultEvent event, int phase, Collection<EventTarget> targets) throws EventException {
+	protected boolean propagate(DefaultEvent event, short phase, Collection<EventTarget> targets) throws EventException {
 		isTrue(phase == CAPTURING_PHASE || phase == BUBBLING_PHASE);
 		for (EventTarget currentTarget: targets) {
 			if (event.getTarget().equals(currentTarget)) {

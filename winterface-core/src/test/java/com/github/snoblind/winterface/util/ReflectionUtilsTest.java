@@ -1,10 +1,10 @@
 package com.github.snoblind.winterface.util;
 
-import com.github.snoblind.winterface.Event;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
 import org.junit.Test;
+import org.w3c.dom.events.Event;
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

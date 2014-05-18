@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Collection;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
-import com.github.snoblind.winterface.EventTarget;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 import static org.apache.commons.lang.Validate.notNull;
 import static org.apache.commons.lang.builder.EqualsBuilder.reflectionEquals;
 import static org.apache.commons.lang.builder.HashCodeBuilder.reflectionHashCode;
@@ -39,7 +38,7 @@ public class MapEventDispatcher extends AbstractEventDispatcher {
 		return listeners.iterator().next();
 	}
 
-	public Event createEvent(String eventInterface) {
+	public ExtendedEvent createEvent(String eventInterface) {
 		if ("Event".equals(eventInterface)) {
 			return new DefaultEvent();
 		}

@@ -2,8 +2,10 @@ package com.github.snoblind.winterface.nashorn;
 
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import static org.apache.commons.lang.Validate.notNull;
 
 public abstract class NashornCharacterData extends NashornNode implements CharacterData {
@@ -17,7 +19,7 @@ public abstract class NashornCharacterData extends NashornNode implements Charac
 		setData(data);
 	}
 
-	public Document getOwnerDocument() {
+	public NashornDocument getOwnerDocument() {
 		return ownerDocument;
 	}
 
@@ -74,4 +76,15 @@ public abstract class NashornCharacterData extends NashornNode implements Charac
 		throw new UnsupportedOperationException();
 	}
 
+	public void addEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().addEventListener(this, type, listener, useCapture);
+	}
+
+	public void removeEventListener(String type, EventListener listener, boolean useCapture) {
+		ownerDocument.getEventDispatcher().removeEventListener(this, type, listener, useCapture);
+	}
+
+	public boolean dispatchEvent(Event event) throws EventException {
+		return ownerDocument.getEventDispatcher().dispatchEvent(event);
+	}
 }

@@ -6,8 +6,8 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.snoblind.winterface.Event;
-import com.github.snoblind.winterface.EventListener;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 import com.github.snoblind.winterface.XMLHttpRequest;
 
 public class XMLHttpRequestAdapter implements Scriptable {
