@@ -23,13 +23,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 
-public class NashornDocument extends NashornNode implements ExtendedHTMLDocument {
+public class NashornDocument extends NashornNode implements DocumentEvent, ExtendedHTMLDocument {
 
 	private NashornWindow defaultView;
 	private String baseURI;
@@ -431,7 +432,11 @@ public class NashornDocument extends NashornNode implements ExtendedHTMLDocument
 	public Node renameNode(Node n, String namespaceURI, String qualifiedName) throws DOMException {
 		throw new UnsupportedOperationException();
 	}
-	
+
+	public Event createEvent(final String eventType) throws DOMException {
+		return eventDispatcher.createEvent(eventType);
+	}
+
 	public void addEventListener(String type, EventListener listener, boolean useCapture) {
 		eventDispatcher.addEventListener(this, type, listener, useCapture);
 	}
