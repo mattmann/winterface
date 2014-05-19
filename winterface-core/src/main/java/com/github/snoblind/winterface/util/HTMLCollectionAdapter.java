@@ -1,11 +1,12 @@
 package com.github.snoblind.winterface.util;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
+import java.util.AbstractList;
 import java.util.List;
 import org.w3c.dom.Node;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class HTMLCollectionAdapter implements ExtendedHTMLCollection {
+public class HTMLCollectionAdapter extends AbstractList<Node> implements ExtendedHTMLCollection {
 	
 	private final List<Node> nodes;
 
@@ -17,8 +18,16 @@ public class HTMLCollectionAdapter implements ExtendedHTMLCollection {
 		return nodes.size();
 	}
 
+	public int size() {
+		return getLength();
+	}
+
 	public Node item(int index) {
 		return nodes.get(index);
+	}
+
+	public Node get(int index) {
+		return item(index);
 	}
 
 	public Node namedItem(String name) {
