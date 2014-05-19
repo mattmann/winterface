@@ -23,14 +23,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.DocumentCSS;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
+import org.w3c.dom.stylesheets.StyleSheetList;
 
-public class NashornDocument extends NashornNode implements DocumentEvent, ExtendedHTMLDocument {
+public class NashornDocument extends NashornNode implements DocumentCSS, DocumentEvent, ExtendedHTMLDocument {
 
 	private NashornWindow defaultView;
 	private String baseURI;
@@ -447,5 +450,13 @@ public class NashornDocument extends NashornNode implements DocumentEvent, Exten
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		return eventDispatcher.dispatchEvent(event);
+	}
+
+	public StyleSheetList getStyleSheets() {
+		throw new UnsupportedOperationException();
+	}
+
+	public CSSStyleDeclaration getOverrideStyle(final Element element, final String pseudoElement) {
+		throw new UnsupportedOperationException();
 	}
 }
