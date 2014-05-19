@@ -1,14 +1,14 @@
 package com.github.snoblind.winterface;
 
 import java.io.IOException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.views.AbstractView;
 
 /*
  * https://developer.mozilla.org/en-US/docs/Web/API/Window
  */
-public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHandlers {
+public interface Window extends AbstractView, EventTarget, GlobalEventHandlers, WindowEventHandlers {
 	ApplicationCache getApplicationCache();
 	BarProp getLocationbar();
 	BarProp getMenubar();
@@ -18,7 +18,7 @@ public interface Window extends EventTarget, GlobalEventHandlers, WindowEventHan
 	BarProp getToolbar();
 	boolean isClosed();
 	boolean confirm(String message);
-	Document getDocument();
+	ExtendedHTMLDocument getDocument();
 	String getDefaultStatus();
 	String getName();
 	String getStatus();
