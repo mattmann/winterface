@@ -21,25 +21,7 @@ public final class NodeListUtils {
 	}
 	
 	public static ExtendedHTMLCollection toHTMLCollection(final List<Node> nodes) {
-		notNull(nodes);
-		return new ExtendedHTMLCollection() {
-
-			public int getLength() {
-				return nodes.size();
-			}
-
-			public Node item(int index) {
-				return nodes.get(index);
-			}
-
-			public Node namedItem(String name) {
-				throw new UnsupportedOperationException(String.format("namedItem(\"%s\")", name));
-			}
-
-			public String toString() {
-				return nodes.toString();
-			}
-		};
+		return new HTMLCollectionAdapter(nodes);
 	}
 
 	public static NodeList from(final Node... nodes) {

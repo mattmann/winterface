@@ -1,6 +1,7 @@
 package com.github.snoblind.winterface.rhino;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
+import java.util.AbstractList;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.w3c.dom.Attr;
@@ -10,7 +11,7 @@ import org.w3c.dom.html.HTMLCollection;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.apache.commons.lang.Validate.notNull;
 
-public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
+public class RhinoHTMLCollection extends AbstractList<Node> implements ExtendedHTMLCollection, Scriptable {
 
 	private final HTMLCollection collection;
 	private final RhinoDocument document;
@@ -22,6 +23,17 @@ public class RhinoHTMLCollection implements ExtendedHTMLCollection, Scriptable {
 		notNull(document);
 		this.collection = collection;
 		this.document = document;
+	}
+
+	public Node get(int index) {
+		if (index < 0 || collection.getLength() <= index) {
+			throw new IndexOutOfBoundsException(String.valueOf(index));
+		}
+		return item(index);
+	}
+
+	public int size() {
+		return getLength();
 	}
 
 	public int getLength() {

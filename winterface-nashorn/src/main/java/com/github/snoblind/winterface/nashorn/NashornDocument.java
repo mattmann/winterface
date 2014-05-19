@@ -3,6 +3,7 @@ package com.github.snoblind.winterface.nashorn;
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.ExtendedHTMLDocument;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.spi.CSSParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import java.util.LinkedList;
@@ -40,8 +41,9 @@ public class NashornDocument extends NashornNode implements DocumentCSS, Documen
 	private String xmlEncoding;
 	private boolean xmlStandalone;
 	private String xmlVersion;
-	private QuerySelector querySelector;
+	private CSSParser cssParser;
 	private EventDispatcher eventDispatcher;
+	private QuerySelector querySelector;
 
 	public Element querySelector(String selectors) {
 		return querySelector.querySelector(this, selectors);
@@ -73,6 +75,23 @@ public class NashornDocument extends NashornNode implements DocumentCSS, Documen
 			}
 		}
 		return NodeListUtils.toHTMLCollection(list);
+	}
+
+	public StyleSheetList getStyleSheets() {
+		return cssParser.getStyleSheets(this);
+	}
+
+	public CSSStyleDeclaration getOverrideStyle(final Element element, final String pseudoElement) {
+		return cssParser.getOverrideStyle(element, pseudoElement);
+	}
+
+	public CSSParser getCSSParser() {
+		return cssParser;
+	}
+
+	@Required
+	public void setCSSParser(CSSParser cssParser) {
+		this.cssParser = cssParser;
 	}
 
 	public EventDispatcher getEventDispatcher() {
@@ -450,13 +469,5 @@ public class NashornDocument extends NashornNode implements DocumentCSS, Documen
 
 	public boolean dispatchEvent(Event event) throws EventException {
 		return eventDispatcher.dispatchEvent(event);
-	}
-
-	public StyleSheetList getStyleSheets() {
-		throw new UnsupportedOperationException();
-	}
-
-	public CSSStyleDeclaration getOverrideStyle(final Element element, final String pseudoElement) {
-		throw new UnsupportedOperationException();
 	}
 }

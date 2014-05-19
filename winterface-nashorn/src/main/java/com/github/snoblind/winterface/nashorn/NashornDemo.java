@@ -1,8 +1,10 @@
 package com.github.snoblind.winterface.nashorn;
 
+import com.github.snoblind.winterface.cssparser.CSSParserImpl;
 import com.github.snoblind.winterface.event.EventDispatcher;
 import com.github.snoblind.winterface.event.ExtendedEvent;
 import com.github.snoblind.winterface.event.MapEventDispatcher;
+import com.github.snoblind.winterface.spi.CSSParser;
 import com.github.snoblind.winterface.spi.HTMLParser;
 import com.github.snoblind.winterface.spi.HTMLSerializer;
 import com.github.snoblind.winterface.xmlhttp.ApacheCommonsXMLHttpRequest;
@@ -91,6 +93,7 @@ public final class NashornDemo {
 				}
 			}
 		});
+		final CSSParser cssParser = new CSSParserImpl();
 		final NashornQuerySelector querySelector = new NashornQuerySelector();
 		final NashornWindow window = new NashornWindow();
 		window.setHTMLParser(parser);
@@ -108,8 +111,9 @@ public final class NashornDemo {
 				case 4:
 					final NashornDocument document = (NashornDocument) location.getXmlHttpRequest().getResponseXML();
 					document.setDefaultView(window);
-					document.setQuerySelector(querySelector);
+					document.setCSSParser(cssParser);
 					document.setEventDispatcher(eventDispatcher);
+					document.setQuerySelector(querySelector);
 					window.setDocument(document);
 					final ExtendedEvent event2 = eventDispatcher.createEvent("Event");
 					event2.initEvent("load", false, false);
@@ -176,6 +180,7 @@ public final class NashornDemo {
 			}
 		});
 		WindowUtils.centerOnScreenAndShow(frame);
+		location.setHref("nytimes.com");
 	}
 
 	@SuppressWarnings("deprecation")
