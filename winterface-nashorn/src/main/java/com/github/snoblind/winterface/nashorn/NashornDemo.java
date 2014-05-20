@@ -111,7 +111,7 @@ public final class NashornDemo {
 				case 4:
 					final NashornDocument document = (NashornDocument) location.getXmlHttpRequest().getResponseXML();
 					document.setDefaultView(window);
-					document.setCSSParser(cssParser);
+					document.setCssParser(cssParser);
 					document.setEventDispatcher(eventDispatcher);
 					document.setQuerySelector(querySelector);
 					window.setDocument(document);

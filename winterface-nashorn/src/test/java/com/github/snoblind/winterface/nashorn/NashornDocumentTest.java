@@ -2,6 +2,7 @@ package com.github.snoblind.winterface.nashorn;
 
 import com.github.snoblind.winterface.ExtendedHTMLCollection;
 import com.github.snoblind.winterface.event.EventDispatcher;
+import com.github.snoblind.winterface.spi.CSSParser;
 import com.github.snoblind.winterface.spi.QuerySelector;
 import com.github.snoblind.winterface.util.NodeListUtils;
 import org.junit.Before;
@@ -59,15 +60,17 @@ public class NashornDocumentTest {
 	
 	private NashornDocument document;
 
-	@Mock private QuerySelector querySelector;
+	@Mock private CSSParser cssParser;
 	@Mock private Element element;
 	@Mock private EventDispatcher eventDispatcher;
 	@Mock private ExtendedHTMLCollection collection;
+	@Mock private QuerySelector querySelector;
 	
 	@Before
 	public void setUp() {
 		initMocks(this, UNSUPPORTED);
 		document = new NashornDocument();
+		document.setCssParser(cssParser);
 		document.setEventDispatcher(eventDispatcher);
 		document.setQuerySelector(querySelector);
 		assertRequiredProperties(document);

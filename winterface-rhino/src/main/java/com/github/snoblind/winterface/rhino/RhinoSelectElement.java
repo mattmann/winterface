@@ -8,7 +8,6 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLOptionElement;
 import org.w3c.dom.html.HTMLSelectElement;
-import static com.github.snoblind.winterface.util.NodeListUtils.toHTMLCollection;
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 public class RhinoSelectElement extends RhinoElement implements HTMLSelectElement {
@@ -51,7 +50,7 @@ public class RhinoSelectElement extends RhinoElement implements HTMLSelectElemen
 	}
 
 	public HTMLCollection getOptions() {
-		return toHTMLCollection(querySelectorAll("option"));
+		return querySelectorAll("option");
 	}
 
 	public String getName() {

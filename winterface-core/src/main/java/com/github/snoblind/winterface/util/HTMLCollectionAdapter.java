@@ -19,15 +19,20 @@ public class HTMLCollectionAdapter extends AbstractList<Node> implements Extende
 	}
 
 	public int size() {
-		return getLength();
+		return nodes.size();
 	}
 
 	public Node item(int index) {
-		return nodes.get(index);
+		try {
+			return nodes.get(index);
+		}
+		catch (IndexOutOfBoundsException x) {
+			return null;
+		}
 	}
 
 	public Node get(int index) {
-		return item(index);
+		return nodes.get(index);
 	}
 
 	public Node namedItem(String name) {

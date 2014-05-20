@@ -90,7 +90,7 @@ public class NashornDocument extends NashornNode implements DocumentCSS, Documen
 	}
 
 	@Required
-	public void setCSSParser(CSSParser cssParser) {
+	public void setCssParser(CSSParser cssParser) {
 		this.cssParser = cssParser;
 	}
 
