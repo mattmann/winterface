@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import org.w3c.dom.Element;
+import org.w3c.dom.css.CSSStyleDeclaration;
 
 public class NashornWindow extends AbstractWindow {
 
@@ -17,6 +18,10 @@ public class NashornWindow extends AbstractWindow {
 	private NashornDocument document;
 	private ScriptEngine scriptEngine;
 	private HTMLParser htmlParser;
+
+	public CSSStyleDeclaration getComputedStyle(final Element element, final String pseudoElement) {
+		throw new UnsupportedOperationException();
+	}
 
 	public NashornDocument getDocument() {
 		return document;

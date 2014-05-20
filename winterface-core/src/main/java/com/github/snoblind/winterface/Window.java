@@ -2,13 +2,14 @@ package com.github.snoblind.winterface;
 
 import java.io.IOException;
 import org.w3c.dom.Element;
+import org.w3c.dom.css.ViewCSS;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.views.AbstractView;
 
 /*
  * https://developer.mozilla.org/en-US/docs/Web/API/Window
  */
-public interface Window extends AbstractView, EventTarget, GlobalEventHandlers, WindowEventHandlers {
+public interface Window extends AbstractView, EventTarget, GlobalEventHandlers, ViewCSS, WindowEventHandlers {
 	ApplicationCache getApplicationCache();
 	BarProp getLocationbar();
 	BarProp getMenubar();

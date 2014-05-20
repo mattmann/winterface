@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
@@ -1156,5 +1157,9 @@ public class RhinoWindow extends ScriptableObject implements Cloneable, Window {
 			getWindow().cookieStore = cookieStore;
 			return this;
 		}
+	}
+
+	public CSSStyleDeclaration getComputedStyle(Element elt, String pseudoElt) {
+		throw new UnsupportedOperationException();
 	}
 }
